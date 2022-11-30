@@ -48,7 +48,6 @@ public class LoginConverterService {
 		
 		try {
 			// lança exceção se não encontrar o usuário servidor no SUAP
-			String cargoEmprego = jsonObject.get("cargo_emprego").getAsString();
 			roles.add(roleService.findByName(AVALIABLE_ROLES.EMPLOYEE.name()));
 		} catch (Exception e) {
 			roles.add(roleService.findByName(AVALIABLE_ROLES.STUDENT.name()));

@@ -1,12 +1,10 @@
 package br.edu.ifpb.dac.ssp.business.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,7 @@ import br.edu.ifpb.dac.ssp.model.entity.User;
 import br.edu.ifpb.dac.ssp.model.repository.SchedulingRepository;
 import br.edu.ifpb.dac.ssp.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.ssp.presentation.exception.ObjectNotFoundException;
-import br.edu.ifpb.dac.ssp.presentation.exception.TimeAlreadyScheduledException;
+
 
 @Service
 public class SchedulingService {

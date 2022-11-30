@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.ssp.model.entity.Role;
-import br.edu.ifpb.dac.ssp.model.entity.Sport;
 import br.edu.ifpb.dac.ssp.model.entity.User;
 import br.edu.ifpb.dac.ssp.presentation.dto.UserDTO;
 

@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,12 +21,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.PositiveOrZero;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 

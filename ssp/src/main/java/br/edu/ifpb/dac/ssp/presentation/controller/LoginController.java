@@ -34,7 +34,7 @@ public class LoginController {
 	private TokenService tokenService;
 
 	@PostMapping("/login")
-	public ResponseEntity login(@RequestBody LoginDTO dto) {
+	public ResponseEntity<Object> login(@RequestBody LoginDTO dto) {
 		try {
 			String token = service.login(dto.getUsername(), dto.getPassword());
 			User entity = userService.findByRegistration(Long.valueOf(dto.getUsername())).get();
@@ -42,18 +42,18 @@ public class LoginController {
 			
 			TokenDTO tokenDTO = new TokenDTO(token, userDTO);
 			
-			return new ResponseEntity(tokenDTO, HttpStatus.OK);
+			return new ResponseEntity<Object>(tokenDTO, HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
 	@PostMapping("/isValidToken")
-	public ResponseEntity isValidToken(@RequestBody TokenDTO tokenDto) {
+	public ResponseEntity<Comparable> isValidToken(@RequestBody TokenDTO tokenDto) {
 		try {
 			boolean isValidToken = tokenService.isValid(tokenDto.getToken());
 			
-			return new ResponseEntity(isValidToken, HttpStatus.OK);
+			return new ResponseEntity<Comparable>(isValidToken, HttpStatus.OK);
 		} catch(Exception e){
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
