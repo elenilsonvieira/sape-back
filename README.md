@@ -11,6 +11,6 @@ Quando instalar o postgreSQL sua senha deve ser informada em `application.proper
 
 O banco não cria automaticamente a _database_ a ser usada. Isto deve ser feito por meio do postgreSQL. Entre no programa e crie uma _database_ com título "SchedulingSportPractices" **ou** crie um com outro nome, mas modifique o informado em `application.properties`.
 
-Para executar a aplicação basta rodar a classe em /SchedulingSportsPractices/src/main/java/br/edu/ifpb/dac/ssp
+Para executar a aplicação basta rodar a classe em /SchedulingSportsPractices/src/main/java/br/edu/ifpb/dac/sape
 
 ---
