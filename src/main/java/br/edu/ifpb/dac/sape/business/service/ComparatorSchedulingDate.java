@@ -6,7 +6,6 @@ import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 
 public class ComparatorSchedulingDate implements Comparator<Scheduling> {
 
-
 	@Override
 	public int compare(Scheduling sched1, Scheduling sched2) {
 		int result = 0;
