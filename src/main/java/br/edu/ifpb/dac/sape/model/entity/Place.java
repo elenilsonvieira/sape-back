@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-
 @Table(name = "PRACTICE_PLACE", uniqueConstraints = {@UniqueConstraint(columnNames = {"PLACE_NAME"})})
 @Entity
 public class Place implements Serializable {
@@ -100,7 +99,6 @@ public class Place implements Serializable {
 		this.isPublic = isPublic;
 	}
 	
-
 	public String getNameResponsible() {
 		return nameResponsible;
 	}
