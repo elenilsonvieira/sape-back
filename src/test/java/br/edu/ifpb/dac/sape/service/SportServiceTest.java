@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class SportServiceTest {
@@ -157,4 +159,17 @@ public class SportServiceTest {
 		Throwable exception = assertThrows(ObjectNotFoundException.class, () -> service.deleteById(25));
 		assertEquals("Não foi encontrado esporte com id 25", exception.getMessage());
 	}
+	
+	@Test
+	@Order(12)
+	public void testSaveThrowsObjectAlreadyExistsException()  {		
+		// Testing the duplicate name exception in Save...
+		// by Igor
+		when(repository.existsByName(entity.getName())).thenReturn(true);
+		Throwable exception = assertThrows(ObjectAlreadyExistsException.class, () -> service.save(entity));
+																		  
+		assertEquals("Já existe um esporte com nome Basquete", exception.getMessage());
+		
+	}
+	
 }

@@ -2,7 +2,9 @@ package br.edu.ifpb.dac.sape.controller;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,14 @@ import org.springframework.test.util.ReflectionTestUtils;
 import br.edu.ifpb.dac.sape.business.service.SportConverterService;
 import br.edu.ifpb.dac.sape.business.service.SportService;
 import br.edu.ifpb.dac.sape.model.entity.Sport;
+import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.presentation.controller.SportController;
 import br.edu.ifpb.dac.sape.presentation.dto.SportDTO;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 
 
-class SportControllerTest {
+public class SportControllerTest {
 
 	@InjectMocks
 	private SportController controller;
@@ -59,6 +62,72 @@ class SportControllerTest {
 		exDto.setId(1);
 		exDto.setName("Voleibol");
 	}
+	
+	@Test
+	public void testAddSportsFavoriteSuccess() throws Exception {
+	
+		Sport sport = new Sport(1,"futebol");
+		
+	    respEntity = (ResponseEntity) controller.addSportsFavorite(sport.getId(), 1);
+
+	    assertEquals(HttpStatus.NO_CONTENT, respEntity.getStatusCode());
+	}
+	
+	@Test
+	public void addSportsFavorite_NullParameters_ShouldReturnBadRequest() {
+	    Integer sportId = null;
+	    Integer userId = null;
+
+	    respEntity = controller.addSportsFavorite(sportId, userId);
+
+	    assertEquals(HttpStatus.BAD_REQUEST, respEntity.getStatusCode());
+	}
+	
+	@Test
+	@Disabled
+	public void addSportFavorite_nameNull() { 
+		Sport sport=new Sport(1,"");
+	
+		respEntity=controller.addSportsFavorite(sport.getId(), 1);
+		assertEquals(HttpStatus.BAD_REQUEST,respEntity.getStatusCode());
+	}
+	
+	@Test
+	@Disabled
+	public void addSportsFavorite_nullSport() { 
+		
+		User user=new User();
+		user.setId(1);
+		
+		respEntity=controller.addSportsFavorite(1, user.getId());
+		
+		
+		assertEquals(HttpStatus.BAD_REQUEST, respEntity.getStatusCode());
+	
+	}
+	
+	@Test
+	public void addSportsFavorite_EsporteNaoEncontrado() throws Exception {
+	  
+	  Integer sportId = -1;
+	  Integer userId = 1;
+	  when(service.findById(sportId)).thenReturn(null);
+
+	  
+	  ResponseEntity response = controller.addSportsFavorite(sportId, userId);
+	  assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+	  assertEquals("o esporte ou o usuario não existe", response.getBody());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/*
 	 * Object in DB have the same atributes (id and name, for example) as the 
