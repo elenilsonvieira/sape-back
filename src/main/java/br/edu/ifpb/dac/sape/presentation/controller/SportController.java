@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpb.dac.sape.business.service.SportConverterService;
 import br.edu.ifpb.dac.sape.business.service.SportService;
+import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.entity.User;
@@ -35,6 +36,8 @@ public class SportController {
 	
 	@Autowired
 	private SportConverterService converterService;
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping
 	public ResponseEntity getAll() {
@@ -103,20 +106,21 @@ public class SportController {
 		}
 	}
 	
-	@PatchMapping("/addSportsFavorite/add/{id}")
-	public ResponseEntity addSportsFavorite(@PathVariable Integer sportId, @RequestBody Integer user_Id) {
-		try {
-			Sport sport = (Sport) sportService.addSportsFavorite(sportId,user_Id);
-
-
-			if (sport != null) {
-				sportService.addSportsFavorite(sportId, null);
-			}
-
-			return ResponseEntity.noContent().build();
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
+//	@PatchMapping("/addSportsFavorite/add/{id}")
+//	public ResponseEntity addSportsFavorite(@PathVariable Integer sportId, @RequestBody Integer user_Id) {
+//		try {
+//			Set<Sport> sport = sportService.addSportsFavorite(sportId);
+//			userService.findById(user_Id).setSportsFavorite((List<Sport>) sport);
+//			
+//			
+//			if (sport != null) {
+//				sportService.addSportsFavorite(sportId);
+//			}
+//
+//			return ResponseEntity.noContent().build();
+//		} catch (Exception e) {
+//			return ResponseEntity.badRequest().body(e.getMessage());
+//		}
+//	}
 	
 }

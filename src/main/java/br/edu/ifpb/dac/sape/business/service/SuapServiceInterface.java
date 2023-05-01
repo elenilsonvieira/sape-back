@@ -15,7 +15,7 @@ public interface SuapServiceInterface {
 	
 	// Dados do header de autenticação
 	public static final String TOKEN_HEADER_NAME = "Authorization";
-	public static final String TOKEN_HEADER_VALUE = "JWT %s";
+	public static final String TOKEN_HEADER_VALUE = "Bearer %s";
 	
 	// Header default
 	public static final Map<String, String> DEFAULT_HEADERS = Map.of("Content-type", "application/json");

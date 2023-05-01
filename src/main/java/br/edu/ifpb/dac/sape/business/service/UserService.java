@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
@@ -20,6 +21,8 @@ public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private SportService sportService;
 	
 	public List<User> findAll() {
 		return userRepository.findAll();
@@ -124,6 +127,21 @@ public class UserService implements UserDetailsService {
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("Não pode ser encontrado nenhum usuário com matrícula :" + username);
 		}
+	}
+	
+	public void addSportsFavourite(Integer userId, Integer sportId) {
+		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("Usuário não encontrado"));
+		
+		Sport sport = null;
+		try {
+			sport = sportService.findById(sportId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		user.getFavorateSports().add(sport);
+		userRepository.save(user);
 	}
 
 }

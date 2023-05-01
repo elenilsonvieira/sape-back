@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -97,5 +98,33 @@ public class UserController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	@PatchMapping("/{userId}/sportsFavorite/{sportId}")
+	public ResponseEntity addSportsFavorite(@PathVariable Integer sportId, @RequestBody Integer user_Id) {
+		try {
+			
+			userService.addFavouriteSports(user_Id, sportId);
+		
+
+			return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("/sportsFavorite/{id}")
+    public ResponseEntity findSportsFavorite(@PathVariable Integer id) {
+
+        try {
+            User entity = userService.findById(id);
+
+            UserDTO dto = converterService.userToDto(entity);
+
+            return ResponseEntity.ok().body(dto.getSportsFavorite());
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }

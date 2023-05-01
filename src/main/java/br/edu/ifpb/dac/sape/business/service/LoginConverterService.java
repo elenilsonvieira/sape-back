@@ -28,7 +28,7 @@ public class LoginConverterService {
 		}
 		
 		JsonElement jsonElement = JsonParser.parseString(json);
-		String token = jsonElement.getAsJsonObject().get("token").getAsString();
+		String token = jsonElement.getAsJsonObject().get("access").getAsString();
 		return token;
 	}
 	

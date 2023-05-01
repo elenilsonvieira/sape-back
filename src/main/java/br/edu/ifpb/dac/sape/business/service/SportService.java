@@ -105,15 +105,14 @@ public class SportService {
 		sportRepository.deleteById(id);
 	}
 
-	public Object addSportsFavorite(Integer sportId, Integer user_Id) throws Exception {
-	
-		Sport sport = findById(sportId);
-		
-		Set<Sport> setSport = new HashSet<>(sport.getId().hashCode());
-		setSport.add(sport);
-		
-		save(sport);
-		return true;
-	}
-	
+//	public Set<Sport> addSportsFavorite(Integer sportId) throws Exception {
+//	
+//		Sport sport = findById(sportId);
+//		
+//		Set<Sport> setSport = new HashSet<>(sport.getId().hashCode());
+//		setSport.add(sport);
+//		
+//		return setSport;
+//	}
+//	
 }
