@@ -103,7 +103,7 @@ public class UserController {
 	public ResponseEntity addSportsFavorite(@PathVariable Integer sportId, @RequestBody Integer user_Id) {
 		try {
 			
-			userService.addFavouriteSports(user_Id, sportId);
+			userService.addSportsFavourite(user_Id, sportId);
 		
 
 			return ResponseEntity.noContent().build();
@@ -113,18 +113,18 @@ public class UserController {
 	}
 	
 	@GetMapping("/sportsFavorite/{id}")
-    public ResponseEntity findSportsFavorite(@PathVariable Integer id) {
-
-        try {
-            User entity = userService.findById(id);
-
-            UserDTO dto = converterService.userToDto(entity);
-
-            return ResponseEntity.ok().body(dto.getSportsFavorite());
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+	public ResponseEntity findSportsFavorite(@PathVariable Integer id) {
+		
+		try {
+			User entity = userService.findById(id);
+			
+			UserDTO dto = converterService.userToDto(entity);
+			
+			return ResponseEntity.ok().body(dto.getSportsFavorite());
+		
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 
 }
