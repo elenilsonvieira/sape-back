@@ -34,15 +34,14 @@ public class LoginController {
 	private TokenService tokenService;
 
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestBody LoginDTO dto) {
+	public ResponseEntity login(@RequestBody LoginDTO dto) {
 		try {
 			String token = service.login(dto.getUsername(), dto.getPassword());
 			User entity = userService.findByRegistration(Long.valueOf(dto.getUsername())).get();
 			UserDTO userDTO = userConverter.userToDto(entity);
-			
 			TokenDTO tokenDTO = new TokenDTO(token, userDTO);
 			
-			return new ResponseEntity<Object>(tokenDTO, HttpStatus.OK);
+			return new ResponseEntity(tokenDTO, HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

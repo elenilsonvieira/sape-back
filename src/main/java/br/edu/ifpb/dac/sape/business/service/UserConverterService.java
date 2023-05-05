@@ -20,6 +20,7 @@ public class UserConverterService {
 			entity.setName(dto.getName());
 			entity.setEmail(dto.getEmail());
 			entity.setRegistration(dto.getRegistration());
+			entity.setSportsFavorite(dto.getSportsFavorite());
 			
 			
 			return entity;
@@ -36,6 +37,7 @@ public class UserConverterService {
 			dto.setEmail(entity.getEmail());
 			dto.setRegistration(entity.getRegistration());
 			dto.setRoles((List<Role>) entity.getAuthorities());
+			dto.setSportsFavorite(entity.getSportsFavorite());
 			
 			return dto;
 		}

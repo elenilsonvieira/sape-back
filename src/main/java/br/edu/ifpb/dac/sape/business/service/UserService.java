@@ -3,6 +3,8 @@ package br.edu.ifpb.dac.sape.business.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +23,7 @@ public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 	@Autowired
 	private SportService sportService;
 	
@@ -129,19 +132,23 @@ public class UserService implements UserDetailsService {
 		}
 	}
 	
-	public void addSportsFavourite(Integer userId, Integer sportId) {
-		User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("Usuário não encontrado"));
-		
-		Sport sport = null;
+	public void addSportsFavorite(Integer userId, Integer sportId) {
+        User user = userRepository.findById(userId).orElseThrow(
+        		() -> new IllegalArgumentException("Usuário não encontrado"));
+        
+        Sport sport = null;
+        
 		try {
 			sport = sportService.findById(sportId);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		user.getFavorateSports().add(sport);
-		userRepository.save(user);
-	}
+        user.getFavorateSports().add(sport);
+        
+        
+        userRepository.save(user);
+    }
+	
+	
 
 }

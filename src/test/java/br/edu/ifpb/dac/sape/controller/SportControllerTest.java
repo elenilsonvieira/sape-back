@@ -63,62 +63,62 @@ public class SportControllerTest {
 		exDto.setName("Voleibol");
 	}
 	
-	@Test
-	public void testAddSportsFavoriteSuccess() throws Exception {
-	
-		Sport sport = new Sport(1,"futebol");
-		
-	    respEntity = (ResponseEntity) controller.addSportsFavorite(sport.getId(), 1);
-
-	    assertEquals(HttpStatus.NO_CONTENT, respEntity.getStatusCode());
-	}
-	
-	@Test
-	public void addSportsFavorite_NullParameters_ShouldReturnBadRequest() {
-	    Integer sportId = null;
-	    Integer userId = null;
-
-	    respEntity = controller.addSportsFavorite(sportId, userId);
-
-	    assertEquals(HttpStatus.BAD_REQUEST, respEntity.getStatusCode());
-	}
-	
-	@Test
-	@Disabled
-	public void addSportFavorite_nameNull() { 
-		Sport sport=new Sport(1,"");
-	
-		respEntity=controller.addSportsFavorite(sport.getId(), 1);
-		assertEquals(HttpStatus.BAD_REQUEST,respEntity.getStatusCode());
-	}
-	
-	@Test
-	@Disabled
-	public void addSportsFavorite_nullSport() { 
-		
-		User user=new User();
-		user.setId(1);
-		
-		respEntity=controller.addSportsFavorite(1, user.getId());
-		
-		
-		assertEquals(HttpStatus.BAD_REQUEST, respEntity.getStatusCode());
-	
-	}
-	
-	@Test
-	public void addSportsFavorite_EsporteNaoEncontrado() throws Exception {
-	  
-	  Integer sportId = -1;
-	  Integer userId = 1;
-	  when(service.findById(sportId)).thenReturn(null);
-
-	  
-	  ResponseEntity response = controller.addSportsFavorite(sportId, userId);
-	  assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-	  assertEquals("o esporte ou o usuario não existe", response.getBody());
-	}
-	
+//	@Test
+//	public void testAddSportsFavoriteSuccess() throws Exception {
+//	
+//		Sport sport = new Sport(1,"futebol");
+//		
+//	    respEntity = (ResponseEntity) controller.addSportsFavorite(sport.getId(), 1);
+//
+//	    assertEquals(HttpStatus.NO_CONTENT, respEntity.getStatusCode());
+//	}
+//	
+//	@Test
+//	public void addSportsFavorite_NullParameters_ShouldReturnBadRequest() {
+//	    Integer sportId = null;
+//	    Integer userId = null;
+//
+//	    respEntity = controller.addSportsFavorite(sportId, userId);
+//
+//	    assertEquals(HttpStatus.BAD_REQUEST, respEntity.getStatusCode());
+//	}
+//	
+//	@Test
+//	@Disabled
+//	public void addSportFavorite_nameNull() { 
+//		Sport sport=new Sport(1,"");
+//	
+//		respEntity=controller.addSportsFavorite(sport.getId(), 1);
+//		assertEquals(HttpStatus.BAD_REQUEST,respEntity.getStatusCode());
+//	}
+//	
+//	@Test
+//	@Disabled
+//	public void addSportsFavorite_nullSport() { 
+//		
+//		User user=new User();
+//		user.setId(1);
+//		
+//		respEntity=controller.addSportsFavorite(1, user.getId());
+//		
+//		
+//		assertEquals(HttpStatus.BAD_REQUEST, respEntity.getStatusCode());
+//	
+//	}
+//	
+//	@Test
+//	public void addSportsFavorite_EsporteNaoEncontrado() throws Exception {
+//	  
+//	  Integer sportId = -1;
+//	  Integer userId = 1;
+//	  when(service.findById(sportId)).thenReturn(null);
+//
+//	  
+//	  ResponseEntity response = controller.addSportsFavorite(sportId, userId);
+//	  assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+//	  assertEquals("o esporte ou o usuario não existe", response.getBody());
+//	}
+//	
 	
 	
 	

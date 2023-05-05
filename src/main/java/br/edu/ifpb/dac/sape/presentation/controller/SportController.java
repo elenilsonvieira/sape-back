@@ -1,8 +1,6 @@
 package br.edu.ifpb.dac.sape.presentation.controller;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -11,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,10 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpb.dac.sape.business.service.SportConverterService;
 import br.edu.ifpb.dac.sape.business.service.SportService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.SportDTO;
 
 @RestController
@@ -36,8 +30,6 @@ public class SportController {
 	
 	@Autowired
 	private SportConverterService converterService;
-	@Autowired
-	private UserService userService;
 	
 	@GetMapping
 	public ResponseEntity getAll() {
@@ -107,20 +99,27 @@ public class SportController {
 	}
 	
 //	@PatchMapping("/addSportsFavorite/add/{id}")
-//	public ResponseEntity addSportsFavorite(@PathVariable Integer sportId, @RequestBody Integer user_Id) {
+//	public ResponseEntity<?> addSportsFavorite(@PathVariable Integer sportId, @RequestBody Integer user_Id) {
+//		
+//		
 //		try {
-//			Set<Sport> sport = sportService.addSportsFavorite(sportId);
-//			userService.findById(user_Id).setSportsFavorite((List<Sport>) sport);
-//			
-//			
-//			if (sport != null) {
-//				sportService.addSportsFavorite(sportId);
+//	        Sport sport = sportService.findById(sportId);
+//	          System.out.println(sportId);
+//	          System.out.println(user_Id);
+//			if (sportId==null || user_Id==null) {
+//				throw new IllegalArgumentException("Os parâmetros não podem ser nulos");
 //			}
-//
+//			
+//			if(sportId<=0 || user_Id<=0) {
+//				throw new IllegalArgumentException("o esporte ou o usuario não existe");
+//			}
+//			sportService.addSportsFavorite(sportId, user_Id);
+//			
 //			return ResponseEntity.noContent().build();
 //		} catch (Exception e) {
 //			return ResponseEntity.badRequest().body(e.getMessage());
 //		}
 //	}
+	
 	
 }

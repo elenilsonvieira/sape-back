@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,7 +44,7 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Sport> sportsFavorite;
 	
 	public User() {}
@@ -58,6 +60,12 @@ public class User implements UserDetails {
 		this.roles = roles;
 	}
 	
+	
+	
+	public List<Sport> getSportsFavorite() {
+		return sportsFavorite;
+	}
+
 	public void setSportsFavorite(List<Sport> sportsFavorite) {
 		this.sportsFavorite = sportsFavorite;
 	}

@@ -7,6 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,9 +34,11 @@ public class TokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 
 		String token = tokenService.get(request);
+		System.out.println(token);
 		// TODO tratamento para exceções do método "doFilterInternal" ?
 		if (tokenService.isValid(token)) {
 			try {
+				
 				authenticate(token);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -48,9 +53,11 @@ public class TokenFilter extends OncePerRequestFilter {
 	// coloca o usuário autenticado no contexto do Spring Security
 	private void authenticate(String token) throws NumberFormatException, Exception {
 		int userId = tokenService.getUserId(token);
+		System.out.println(userId);
 		//TODO comportamento inesperado de User: o retorno da linha abaixo é uma exceção
 		User user = userService.findById(userId);
 
+		
 		UsernamePasswordAuthenticationToken authentication = 
 				new UsernamePasswordAuthenticationToken(user, null,	user.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -46,6 +46,7 @@ public class UserController {
 		
 		try {
 			User entity = userService.findById(id);
+			
 			UserDTO dto = converterService.userToDto(entity);
 			
 			return ResponseEntity.ok().body(dto);
@@ -100,18 +101,15 @@ public class UserController {
 	}
 	
 	@PatchMapping("/{userId}/sportsFavorite/{sportId}")
-	public ResponseEntity addSportsFavorite(@PathVariable Integer sportId, @RequestBody Integer user_Id) {
-		try {
-			
-			userService.addSportsFavourite(user_Id, sportId);
-		
+    public ResponseEntity addSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) {
+        try {
+            userService.addSportsFavorite(userId, sportId);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
-			return ResponseEntity.noContent().build();
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
-	
 	@GetMapping("/sportsFavorite/{id}")
 	public ResponseEntity findSportsFavorite(@PathVariable Integer id) {
 		
@@ -126,5 +124,4 @@ public class UserController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
 }

@@ -4,13 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
@@ -105,14 +101,14 @@ public class SportService {
 		sportRepository.deleteById(id);
 	}
 
-//	public Set<Sport> addSportsFavorite(Integer sportId) throws Exception {
+//	public Object addSportsFavorite(Sport sport, Integer user_Id) throws Exception {
 //	
-//		Sport sport = findById(sportId);
 //		
 //		Set<Sport> setSport = new HashSet<>(sport.getId().hashCode());
 //		setSport.add(sport);
 //		
-//		return setSport;
+//		save(sport);
+//		return true;
 //	}
-//	
+	
 }
