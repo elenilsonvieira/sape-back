@@ -40,10 +40,6 @@ public class SchedulingService {
 		
 		List<Scheduling> list = schedulingRepository.findAll(exp);
 		
-//		if (filter.getPlace().isPublic() == true) {
-//			
-//			list.addAll(findAllByPlaceId(filter.getPlace().getId()));
-//		}
 		System.out.println("Tamanho da lista retornada pelo repository.findAll(filtro): " + list.size());
 		return schedulingsBeginingToday(list);
 	}
