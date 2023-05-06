@@ -178,5 +178,14 @@ public class Scheduling implements Serializable {
 		Scheduling other = (Scheduling) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	@Override
+	public String toString() {
+		return "Scheduling [id=" + id + ", scheduledDate=" + scheduledDate + ", scheduledStartTime="
+				+ scheduledStartTime + ", scheduledFinishTime=" + scheduledFinishTime + ", place=" + place + ", sport="
+				+ sport + ", creator=" + creator + "]";
+	}
+	
+	
 	
 }

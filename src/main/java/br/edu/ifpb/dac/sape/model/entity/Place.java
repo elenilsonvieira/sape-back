@@ -91,6 +91,7 @@ public class Place implements Serializable {
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 	}
 
+	
 	public boolean isPublic() {
 		return isPublic;
 	}

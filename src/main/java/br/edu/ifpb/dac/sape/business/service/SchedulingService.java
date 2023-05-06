@@ -39,12 +39,20 @@ public class SchedulingService {
 				.withStringMatcher(StringMatcher.CONTAINING));
 		
 		List<Scheduling> list = schedulingRepository.findAll(exp);
+		
+		if (filter.getPlace().isPublic() == true) {
+			
+			list.addAll(findAllByPlaceId(filter.getPlace().getId()));
+		}
 		System.out.println("Tamanho da lista retornada pelo repository.findAll(filtro): " + list.size());
 		return schedulingsBeginingToday(list);
 	}
 	
 	public List<Scheduling> findAllByPlaceId(Integer id) {
 		return schedulingRepository.findAllByPlaceId(id);
+	}
+	public List<Scheduling> findAllByPlaceIdAndSportId(Integer placeId, Integer sportId){
+		return schedulingRepository.findAllByPlaceIdAndSportId(placeId, sportId);
 	}
 	
 	public List<Scheduling> findAllByPlaceIdAndScheduledDate(Integer placeId, LocalDate scheduledDate) {
