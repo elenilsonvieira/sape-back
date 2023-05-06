@@ -37,7 +37,7 @@ public class Place implements Serializable {
 	private int maximumCapacityParticipants;
 	
 	@Column(name = "PLACE_IS_PUBLIC", nullable = false)
-	private boolean isPublic;
+	private Boolean isPublic;
 	
 	@Column(name = "RESPONSIBLE_OF_THE_LOCATION", nullable = false)
 	private String nameResponsible;
@@ -92,7 +92,7 @@ public class Place implements Serializable {
 	}
 
 	
-	public boolean isPublic() {
+	public Boolean isPublic() {
 		return isPublic;
 	}
 
