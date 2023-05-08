@@ -1,11 +1,12 @@
 package br.edu.ifpb.dac.sape.presentation.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +25,13 @@ import br.edu.ifpb.dac.sape.business.service.SchedulingService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingValidatorService;
 import br.edu.ifpb.dac.sape.business.service.UserConverterService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 
 @RestController
-@RequestMapping("api/scheduling")
+@RequestMapping("/api/scheduling")
 
 public class SchedulingController {
 
@@ -141,6 +141,20 @@ public class SchedulingController {
 		}
 	}
 
+	
+	@GetMapping("/user/{userRegistration}")
+	public ResponseEntity getSchedulingsByUserRegistration(@PathVariable Long userRegistration) {
+	    try {
+	        List<Scheduling> schedulings = schedulingService.getSchedulingsByUserRegistration(userRegistration);
+	        
+	        List<SchedulingDTO> schedulingDTOs = converterService.schedulingToDtos(schedulings);
+	        
+	        return ResponseEntity.ok(schedulingDTOs);
+	    } catch (Exception e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    }
+	}
+
 	@GetMapping("/participation/{id}")
 	public ResponseEntity getSchedulingParticipants(@PathVariable Integer id) {
 		try {
@@ -155,13 +169,14 @@ public class SchedulingController {
 		}
 	}
 	
-	@PatchMapping("/addIsPresent/add/{id}")
-	public ResponseEntity addIsPresent(@PathVariable Integer id, @RequestBody Long userRegistration) {
+	@PatchMapping("/{schedulingId}/addIsPresent/{userRegistration}")
+	public ResponseEntity addIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
 		try {
 			User user = userService.findByRegistration(userRegistration).orElse(null);
 
+			
 			if (user != null) {
-				schedulingService.addSchedulingParticipant(id, user);
+				schedulingService.addSchedulingParticipant(schedulingId, user);
 			}
 
 			return ResponseEntity.noContent().build();
@@ -171,9 +186,9 @@ public class SchedulingController {
 	}
 	
 	@PatchMapping("/participation/add/{id}")
-	public ResponseEntity addParticipant(@PathVariable Integer id, @RequestBody Long userRegistration) {
+	public ResponseEntity addParticipant(@PathVariable Integer id, @RequestBody Long matricula) {
 		try {
-			User user = userService.findByRegistration(userRegistration).orElse(null);
+			User user = userService.findByRegistration(matricula).orElse(null);
 
 			if (user != null) {
 				schedulingService.addSchedulingParticipant(id, user);

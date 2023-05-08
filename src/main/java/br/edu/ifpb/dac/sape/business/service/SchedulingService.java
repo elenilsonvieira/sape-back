@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
+import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
@@ -26,6 +28,9 @@ public class SchedulingService {
 
 	@Autowired
 	private SchedulingRepository schedulingRepository;
+	
+	@Autowired
+	private UserService userService;
 	
 	public List<Scheduling> findAll() {
 		List<Scheduling> list = schedulingRepository.findAll();
@@ -40,10 +45,6 @@ public class SchedulingService {
 		
 		List<Scheduling> list = schedulingRepository.findAll(exp);
 		
-		if (filter.getPlace().isPublic() == true) {
-			
-			list.addAll(findAllByPlaceId(filter.getPlace().getId()));
-		}
 		System.out.println("Tamanho da lista retornada pelo repository.findAll(filtro): " + list.size());
 		return schedulingsBeginingToday(list);
 	}
@@ -120,6 +121,22 @@ public class SchedulingService {
 		return scheduling.getParticipants();
 	}
 	
+
+	public List<Scheduling> getSchedulingsByUserRegistration(Long userRegistration) throws Exception {
+	    // Busca o usuário pelo número de matrícula
+	    User user = userService.findByRegistration(userRegistration).orElse(null);
+	    
+	    if (user != null) {
+	        // Busca todos os agendamentos que contém o usuário como participante
+	        return schedulingRepository.findAllByParticipantsContaining(user);
+	    }
+	    
+	    return Collections.emptyList(); // Retorna uma lista vazia caso o usuário não seja encontrado
+	}
+	
+	public List<Scheduling> getSchedulingByParticipant(User participant) {
+	    return schedulingRepository.findAllByParticipantsContaining(participant);
+	}
 	public boolean addSchedulingParticipant(Integer schedulingId, User user) throws Exception {
 		Scheduling scheduling = findById(schedulingId);
 
