@@ -110,7 +110,7 @@ public class UserController {
         }
     }
 	
-	@PatchMapping("/{userId}/removeSportFavorite/{sportId}")
+	@PatchMapping("/{userId}/removeSportsFavorite/{sportId}")
     public ResponseEntity removeSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) {
         try {
             userService.removeSportsFavorite(userId, sportId);
