@@ -109,6 +109,16 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+	
+	@PatchMapping("/{userId}/removeSportFavorite/{sportId}")
+    public ResponseEntity removeSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) {
+        try {
+            userService.removeSportsFavorite(userId, sportId);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 	@GetMapping("/sportsFavorite/{id}")
 	public ResponseEntity findSportsFavorite(@PathVariable Integer id) {

@@ -149,6 +149,34 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 	
-	
+	/**
+	 * This method removes a sport from the favorite sports list of the user
+	 * @param userId
+	 * @param sportId
+	 */
+	public void removeSportsFavorite(Integer userId, Integer sportId) {
+        //Here we recover the user by its id 
+		User user = userRepository.findById(userId).orElseThrow(
+        		() -> new IllegalArgumentException("Usuário não encontrado"));
+        //this variable will receive the sport the user wants to remove
+        Sport removedSport = null;
+        
+        try {
+        	//here we get all the favourite sports in user
+			List<Sport> userFavouriteSports = user.getSportsFavorite();
+			// then we iterate over the list to find the favorite sport comparing the sportID in the method 
+			//parameters to the sports id in the favorite sports list and save it in removedSport variable
+			for(Sport favouriteSports : userFavouriteSports) {
+				if(favouriteSports.getId() == sportId) {
+					removedSport = favouriteSports;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        user.getFavorateSports().remove(removedSport);
+        //last step is saving our changes
+        userRepository.save(user);
+    }
 
 }
