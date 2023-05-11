@@ -33,7 +33,13 @@ public class SchedulingConverterService {
 			entity.setScheduledFinishTime(dateConverter.stringToTime(dto.getScheduledFinishTime()));
 			entity.setPlace(placeService.findById(dto.getPlaceId()));
 			entity.setSport(sportService.findById(dto.getSportId()));
-			entity.setStatus(dto.getStatus());
+			
+			if(entity.getPlace().isPublic() == true) {
+				entity.setStatus(StatusScheduling.CONFIRMED);
+			}else {
+				entity.setStatus(StatusScheduling.PENDING);
+			}
+			
 			entity.setWillBePresent(dto.getWillBePresent());
 			
 			
@@ -54,7 +60,7 @@ public class SchedulingConverterService {
 			dto.setPlaceId(entity.getPlace().getId());
 			dto.setSportId(entity.getSport().getId());
 			dto.getStatus();
-			dto.setStatus(StatusScheduling.PENDING);
+			dto.setStatus(entity.getStatus());
 			dto.setWillBePresent(IsPresent.YES);
 			
 			

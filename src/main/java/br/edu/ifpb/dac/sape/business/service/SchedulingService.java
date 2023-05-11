@@ -137,6 +137,8 @@ public class SchedulingService {
 	public List<Scheduling> getSchedulingByParticipant(User participant) {
 	    return schedulingRepository.findAllByParticipantsContaining(participant);
 	}
+	
+	
 	public boolean addSchedulingParticipant(Integer schedulingId, User user) throws Exception {
 		Scheduling scheduling = findById(schedulingId);
 
@@ -175,7 +177,7 @@ public class SchedulingService {
 		Set<User> setUser = new HashSet<>(scheduling.getWillBePresent().hashCode());
 		setUser.add(user);
 		scheduling.setParticipants(setUser);
-		
+		scheduling.setWillBePresent(IsPresent.YES);
 		save(scheduling);
 		return true;
 	}
