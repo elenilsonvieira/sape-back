@@ -2,11 +2,7 @@ package br.edu.ifpb.dac.sape.presentation.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.edu.ifpb.dac.sape.business.service.SchedulingConverterService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingValidatorService;
@@ -133,6 +128,7 @@ public class SchedulingController {
 		try {
 			validatorService.validSportId(id);
 			List<Scheduling> entityList = schedulingService.findAllBySportId(id);
+			
 			List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
 
 			return ResponseEntity.ok().body(dtoList);
@@ -157,13 +153,16 @@ public class SchedulingController {
 
 	@GetMapping("/participation/{id}")
 	public ResponseEntity getSchedulingParticipants(@PathVariable Integer id) {
+		System.out.println(id);
 		try {
 			List<User> participantList = new ArrayList<>();
+			
+			
 			participantList.addAll(schedulingService.getSchedulingParticipants(id));
-
+			
 			List<UserDTO> participantListDTO = userConverterService.usersToDtos(participantList);
-
-			return ResponseEntity.ok().body(participantListDTO);
+			
+			return  ResponseEntity.ok().body(participantListDTO);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

@@ -74,6 +74,7 @@ public class UserConverterService {
 			if (entityList != null && !entityList.isEmpty()) {
 				for (User user: entityList) {
 					dto = userToDto(user);
+					dto.setSportsFavorite(user.getSportsFavorite());
 					dtoList.add(dto);
 				}
 			}
