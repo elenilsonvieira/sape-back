@@ -160,14 +160,6 @@ public class SchedulingController {
 			
 			participantList.addAll(schedulingService.getSchedulingParticipants(id));
 			
-			for (int i = 0; i < 20; i++) {
-				User user = new User();
-				user.setName("Igor Silva ");
-				user.setRegistration(10000001L+i);
-				participantList.add(user);
-			}
-
-			
 			List<UserDTO> participantListDTO = userConverterService.usersToDtos(participantList);
 			
 			return  ResponseEntity.ok().body(participantListDTO);
