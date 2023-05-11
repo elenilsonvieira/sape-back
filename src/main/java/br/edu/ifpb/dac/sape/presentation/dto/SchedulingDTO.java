@@ -38,6 +38,8 @@ public class SchedulingDTO {
 	@NotNull(message = "O id do esporte não pode ser nulo!")
 	private Integer sportId;
 	
+	private Long creator;
+	
 	private StatusScheduling status;
 	
 	private IsPresent willBePresent;
@@ -47,13 +49,14 @@ public class SchedulingDTO {
 	}
 	
 	public SchedulingDTO(Integer id, String scheduledDate, String scheduledStartTime, String scheduledFinishTime, LocalTime startTime,  
-			Integer placeId, Integer sportId, StatusScheduling status,IsPresent isPresent) {
+			Integer placeId, Integer sportId,Long creator, StatusScheduling status,IsPresent isPresent) {
 		this.id = id;
 		this.scheduledDate = scheduledDate;
 		this.scheduledStartTime = scheduledStartTime;
 		this.scheduledFinishTime = scheduledFinishTime;
 		this.placeId = placeId;
 		this.sportId = sportId;
+		this.creator = creator;
 		this.status = status;
 		this.willBePresent =  isPresent;
 	}
@@ -106,6 +109,14 @@ public class SchedulingDTO {
 		this.sportId = sportId;
 	}
 	
+	public Long getCreator() {
+		return creator;
+	}
+
+	public void setCreator(Long creator) {
+		this.creator = creator;
+	}
+
 	public StatusScheduling getStatus() {
 		return status;
 	}

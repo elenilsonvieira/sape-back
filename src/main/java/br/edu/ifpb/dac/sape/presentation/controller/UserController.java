@@ -55,6 +55,20 @@ public class UserController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	@GetMapping("/registration/{registration}")
+	public ResponseEntity findByRegistration(@PathVariable Long registration) {
+		
+		try {
+			User entity = userService.findByRegistration(registration).orElse(null);
+			
+			UserDTO dto = converterService.userToDto(entity);
+			
+			return ResponseEntity.ok().body(dto);
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 	
 	@PostMapping
 	public ResponseEntity save(@Valid @RequestBody UserDTO dto) {

@@ -23,6 +23,9 @@ public class SchedulingConverterService {
 	@Autowired
 	private SportService sportService;
 	
+	@Autowired
+	private UserService userService;
+	
 	public Scheduling dtoToScheduling(SchedulingDTO dto) throws Exception {
 		if (dto != null) {
 			Scheduling entity = new Scheduling();
@@ -33,6 +36,7 @@ public class SchedulingConverterService {
 			entity.setScheduledFinishTime(dateConverter.stringToTime(dto.getScheduledFinishTime()));
 			entity.setPlace(placeService.findById(dto.getPlaceId()));
 			entity.setSport(sportService.findById(dto.getSportId()));
+			entity.setCreator(userService.findByRegistration(dto.getCreator()).orElse(null));
 			
 			if(entity.getPlace().isPublic() == true) {
 				entity.setStatus(StatusScheduling.CONFIRMED);
@@ -59,6 +63,7 @@ public class SchedulingConverterService {
 			dto.setScheduledFinishTime(dateConverter.timeToString(entity.getScheduledFinishTime()));
 			dto.setPlaceId(entity.getPlace().getId());
 			dto.setSportId(entity.getSport().getId());
+			dto.setCreator(entity.getCreator().getRegistration());
 			dto.getStatus();
 			dto.setStatus(entity.getStatus());
 			dto.setWillBePresent(IsPresent.YES);

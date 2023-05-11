@@ -153,12 +153,12 @@ public class SchedulingController {
 
 	@GetMapping("/participation/{id}")
 	public ResponseEntity getSchedulingParticipants(@PathVariable Integer id) {
-		System.out.println(id);
 		try {
 			List<User> participantList = new ArrayList<>();
 			
 			
 			participantList.addAll(schedulingService.getSchedulingParticipants(id));
+			
 			
 			List<UserDTO> participantListDTO = userConverterService.usersToDtos(participantList);
 			
