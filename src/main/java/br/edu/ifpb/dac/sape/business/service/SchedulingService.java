@@ -173,13 +173,26 @@ public class SchedulingService {
 		}
 		
 		Set<User> setUser = new HashSet<>(scheduling.getWillBePresent().hashCode());
+		setUser.remove(user);
+		
+		save(scheduling);
+		return true;
+	}
+	
+	public boolean removeIsPresent(Integer schedulingId, User user) throws Exception {
+		Scheduling scheduling = findById(schedulingId);
+		
+		if (scheduling.getWillBePresent().hashCode() < 1) {
+			return false;
+		}
+		
+		Set<User> setUser = new HashSet<>(scheduling.getWillBePresent().hashCode());
 		setUser.add(user);
 		scheduling.setParticipants(setUser);
 		
 		save(scheduling);
 		return true;
 	}
-	
 	
 	private List<Scheduling> schedulingsBeginingToday(List<Scheduling> list) {
 		Collections.sort(list, new ComparatorSchedulingDate());
