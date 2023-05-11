@@ -167,7 +167,7 @@ public class SchedulingService {
 		return true;
 	}
 	
-	public boolean addIsPresent(Integer schedulingId, User user) throws Exception {
+	public boolean removeIsPresent(Integer schedulingId, User user) throws Exception {
 		Scheduling scheduling = findById(schedulingId);
 		
 		if (scheduling.getWillBePresent().hashCode() <= 0) {
@@ -175,13 +175,14 @@ public class SchedulingService {
 		}
 		
 		Set<User> setUser = new HashSet<>(scheduling.getWillBePresent().hashCode());
+		scheduling.setWillBePresent(IsPresent.NO);
 		setUser.remove(user);
 		
 		save(scheduling);
 		return true;
 	}
 	
-	public boolean removeIsPresent(Integer schedulingId, User user) throws Exception {
+	public boolean addIsPresent(Integer schedulingId, User user) throws Exception {
 		Scheduling scheduling = findById(schedulingId);
 		
 		if (scheduling.getWillBePresent().hashCode() < 1) {
