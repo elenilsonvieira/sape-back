@@ -184,6 +184,22 @@ public class SchedulingController {
 		}
 	}
 	
+	@PatchMapping("/{schedulingId}/removeIsPresent/{userRegistration}")
+	public ResponseEntity removeIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
+		try {
+			User user = userService.findByRegistration(userRegistration).orElse(null);
+
+			
+			if (user != null) {
+				schedulingService.removeSchedulingParticipant(schedulingId, user);
+			}
+
+			return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
 	@PatchMapping("/participation/add/{id}")
 	public ResponseEntity addParticipant(@PathVariable Integer id, @RequestBody Long matricula) {
 		try {
