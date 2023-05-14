@@ -367,7 +367,7 @@ class UserServiceTest {
         assertThrows(IllegalArgumentException.class, 
                 () -> service.removeSportsFavorite(userId, sportId));
         
-        verify(sportService, never()).save(any());
+        verify(repository, never()).save(any());
 	}
 }
 
