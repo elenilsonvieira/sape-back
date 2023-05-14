@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -378,8 +379,10 @@ public class SchedulingControllerTest {
 		String errorMessage = "Não foi encontrado usuário com matrícula 123";
 		
 		try {
+			
 			when(userService.findByRegistration(anyLong())).thenThrow(new ObjectNotFoundException("usuário", "matrícula", 123));
 			when(schedulingService.addSchedulingParticipant(anyInt(), any(User.class))).thenReturn(true);
+			
 		} catch (Exception e) {
 			fail();
 		}
@@ -421,6 +424,104 @@ public class SchedulingControllerTest {
 		assertAll("Asserting HttpStatus and body content",
 				() -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
 				() -> assertEquals(errorMessage, response.getBody()));
+		
+		response = controller.removeParticipant(1, Long.valueOf(123));
+		assertAll("Asserting HttpStatus and body content",
+				() -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
+				() -> assertEquals(errorMessage, response.getBody()));
+		
+		verify(schedulingService, never()).save(any(Scheduling.class));	
+	}
+	
+	@Test
+	@DisplayName("Testing if the user registration is invalid when removing a participation")
+	public void testRemoveIsPresentInvalidParticipantRegistration() {
+		String errorMessage = "Não foi encontrado usuário com matrícula 123";
+		
+		try {
+			
+			when(userService.findByRegistration(anyLong())).thenThrow(new ObjectNotFoundException("usuário", "matrícula", 123));
+			when(schedulingService.removeSchedulingParticipant(anyInt(), any(User.class))).thenReturn(true);
+			
+		} catch (Exception e) {
+			fail();
+		}
+		
+		response = controller.removeIsPresent(1, Long.valueOf(123));
+		assertAll("Asserting HttpStatus and body content",
+				() -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
+				() -> assertEquals(errorMessage, response.getBody()));
+		
+		try {
+			verify(schedulingService, never()).removeSchedulingParticipant(anyInt(), any(User.class));	
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	@DisplayName("Testing if the user registration is invalid when addidng a participation")
+	public void testAddIsPresentInvalidParticipantRegistration() {
+		String errorMessage = "Não foi encontrado usuário com matrícula 123";
+		
+		try {
+			when(userService.findByRegistration(anyLong())).thenThrow(new ObjectNotFoundException("usuário", "matrícula", 123));
+			when(schedulingService.addSchedulingParticipant(anyInt(), any(User.class))).thenReturn(true);
+		} catch (Exception e) {
+			fail();
+		}
+		
+		response = controller.addIsPresent(1, Long.valueOf(123));
+		assertAll("Asserting HttpStatus and body content",
+				() -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
+				() -> assertEquals(errorMessage, response.getBody()));
+		
+		try {
+			verify(schedulingService, never()).removeSchedulingParticipant(anyInt(), any(User.class));	
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	@DisplayName("Testing if the schedilling id is invalid when removing a participation")
+	public void testRemoveIsPresentInvalidschedullingId() {
+		String errorMessage = "Não foi encontrado agendamento com id 1";
+		
+		try {
+			
+			when(userService.findByRegistration(anyLong())).thenReturn(Optional.of(user));
+			when(schedulingService.removeSchedulingParticipant(anyInt(), any(User.class))).thenCallRealMethod();
+			when(schedulingService.findById(anyInt())).thenThrow(new ObjectNotFoundException("agendamento", "id", 1));
+			when(schedulingService.save(any(Scheduling.class))).thenReturn(entity);
+			
+		} catch (Exception e) {
+			fail();
+		}
+		
+		response = controller.removeParticipant(1, Long.valueOf(123));
+		assertAll("Asserting HttpStatus and body content",
+				() -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
+				() -> assertEquals(errorMessage, response.getBody()));
+		
+		verify(schedulingService, never()).save(any(Scheduling.class));	
+	}
+	
+	@Test
+	@DisplayName("Testing if the schedilling id is invalid when adding a participation")
+	public void testAddIsPresentInvalidschedullingId() {
+		String errorMessage = "Não foi encontrado agendamento com id 1";
+		
+		try {
+			
+			when(userService.findByRegistration(anyLong())).thenReturn(Optional.of(user));
+			when(schedulingService.addSchedulingParticipant(anyInt(), any(User.class))).thenCallRealMethod();
+			when(schedulingService.findById(anyInt())).thenThrow(new ObjectNotFoundException("agendamento", "id", 1));
+			when(schedulingService.save(any(Scheduling.class))).thenReturn(entity);
+			
+		} catch (Exception e) {
+			fail();
+		}
 		
 		response = controller.removeParticipant(1, Long.valueOf(123));
 		assertAll("Asserting HttpStatus and body content",

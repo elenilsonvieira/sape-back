@@ -1,5 +1,6 @@
 package br.edu.ifpb.dac.sape.business.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,9 +144,12 @@ public class UserService implements UserDetailsService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        user.getFavorateSports().add(sport);
+		
+		if (user.getSportsFavorite() == null) {
+            user.setSportsFavorite(new ArrayList<>());
+       }
         
-        
+		user.getFavorateSports().add(sport);
         userRepository.save(user);
     }
 	
