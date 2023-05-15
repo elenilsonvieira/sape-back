@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -529,5 +530,29 @@ public class SchedulingControllerTest {
 				() -> assertEquals(errorMessage, response.getBody()));
 		
 		verify(schedulingService, never()).save(any(Scheduling.class));	
+	}
+	
+	@Test
+	public void showAllSchedullingParticipantsValid() {
+		
+		try {
+			List<User> users = new ArrayList<>();
+			User user = new User();
+	        user.setId(1);
+	        user.setName("igor");
+	        users.add(user);
+	        user = new User();
+	        user.setId(2);
+	        user.setName("Ytallo");
+	        users.add(user);
+	        when(userConverterService.usersToDtos(users)).thenReturn(listUserDto);
+	
+		} catch (Exception e) {
+			fail();
+		}
+	
+		response = controller.getSchedulingParticipants(1);
+		assertEquals(HttpStatus.OK, response.getStatusCode());	
+	
 	}
 }
