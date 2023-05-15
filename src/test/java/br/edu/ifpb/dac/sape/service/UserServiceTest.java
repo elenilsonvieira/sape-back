@@ -36,7 +36,7 @@ import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 
-class UserServiceTest {
+public class UserServiceTest {
 	
 	@InjectMocks
 	private static UserService service;

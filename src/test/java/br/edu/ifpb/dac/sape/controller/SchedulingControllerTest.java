@@ -500,7 +500,7 @@ public class SchedulingControllerTest {
 			fail();
 		}
 		
-		response = controller.removeParticipant(1, Long.valueOf(123));
+		response = controller.removeIsPresent(1, Long.valueOf(123));
 		assertAll("Asserting HttpStatus and body content",
 				() -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
 				() -> assertEquals(errorMessage, response.getBody()));
@@ -524,7 +524,7 @@ public class SchedulingControllerTest {
 			fail();
 		}
 		
-		response = controller.removeParticipant(1, Long.valueOf(123));
+		response = controller.addIsPresent(1, Long.valueOf(123));
 		assertAll("Asserting HttpStatus and body content",
 				() -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()),
 				() -> assertEquals(errorMessage, response.getBody()));

@@ -45,7 +45,7 @@ import br.edu.ifpb.dac.sape.presentation.controller.UserController;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 
 
-class UserControllerTest {
+public class UserControllerTest {
 
 	@InjectMocks
 	private static UserController controller;
