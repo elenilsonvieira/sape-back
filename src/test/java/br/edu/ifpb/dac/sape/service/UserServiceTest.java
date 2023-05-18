@@ -25,12 +25,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import br.edu.ifpb.dac.sape.business.service.SportService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.entity.User;
+import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
@@ -41,11 +43,14 @@ public class UserServiceTest {
 	@InjectMocks
 	private static UserService service;
 	private User exUser;
+	private Sport exSport;
 	@Mock
 	private SportService sportService;
 	
 	@Mock
 	private static UserRepository repository;
+	@Mock
+	private static SportRepository sporRepository;
 
 	@BeforeAll
 	public static void setup() {
@@ -57,6 +62,7 @@ public class UserServiceTest {
 	public void beforeEach() {
 		openMocks(this);
 		exUser = new User();
+		exSport = new Sport();
 	}
 
 	@Test
@@ -356,7 +362,7 @@ public class UserServiceTest {
     }
 	
 	@Test
-    public void testAddSportsFavorite_SportNotFound() throws Exception {
+    public void testRemoveSportsFavorite_SportNotFound() throws Exception {
 
         Integer userId = 1;
         Integer sportId = 1;
@@ -369,5 +375,17 @@ public class UserServiceTest {
         
         verify(repository, never()).save(any());
 	}
+	
+	@Test
+	public void testRemoveSportsFavorite_UserNotFound() {
+		exSport.setId(1);
+		exUser.setId(1);
+		
+		when(repository.findById(exUser.getId())).thenReturn(Optional.empty());
+		
+		assertThrows(IllegalArgumentException.class, 
+                () -> service.removeSportsFavorite(exUser.getId(), exSport.getId()));
+	}
+	
 }
 
