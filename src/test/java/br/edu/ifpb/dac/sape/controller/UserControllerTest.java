@@ -45,7 +45,7 @@ import br.edu.ifpb.dac.sape.presentation.controller.UserController;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 
 
-class UserControllerTest {
+public class UserControllerTest {
 
 	@InjectMocks
 	private static UserController controller;
@@ -310,5 +310,8 @@ class UserControllerTest {
 		throw new Exception(violations.stream().findFirst().get().getMessage());
 	}
 	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 }
