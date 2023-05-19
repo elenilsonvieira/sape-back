@@ -3,8 +3,11 @@ package br.edu.ifpb.dac.sape.service;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -18,14 +21,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import br.edu.ifpb.dac.sape.business.service.SportService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
+import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
+
 
 class UserServiceTest {
 	
@@ -36,16 +43,21 @@ class UserServiceTest {
 	@Mock
 	private static UserRepository repository;
 
+	@Mock
+	private SportService sportService;
+	
 	@BeforeAll
 	public static void setup() {
+		
 		service = new UserService();
 		ReflectionTestUtils.setField(service, "userRepository", repository);
-	}
+		}
 	
 	@BeforeEach
 	public void beforeEach() {
 		openMocks(this);
-		exUser = new User();
+		exUser = new User();		
+
 	}
 
 	@Test
@@ -272,4 +284,56 @@ class UserServiceTest {
 		Throwable exc = assertThrows(ObjectNotFoundException.class, () -> service.deleteById(1));
 		assertEquals("Não foi encontrado usuário com id 1", exc.getMessage());
 	}
-}
+	
+	
+	  @Test
+	    public void testAddSportsFavorite() throws Exception {
+	
+	        Integer userId = 1;
+	        Integer sportId = 1;
+
+	        User user = new User();
+	        user.setId(1);
+	        user.setName("igor");
+	        
+	        when(repository.findById(userId)).thenReturn(Optional.of(user));
+
+	        Sport sport = new Sport();
+	        sport.setId(1);
+	        sport.setName("futebol");
+	        when(sportService.findById(sportId)).thenReturn(sport);
+
+	  
+	        service.addSportsFavorite(userId, sportId);
+
+	        verify(repository).findById(userId);
+	        verify(sportService).findById(sportId);
+	        verify(repository).save(user);
+	
+	        assertTrue(user.getSportsFavorite().contains(sport));
+	    }
+
+	    @Test
+	    public void testAddSportsFavorite_UserNotFound() {
+	   
+	        Integer userId = 1;
+	        Integer sportId = 1;
+	
+	        when(repository.findById(userId)).thenReturn(Optional.empty());
+
+	        assertThrows(IllegalArgumentException.class, 
+	        		() -> service.addSportsFavorite(userId, sportId));
+
+	        verify(repository, never()).save(any());
+	    }
+	}
+
+
+
+
+
+
+
+
+
+

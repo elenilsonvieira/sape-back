@@ -1,12 +1,10 @@
 package br.edu.ifpb.dac.sape.service;
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.never;
@@ -14,16 +12,15 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-import javax.print.attribute.SetOfIntegerSyntax;
-
-import org.assertj.core.util.Arrays;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,25 +28,29 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Example;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import br.edu.ifpb.dac.sape.business.service.SchedulingService;
+import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
+import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
+
 
 public class SchedulingServiceTest {
 
-	@InjectMocks
-	private static SchedulingService service;
+	@Mock
+	private static UserService userService;
 
 	@Mock
 	private static SchedulingRepository repository;
+	
+	@InjectMocks
+	private static SchedulingService service;
 	
 	private static Scheduling schedulingExp;
 	private static Place placeExp;
@@ -65,6 +66,7 @@ public class SchedulingServiceTest {
 		userExp.setId(3);
 		
 		ReflectionTestUtils.setField(service, "schedulingRepository", repository);
+		
 	}
 
 	@BeforeEach
@@ -240,7 +242,7 @@ public class SchedulingServiceTest {
 	public void removeSchedulingParticipantValid() {
 		try {
 			Scheduling schedSpy = spy(schedulingExp);
-			Set<User> set = new HashSet<>(schedSpy.getParticipants());
+			Set<User> set = new HashSet<User>(schedSpy.getParticipants());
 			set.add(userExp);
 			schedSpy.setParticipants(set);
 			
@@ -346,4 +348,100 @@ public class SchedulingServiceTest {
 		
 		assertEquals(0, returned.size());
 	}
+	
+	//!!!!
+	  @Test
+	    public void testGetSchedulingsByUserRegistration_ValidUser() throws Exception {
+	        
+	       
+	        userExp.setRegistration(1234L);
+	        
+	        
+	        Scheduling scheduling1 = new Scheduling();
+	        Scheduling scheduling2 = new Scheduling();
+	        
+	        
+	        when(userService.findByRegistration(1234L)).thenReturn(Optional.of(userExp));
+
+	      
+	        when(repository.findAllByParticipantsContaining(userExp)).thenReturn(List.of(scheduling1, scheduling2));
+
+	        
+	        List<Scheduling> result = service.getSchedulingsByUserRegistration(1234L);
+	        
+	        
+	        assertEquals(2, result.size());
+	        assertEquals(scheduling1, result.get(0));
+	        assertEquals(scheduling2, result.get(1));
+	    }
+	
+	   @Test
+	    public void testGetSchedulingsByUserRegistration_InvalidUser() throws Exception {
+	        when(userService.findByRegistration(123456L)).thenReturn(Optional.empty());
+
+	       
+	        List<Scheduling> result = service.getSchedulingsByUserRegistration(123456L);
+	        
+	        
+	        
+	        assertEquals(Collections.emptyList(), result);
+	    }
+	   
+	   @Test
+	    public void testGetSchedulingsByUserRegistration_UserServiceError() throws Exception {
+	        
+	        when(userService.findByRegistration(123456L)).thenThrow(new Exception("Erro ao buscar usuário"));
+
+	        Exception exception = Assertions.assertThrows(Exception.class, () -> {
+	            service.getSchedulingsByUserRegistration(123456L);
+	        });
+
+	        System.out.println(exception.getMessage());
+	        assertEquals("Erro ao buscar usuário", exception.getMessage());
+	    }
+	   
+	   @Test
+	    public void testGetSchedulingsByUserRegistration_UserFound_ReturnsListOfSchedulings() throws Exception {
+	        // Criar um usuário de teste
+	       
+	        userExp.setRegistration(1234L);
+	       userService.save(userExp);
+	        
+	        HashSet<User> users = new HashSet<User>();
+	        users.add(userExp);
+	        // Criar agendamentos de teste e associar o usuário como participante
+	      
+	        
+	        schedulingExp.setParticipants(new HashSet<>());
+	        schedulingExp.getParticipants().add(userExp);
+	        repository.save(schedulingExp);
+
+	        Scheduling scheduling2 = new Scheduling();	 
+	        scheduling2.setParticipants(new HashSet<>());
+	        scheduling2.getParticipants().add(userExp);
+	        System.out.println(scheduling2.getParticipants().contains(userExp));
+	        repository.save(scheduling2);
+
+	        when(userService.findByRegistration(1234L)).thenReturn(Optional.of(userExp));
+
+		      
+	        when(repository.findAllByParticipantsContaining(userExp)).thenReturn(List.of(schedulingExp, scheduling2));
+	        // Chamar o método getSchedulingsByUserRegistration
+	        List<Scheduling> result = repository.findAllByParticipantsContaining(userExp);
+	        
+	        System.out.println(result.size());
+	        // Verificar se a lista retornada contém os agendamentos corretos
+	        assertEquals(2, result.size());
+	        assertTrue(result.contains(schedulingExp));
+	        assertTrue(result.contains(scheduling2));
+	    }
+
+	   @Test
+	   public void testGetSchedulingsByUserRegistration_UserNotFound_ReturnsEmptyList() throws Exception {
+	       // Chamar o método getSchedulingsByUserRegistration com um número de registro inexistente
+	       List<Scheduling> result = service.getSchedulingsByUserRegistration(987654L);
+
+	       // Verificar se a lista retornada está vazia
+	       assertTrue(result.isEmpty());
+	   }
 }

@@ -9,6 +9,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import br.edu.ifpb.dac.sape.business.service.RoleService;
+import br.edu.ifpb.dac.sape.presentation.controller.EmailController;
+import br.edu.ifpb.dac.sape.presentation.dto.EmailDataDTO;
 
 @SpringBootApplication
 @EnableWebMvc
@@ -16,9 +18,12 @@ public class SchedulingSportPracticesApplication implements WebMvcConfigurer, Co
 
 	@Autowired
 	private RoleService roleService;
+//	@Autowired
+//	private EmailController email;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SchedulingSportPracticesApplication.class, args);
+		
 	}
 
 	@Override
@@ -29,6 +34,13 @@ public class SchedulingSportPracticesApplication implements WebMvcConfigurer, Co
 
 	@Override
 	public void run(String... args) throws Exception {
+//		EmailDataDTO emaildto = new EmailDataDTO();
+//		emaildto.setName("igor");
+//		emaildto.setToEmail("igorgmz1421@gmail.com");
+//		emaildto.setSubject("Olaa");
+//		
+//		
+//		email.sendEmail(emaildto);
 		roleService.createDefaultValues();
 	}
 	

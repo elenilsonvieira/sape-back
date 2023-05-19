@@ -1,36 +1,20 @@
 package br.edu.ifpb.dac.sape.service;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.Optional;
-
-import javax.validation.Validation;
-import javax.validation.Validator;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.util.ReflectionTestUtils;
-
 import br.edu.ifpb.dac.sape.business.service.LoginConverterService;
 import br.edu.ifpb.dac.sape.business.service.LoginService;
-import br.edu.ifpb.dac.sape.business.service.RoleServiceImpl;
 import br.edu.ifpb.dac.sape.business.service.SuapService;
 import br.edu.ifpb.dac.sape.business.service.TokenService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.User;
-import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 
 
 public class LoginServiceTest {
@@ -149,11 +133,4 @@ public class LoginServiceTest {
         assertEquals("generated_token", generatedToken);
     }
 
-	
-	
-	
-	
-	
-
-	
 }
