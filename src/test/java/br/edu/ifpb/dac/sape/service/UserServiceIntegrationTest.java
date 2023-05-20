@@ -1,21 +1,10 @@
 package br.edu.ifpb.dac.sape.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,9 +24,9 @@ public class UserServiceIntegrationTest {
 	private static Sport exSport2;
 	
 	@Autowired
-	private static UserService userService;
+	private UserService userService;
 	@Autowired
-	private static SportService sportService;
+	private SportService sportService;
 	@Autowired
 	private static UserRepository userRepository;
 	@Autowired
@@ -52,11 +41,15 @@ public class UserServiceIntegrationTest {
 		exUser.setId(1);
 		exUser.setName("Ytallo");
 		exUser.setRegistration(111111L);
+
+		userRepository.save(exUser);
+
 		userService.save(exUser);
 		
 		exSport = new Sport();
 		exSport.setId(1);
 		exSport.setName("Futebol");
+		sporRepository.save(exSport);
 		sportService.save(exSport);
 		
 		exSport2 = new Sport();
@@ -77,6 +70,7 @@ public class UserServiceIntegrationTest {
 			
 		}
 	}
+
 	
 //	@Test
 //	public void testRemoveSportsFavorite_UserNotFound() {

@@ -38,29 +38,36 @@ import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 
+
+
 public class UserServiceTest {
 	
 	@InjectMocks
 	private static UserService service;
 	private User exUser;
 	private Sport exSport;
-	@Mock
-	private SportService sportService;
+	
 	
 	@Mock
 	private static UserRepository repository;
 	@Mock
 	private static SportRepository sporRepository;
 
+	@Mock
+	private SportService sportService;
+	
 	@BeforeAll
 	public static void setup() {
+		
 		service = new UserService();
 		ReflectionTestUtils.setField(service, "userRepository", repository);
-	}
+		}
 	
 	@BeforeEach
 	public void beforeEach() {
 		openMocks(this);
+		exUser = new User();		
+
 		exUser = new User();
 		exSport = new Sport();
 	}
@@ -290,33 +297,50 @@ public class UserServiceTest {
 		assertEquals("Não foi encontrado usuário com id 1", exc.getMessage());
 	}
 	
-	@Test
-    public void testAddSportsFavorite() throws Exception {
 
-        Integer userId = 1;
-        Integer sportId = 1;
+	
+	  @Test
+	    public void testAddSportsFavorite() throws Exception {
+	
+	        Integer userId = 1;
+	        Integer sportId = 1;
 
-        User user = new User();
-        user.setId(1);
-        user.setName("igor");
+	        User user = new User();
+	        user.setId(1);
+	        user.setName("igor");
+	        
+	        when(repository.findById(userId)).thenReturn(Optional.of(user));
 
-        when(repository.findById(userId)).thenReturn(Optional.of(user));
+	        Sport sport = new Sport();
+	        sport.setId(1);
+	        sport.setName("futebol");
+	        when(sportService.findById(sportId)).thenReturn(sport);
 
-        Sport sport = new Sport();
-        sport.setId(1);
-        sport.setName("futebol");
-        when(sportService.findById(sportId)).thenReturn(sport);
+	  
+	        service.addSportsFavorite(userId, sportId);
 
+	        verify(repository).findById(userId);
+	        verify(sportService).findById(sportId);
+	        verify(repository).save(user);
+	
+	        assertTrue(user.getSportsFavorite().contains(sport));
+	    }
 
-        service.addSportsFavorite(userId, sportId);
+	    @Test
+	    public void testAddSportsFavorite_UserNotFound() {
+	   
+	        Integer userId = 1;
+	        Integer sportId = 1;
+	
+	        when(repository.findById(userId)).thenReturn(Optional.empty());
 
-        verify(repository).findById(userId);
-        verify(sportService).findById(sportId);
-        verify(repository).save(user);
+	        assertThrows(IllegalArgumentException.class, 
+	        		() -> service.addSportsFavorite(userId, sportId));
 
-        assertTrue(user.getSportsFavorite().contains(sport));
-        System.out.println(user.getSportsFavorite().get(0).getName());
-    }
+	        verify(repository, never()).save(any());
+	    }
+	
+
 	
 	@Test
 	public void testRemoveSportsFavorite()throws Exception {
@@ -346,20 +370,7 @@ public class UserServiceTest {
         
 	}
 	
-	@Test
-    public void testAddSportsFavorite_UserNotFound() {
-
-        Integer userId = 1;
-        Integer sportId = 1;
-
-
-        when(repository.findById(userId)).thenReturn(Optional.empty());
-
-        assertThrows(IllegalArgumentException.class, 
-                () -> service.addSportsFavorite(userId, sportId));
-
-        verify(repository, never()).save(any());
-    }
+	
 	
 	@Test
     public void testRemoveSportsFavorite_SportNotFound() throws Exception {

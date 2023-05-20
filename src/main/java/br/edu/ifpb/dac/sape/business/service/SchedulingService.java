@@ -123,15 +123,16 @@ public class SchedulingService {
 	
 
 	public List<Scheduling> getSchedulingsByUserRegistration(Long userRegistration) throws Exception {
-	    // Busca o usuário pelo número de matrícula
+	   
 	    User user = userService.findByRegistration(userRegistration).orElse(null);
-	    
+	    		
+
 	    if (user != null) {
-	        // Busca todos os agendamentos que contém o usuário como participante
+	    
 	        return schedulingRepository.findAllByParticipantsContaining(user);
 	    }
 	    
-	    return Collections.emptyList(); // Retorna uma lista vazia caso o usuário não seja encontrado
+	    return Collections.emptyList();
 	}
 	
 	public List<Scheduling> getSchedulingByParticipant(User participant) {

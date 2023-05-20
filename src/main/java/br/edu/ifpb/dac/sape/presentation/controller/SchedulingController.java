@@ -158,8 +158,7 @@ public class SchedulingController {
 			
 			
 			participantList.addAll(schedulingService.getSchedulingParticipants(id));
-			
-			
+	
 			List<UserDTO> participantListDTO = userConverterService.usersToDtos(participantList);
 			
 			return  ResponseEntity.ok().body(participantListDTO);

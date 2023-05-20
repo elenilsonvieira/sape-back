@@ -3,7 +3,7 @@ package br.edu.ifpb.dac.sape.model.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -141,6 +141,7 @@ public class Scheduling implements Serializable {
 	}
 
 	public Set<User> getParticipants() {
+		 
 		return participants;
 	}
 
