@@ -24,7 +24,7 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping("/send-email")
-    public void sendEmail(@RequestBody EmailDataDTO emailData) {
+    public void notifySchedulingParticipants(@RequestBody EmailDataDTO emailData) {
     	Map<String, Object> model = new HashMap<>();
         model.put("name", emailData.getName());
         
@@ -34,6 +34,30 @@ public class EmailController {
         
 
         emailService.sendEmail(toEmail, subject,"template-test.ftl",model);
+    }
+    @PostMapping("/send-email")
+    public void sendEmail(@RequestBody EmailDataDTO emailData) {
+    	Map<String, Object> model = new HashMap<>();
+    	model.put("name", emailData.getName());
+    	
+    	String toEmail = emailData.getToEmail();
+    	String subject = emailData.getSubject();
+    	
+    	
+    	
+    	emailService.sendEmail(toEmail, subject,"template-test.ftl",model);
+    }
+    @PostMapping("/send-email")
+    public void sendEmaild(@RequestBody EmailDataDTO emailData) {
+    	Map<String, Object> model = new HashMap<>();
+    	model.put("name", emailData.getName());
+    	
+    	String toEmail = emailData.getToEmail();
+    	String subject = emailData.getSubject();
+    	
+    	
+    	
+    	emailService.sendEmail(toEmail, subject,"template-test.ftl",model);
     }
     
 //    @GetMapping("/send-test-email")

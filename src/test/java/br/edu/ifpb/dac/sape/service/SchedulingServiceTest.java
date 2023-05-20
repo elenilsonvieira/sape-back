@@ -20,12 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-<<<<<<< HEAD
-=======
 import javax.print.attribute.SetOfIntegerSyntax;
 
 import org.assertj.core.util.Arrays;
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,12 +31,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-<<<<<<< HEAD
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 import org.springframework.test.util.ReflectionTestUtils;
 import br.edu.ifpb.dac.sape.business.service.SchedulingService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
@@ -59,8 +53,7 @@ public class SchedulingServiceTest {
 
 	@Mock
 	private static SchedulingRepository repository;
-	@Mock
-	private static UserService userService;
+
 	
 	@InjectMocks
 	private static SchedulingService service;
@@ -362,7 +355,6 @@ public class SchedulingServiceTest {
 		assertEquals(0, returned.size());
 	}
 	
-<<<<<<< HEAD
 	//!!!!
 	  @Test
 	    public void testGetSchedulingsByUserRegistration_ValidUser() throws Exception {
@@ -458,59 +450,12 @@ public class SchedulingServiceTest {
 	       // Verificar se a lista retornada está vazia
 	       assertTrue(result.isEmpty());
 	   }
-=======
-	@Test
-	   public void testGetSchedulingsByUserRegistration_UserNotFound_ReturnsEmptyList() throws Exception {
-	       List<Scheduling> result = service.getSchedulingsByUserRegistration(987654L);
 
-	       assertTrue(result.isEmpty());
-	   }
+
 	
-	@Test
-    public void testGetSchedulingsByUserRegistration_UserServiceError() throws Exception {
-        
-        when(userService.findByRegistration(1234L)).thenThrow(new Exception("Erro ao buscar usuário"));
 
-        Exception exception = Assertions.assertThrows(Exception.class, () -> {
-            service.getSchedulingsByUserRegistration(1234L);
-        });
-
-        assertEquals("Erro ao buscar usuário", exception.getMessage());
-    }
 	
-	@Test
-    public void testGetSchedulingsByUserRegistration_InvalidUser() throws Exception {
-        when(userService.findByRegistration(1234L)).thenReturn(Optional.empty());
-
-       
-        List<Scheduling> result = service.getSchedulingsByUserRegistration(1234L);
-        
-        assertEquals(Collections.emptyList(), result);
-    }
 	
-	@Test
-    public void testGetSchedulingsByUserRegistration_ValidUser() throws Exception {
-        
-       
-        userExp.setRegistration(1234L);
-        
-        
-        Scheduling scheduling1 = new Scheduling();
-        Scheduling scheduling2 = new Scheduling();
-        
-        
-        when(userService.findByRegistration(1234L)).thenReturn(Optional.of(userExp));
+	
 
-      
-        when(repository.findAllByParticipantsContaining(userExp)).thenReturn(List.of(scheduling1, scheduling2));
-
-        
-        List<Scheduling> result = service.getSchedulingsByUserRegistration(1234L);
-        
-        
-        assertEquals(2, result.size());
-        assertEquals(scheduling1, result.get(0));
-        assertEquals(scheduling2, result.get(1));
-    }
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 }

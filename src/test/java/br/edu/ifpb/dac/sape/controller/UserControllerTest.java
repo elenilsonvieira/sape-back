@@ -310,8 +310,5 @@ public class UserControllerTest {
 		throw new Exception(violations.stream().findFirst().get().getMessage());
 	}
 	
-<<<<<<< HEAD
-	
-=======
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
+
 }

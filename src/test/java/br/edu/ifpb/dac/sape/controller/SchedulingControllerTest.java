@@ -459,8 +459,7 @@ public class SchedulingControllerTest {
 		verify(schedulingService, never()).save(any(Scheduling.class));	
 	}
 	
-<<<<<<< HEAD
-=======
+
 	@Test
 	@DisplayName("Testing if the user registration is invalid when removing a participation")
 	public void testRemoveIsPresentInvalidParticipantRegistration() {
@@ -582,5 +581,5 @@ public class SchedulingControllerTest {
 		assertEquals(HttpStatus.OK, response.getStatusCode());	
 	
 	}
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
+
 }

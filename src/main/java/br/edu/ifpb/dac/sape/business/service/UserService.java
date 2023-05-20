@@ -145,18 +145,17 @@ public class UserService implements UserDetailsService {
 			e.printStackTrace();
 		}
 		
-<<<<<<< HEAD
+
 		  if (user.getSportsFavorite() == null) {
 		         user.setSportsFavorite(new ArrayList<>());
 		    }
 		
         user.getFavorateSports().add(sport);
         
-=======
+
 		if (user.getSportsFavorite() == null) {
             user.setSportsFavorite(new ArrayList<>());
        }
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
         
 		user.getFavorateSports().add(sport);
         userRepository.save(user);

@@ -1,27 +1,11 @@
 package br.edu.ifpb.dac.sape.service;
 
-<<<<<<< HEAD
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-=======
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -40,15 +24,9 @@ public class UserServiceIntegrationTest {
 	private static Sport exSport2;
 	
 	@Autowired
-<<<<<<< HEAD
 	private UserService userService;
 	@Autowired
 	private SportService sportService;
-=======
-	private static UserService userService;
-	@Autowired
-	private static SportService sportService;
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 	@Autowired
 	private static UserRepository userRepository;
 	@Autowired
@@ -63,20 +41,16 @@ public class UserServiceIntegrationTest {
 		exUser.setId(1);
 		exUser.setName("Ytallo");
 		exUser.setRegistration(111111L);
-<<<<<<< HEAD
+
 		userRepository.save(exUser);
-=======
+
 		userService.save(exUser);
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 		
 		exSport = new Sport();
 		exSport.setId(1);
 		exSport.setName("Futebol");
-<<<<<<< HEAD
 		sporRepository.save(exSport);
-=======
 		sportService.save(exSport);
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 		
 		exSport2 = new Sport();
 		exSport2.setId(2);
@@ -88,10 +62,7 @@ public class UserServiceIntegrationTest {
     public void testRemoveSportsFavorite_SportNoIntheList() throws Exception {
 
 		userService.addSportsFavorite(exUser.getId(), 1);
-<<<<<<< HEAD
-=======
 //		when(userRepository.save(exUser)).thenReturn(Optional.of(exUser));
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 		
 		for (Sport sports : exUser.getSportsFavorite()) {
 			
@@ -99,8 +70,7 @@ public class UserServiceIntegrationTest {
 			
 		}
 	}
-<<<<<<< HEAD
-=======
+
 	
 //	@Test
 //	public void testRemoveSportsFavorite_UserNotFound() {
@@ -112,5 +82,4 @@ public class UserServiceIntegrationTest {
 //		assertThrows(IllegalArgumentException.class, 
 //                () -> service.removeSportsFavorite(exUser.getId(), exSport.getId()));
 //	}
->>>>>>> 6af4f9fe680cc28fb18496bfbd52a8714f6aaca9
 }
