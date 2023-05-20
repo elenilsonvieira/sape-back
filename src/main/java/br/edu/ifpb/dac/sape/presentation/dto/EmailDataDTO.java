@@ -3,9 +3,9 @@ package br.edu.ifpb.dac.sape.presentation.dto;
 public class EmailDataDTO {
 
 	private String name;
-	 private String toEmail;
-	    private String subject;
-	    private String content;
+	private String toEmail;
+	private String subject;
+	private String content;
 	    
 	    
 	    
