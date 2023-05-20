@@ -152,12 +152,6 @@ public class UserService implements UserDetailsService {
 		
         user.getFavorateSports().add(sport);
         
-
-		if (user.getSportsFavorite() == null) {
-            user.setSportsFavorite(new ArrayList<>());
-       }
-        
-		user.getFavorateSports().add(sport);
         userRepository.save(user);
     }
 	
