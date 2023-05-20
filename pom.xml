@@ -111,11 +111,6 @@
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.1</version>
 		</dependency>
-		<dependency>
-			<groupId>br.edu.dac.igorsobral</groupId>
-			<artifactId>projetodac</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>

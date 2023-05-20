@@ -1,8 +1,10 @@
 package br.edu.ifpb.dac.sape.business.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -45,6 +47,20 @@ public class UserService implements UserDetailsService {
 			throw new ObjectNotFoundException("usuário", "id", id);
 		}
 		return userRepository.getById(id);
+	}
+	public Set<User> findBySportFavorite(Integer sportId) throws Exception {
+		
+		List<User> users = findAll();
+		Set<User> temp = new HashSet<>();
+		
+		for (User user : users) {
+			if(sportId == user.getSportsFavorite().get(0).getId()) {
+				temp.add(user);
+			}
+				
+		}
+		return temp;
+		
 	}
 	
 	public Optional<User> findByName(String name) throws Exception {
@@ -152,6 +168,7 @@ public class UserService implements UserDetailsService {
 		
         user.getFavorateSports().add(sport);
         
+
         userRepository.save(user);
     }
 	

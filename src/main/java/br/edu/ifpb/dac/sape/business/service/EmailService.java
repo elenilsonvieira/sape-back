@@ -1,7 +1,9 @@
 package br.edu.ifpb.dac.sape.business.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.mail.internet.MimeMessage;
 
@@ -11,6 +13,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import br.edu.ifpb.dac.sape.model.entity.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -35,7 +38,7 @@ public class EmailService {
             
 
             Map<String, Object> model = new HashMap<>();
-            model.put("name", "Igor");
+            model.put("name", nome);
             
             Template template = freemarkerConfig.getTemplate(templateName);
             String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
@@ -47,5 +50,14 @@ public class EmailService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+    
+    public void notifyAllParticipants(String subject, String templateName, Set<User> users) {
+    	
+    	for (User user : users) {
+			if(user.getEmail()!= null) {
+				sendEmail(user.getEmail(), subject, templateName, user.getName());
+			}
+		}
     }
 }
