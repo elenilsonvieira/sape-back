@@ -1,13 +1,18 @@
 package br.edu.ifpb.dac.sape.service;
 
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
 import br.edu.ifpb.dac.sape.business.service.SportService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
@@ -16,59 +21,62 @@ import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceIntegrationTest {
 	
-	private static User exUser;
-	private static Sport exSport;
-	private static Sport exSport2;
+	private User exUser;
+	private Sport exSport;
+	private Sport exSport2;
 	
+	@LocalServerPort
+	private int port;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private SportService sportService;
 	@Autowired
-	private static UserRepository userRepository;
+	private UserRepository userRepository;
 	@Autowired
-	private static SportRepository sporRepository;
+	private SportRepository sporRepository;
 	
 	@BeforeEach
-	public void beforeEach() throws Exception{
-		userService = new UserService();
-		sportService = new SportService();
-		
+	public void setUp() throws Exception {
 		exUser = new User();
 		exUser.setId(1);
 		exUser.setName("Ytallo");
-		exUser.setRegistration(111111L);
-
-		userRepository.save(exUser);
-
+		exUser.setRegistration(111112L);
 		userService.save(exUser);
 		
 		exSport = new Sport();
 		exSport.setId(1);
-		exSport.setName("Futebol");
-		sporRepository.save(exSport);
+		exSport.setName("Ping Pong");
 		sportService.save(exSport);
+		userService.addSportsFavorite(exUser.getId(), 1);
 		
 		exSport2 = new Sport();
 		exSport2.setId(2);
 		exSport2.setName("Vôlei");
-		sportService.save(exSport);
+		sportService.save(exSport2);
 	}
 	
+	@AfterEach
+    public void tearDown() throws Exception {
+		userRepository.deleteAll();
+    	sporRepository.deleteAll();
+     }
+	
+//	@BeforeEach
+//	public void beforeEach() throws Exception{
+//		
+//	}
+//	
 	@Test
     public void testRemoveSportsFavorite_SportNoIntheList() throws Exception {
-
-		userService.addSportsFavorite(exUser.getId(), 1);
-//		when(userRepository.save(exUser)).thenReturn(Optional.of(exUser));
+		int initialSize = exUser.getFavorateSports().size();
+		userService.removeSportsFavorite(exUser.getId(), 2);
+		int finalSize = exUser.getSportsFavorite().size();
 		
-		for (Sport sports : exUser.getSportsFavorite()) {
-			
-				System.out.println(sports);
-			
-		}
+		assertNotEquals(initialSize, finalSize);
 	}
 
 	

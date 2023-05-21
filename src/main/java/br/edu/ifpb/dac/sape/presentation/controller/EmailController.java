@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,12 +55,26 @@ public class EmailController {
     	Set<User> users = userService.findBySportFavorite(sportId);
  
     	
-    	String subject = "teste";
+    	String subject = "Uma atividade que pode lhe interessar";
     	
     	emailService.notifyAllParticipants(subject, "template-notify-favorite-sport.ftl", users);
     	
+    }
+    
+    @PostMapping("/notify/approvedscheduling/{schedulingId}")
+    public ResponseEntity notifyApprovedPrivatePlaceScheduling(@PathVariable Integer schedulingId ){
     	
-    	//emailService.notifyAllParticipants( subject,"template-test.ftl",users);
+    	try {
+			
+    		Scheduling scheduling = schedulingService.findById(schedulingId);
+			User creator = scheduling.getCreator();
+			String subject = "Seu Agendamento foi Aprovado";
+			emailService.notifyCreator(subject,"template-notify-scheduling-creator", creator);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
     }
 //    @PostMapping("/send-email")
 //    public void sendEmaild(@RequestBody EmailDataDTO emailData) {

@@ -375,14 +375,13 @@ public class UserServiceTest {
 	@Test
     public void testRemoveSportsFavorite_SportNotFound() throws Exception {
 
-        Integer userId = 1;
-        Integer sportId = 1;
+		exSport.setId(1);
+		exUser.setId(1);
 
-
-        when(sportService.findById(sportId)).thenReturn((Sport) Optional.empty().orElse(null));
+		when(sportService.findById(exSport.getId())).thenReturn((Sport) Optional.empty().orElse(null));
 
         assertThrows(IllegalArgumentException.class, 
-                () -> service.removeSportsFavorite(userId, sportId));
+                () -> service.removeSportsFavorite(exSport.getId(), exUser.getId()));
         
         verify(repository, never()).save(any());
 	}

@@ -60,4 +60,10 @@ public class EmailService {
 			}
 		}
     }
+    
+    public void notifyCreator(String subject, String templateName, User user) {
+    	
+    	sendEmail(user.getEmail(), subject, templateName, user.getName());
+			
+	}
 }
