@@ -48,7 +48,7 @@ public class EmailController {
     public void notifyFavoriteSportScheduling(@PathVariable Integer sportId) throws Exception {
     	Sport sport = sportService.findById(sportId);
     	
-    	List<User> users = userService.findBySportFavorite(sport);
+    	Set<User> users = userService.findBySportFavorite(sport);
  
     	
     	String subject = "Uma atividade que pode lhe interessar";

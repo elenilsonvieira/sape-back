@@ -2,6 +2,7 @@ package br.edu.ifpb.dac.sape.business.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,23 +49,18 @@ public class UserService implements UserDetailsService {
 		}
 		return userRepository.getById(id);
 	}
-public List<User> findBySportFavorite(Sport sport) throws Exception {
+public Set<User> findBySportFavorite(Sport sport) throws Exception {
 		
 		List<User> users = findAll();
-		
-		List<User> temp = new ArrayList<>();
-		System.out.println(users.size());
-		
-		for (User user : users) {
-			List<Sport> sportsFav = user.getSportsFavorite();
-			System.out.println(sportsFav.size());
-			if(sportsFav.contains(sport)) {
-				temp.add(user);
+		Set<User> usersContainSportsFavorite = new HashSet<User>();
+	
+		for (int i = 0; i < users.size(); i++) {		
+			if(users.get(i).getSportsFavorite().get(i).getName().equals(sport.getName())) {
+				System.out.println("added");
+				usersContainSportsFavorite.add(users.get(i));
 			}
-				
 		}
-		return temp;
-		
+		return usersContainSportsFavorite;		
 	}
 	
 	public Optional<User> findByName(String name) throws Exception {
@@ -115,10 +111,9 @@ public List<User> findBySportFavorite(Sport sport) throws Exception {
 		
 		if (existsByRegistration(user.getRegistration())) {
 			User userSaved = findByRegistration(user.getRegistration()).get();
-			System.out.println(userSaved.getId().intValue());
-			System.out.println(user.getId().intValue());
+			
 			if (userSaved.getId() != (user.getId().intValue())) {
-				System.out.println("aki");
+				
 				throw new ObjectAlreadyExistsException("Já existe um usuário com matrícula " + user.getRegistration());
 			}
 		}
