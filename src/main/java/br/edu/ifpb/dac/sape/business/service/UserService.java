@@ -48,13 +48,17 @@ public class UserService implements UserDetailsService {
 		}
 		return userRepository.getById(id);
 	}
-	public Set<User> findBySportFavorite(Integer sportId) throws Exception {
+public List<User> findBySportFavorite(Sport sport) throws Exception {
 		
 		List<User> users = findAll();
-		Set<User> temp = new HashSet<>();
+		
+		List<User> temp = new ArrayList<>();
+		System.out.println(users.size());
 		
 		for (User user : users) {
-			if(sportId == user.getSportsFavorite().get(0).getId()) {
+			List<Sport> sportsFav = user.getSportsFavorite();
+			System.out.println(sportsFav.size());
+			if(sportsFav.contains(sport)) {
 				temp.add(user);
 			}
 				
@@ -111,7 +115,10 @@ public class UserService implements UserDetailsService {
 		
 		if (existsByRegistration(user.getRegistration())) {
 			User userSaved = findByRegistration(user.getRegistration()).get();
-			if (userSaved.getId() != user.getId()) {
+			System.out.println(userSaved.getId().intValue());
+			System.out.println(user.getId().intValue());
+			if (userSaved.getId() != (user.getId().intValue())) {
+				System.out.println("aki");
 				throw new ObjectAlreadyExistsException("Já existe um usuário com matrícula " + user.getRegistration());
 			}
 		}

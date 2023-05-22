@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
+import br.edu.ifpb.dac.sape.model.entity.Sport;
+import br.edu.ifpb.dac.sape.model.entity.User;
+import br.edu.ifpb.dac.sape.model.repository.PlaceRepository;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
@@ -32,12 +38,50 @@ public class SchedulingControllerIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PlaceRepository placeRepository;
 
     @Test
     public void testGetAll() {
         
-        Scheduling scheduling1 = new Scheduling();
+    	 User user = new User();
+         user.setId(1);
+         user.setName("igor");
+         user.setEmail("igor@gmail.com");
+         user.setRegistration(111L);
+         userRepository.save(user);
+
+         Place place = new Place();
+         place.setId(2);
+         place.setName("quadra");
+         place.setPublic(true);
+         place.setNameResponsible("fulano");
+         placeRepository.save(place);
+
+         Sport sport = new Sport();
+         sport.setId(3);
+         sport.setName("futebol");
+         
+         Scheduling scheduling1 = new Scheduling();
+         scheduling1.setId(1);
+         scheduling1.setCreator(user);
+         scheduling1.setPlace(place);
+         scheduling1.setSport(sport);
+         scheduling1.setScheduledDate(LocalDate.of(2023, 06, 15));
+         scheduling1.setScheduledStartTime(LocalTime.of(10, 0));
+         scheduling1.setScheduledFinishTime(LocalTime.of(12, 0));
+        
+        
         Scheduling scheduling2 = new Scheduling();
+        scheduling2.setId(2);
+        scheduling2.setCreator(user);
+        scheduling2.setPlace(place);
+        scheduling2.setSport(sport);
+        scheduling2.setScheduledDate(LocalDate.of(2023, 07, 15));
+        scheduling2.setScheduledStartTime(LocalTime.of(10, 0));
+        scheduling2.setScheduledFinishTime(LocalTime.of(12, 0));
+        
+        
         schedulingRepository.save(scheduling1);
         schedulingRepository.save(scheduling2);
 

@@ -1,10 +1,6 @@
 package br.edu.ifpb.dac.sape.presentation.controller;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,29 +8,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpb.dac.sape.business.service.EmailService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingService;
+import br.edu.ifpb.dac.sape.business.service.SportService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
+import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.entity.User;
-import br.edu.ifpb.dac.sape.presentation.dto.EmailDataDTO;
 
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/api/email")
 public class EmailController {
 
-//	 @Autowired
-//	    private JavaMailSender javaMailSender;
-	
 	@Autowired
 	private SchedulingService schedulingService;
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private SportService sportService;
 	
     @Autowired
     private EmailService emailService;
@@ -51,13 +46,14 @@ public class EmailController {
     }
     @PostMapping("/notify/favoritesportscheduling/{sportId}")
     public void notifyFavoriteSportScheduling(@PathVariable Integer sportId) throws Exception {
+    	Sport sport = sportService.findById(sportId);
     	
-    	Set<User> users = userService.findBySportFavorite(sportId);
+    	List<User> users = userService.findBySportFavorite(sport);
  
     	
     	String subject = "Uma atividade que pode lhe interessar";
     	
-    	emailService.notifyAllParticipants(subject, "template-notify-favorite-sport.ftl", users);
+    	emailService.notifyAllParticipants(subject, "template-notify-favorite-sport.ftl", (Set<User>) users);
     	
     }
     

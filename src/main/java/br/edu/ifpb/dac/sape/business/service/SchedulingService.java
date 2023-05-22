@@ -142,15 +142,21 @@ public class SchedulingService {
 	
 	public boolean addSchedulingParticipant(Integer schedulingId, User user) throws Exception {
 		Scheduling scheduling = findById(schedulingId);
+		if(scheduling.getParticipants() != null) {
+			if ( scheduling.getParticipants().size() >= scheduling.getPlace().getMaximumCapacityParticipants()) {
+				System.out.println("a");
+				return false;
 
-		if (scheduling.getParticipants().size() >= scheduling.getPlace().getMaximumCapacityParticipants()) {
-			return false;
+			}
 		} 
-		
+
+		scheduling.setParticipants(new HashSet<>());
 		Set<User> setUser = new HashSet<>(scheduling.getParticipants());
+		
 		setUser.add(user);
 		scheduling.setParticipants(setUser);
 		
+
 		save(scheduling);
 		return true;
 	}

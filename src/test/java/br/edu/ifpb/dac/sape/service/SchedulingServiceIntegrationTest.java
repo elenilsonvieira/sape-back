@@ -8,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.edu.ifpb.dac.sape.business.service.PlaceService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingService;
+import br.edu.ifpb.dac.sape.business.service.SportService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
@@ -16,21 +18,17 @@ import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.PlaceRepository;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
+import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
@@ -53,6 +51,12 @@ public class SchedulingServiceIntegrationTest {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private PlaceService placeService;
+    
+    @Autowired
+    private SportService sportService;
 
     @Autowired
     private SchedulingRepository schedulingRepository;
@@ -63,7 +67,15 @@ public class SchedulingServiceIntegrationTest {
     @Autowired
     private PlaceRepository placeRepository;
     
+    @Autowired
+    private SportRepository sportRepository;
+    
     private User creator;
+    
+    
+    private  Place place;
+    
+    private Sport sport;
     
     private  SchedulingDTO schedulingDTO;
     
@@ -74,22 +86,36 @@ public class SchedulingServiceIntegrationTest {
     
     	
     	creator = new User();
-    	creator.setId(2);
+    	
     	creator.setName("igor"); 
     	creator.setRegistration(1111L);
     	userService.save(creator);
     	
     	
+    	 place = new Place();
+       
+         place.setName("quadraa");
+         place.setPublic(true);
+         place.setNameResponsible("fulano");
+         place.setMaximumCapacityParticipants(25);
+         placeRepository.save(place);
+         
+         sport = new Sport();
+       
+         sport.setName("futeboll");
+         sportRepository.save(sport);
+        
         
       
     	 schedulingDTO = new SchedulingDTO();
-    	 schedulingDTO.setId(1);
+    
 		 schedulingDTO.setScheduledDate("2023-06-25");
 		 schedulingDTO.setScheduledStartTime("10:00");
 		 schedulingDTO.setScheduledFinishTime("12:00");
-		 schedulingDTO.setPlaceId(1);
-		 schedulingDTO.setSportId(1);
+		 schedulingDTO.setPlaceId(place.getId());
+		 schedulingDTO.setSportId(sport.getId());
 		 schedulingDTO.setCreator(this.creator.getRegistration());
+		 
     }
 
     @Test
@@ -134,30 +160,6 @@ public class SchedulingServiceIntegrationTest {
     
     @Test
     public void testCreateScheduling() {
-        User creator = new User();
-        creator.setName("igor");
-        creator.setEmail("testando@gmail.com");
-        creator.setRegistration(123L);
-        userRepository.save(creator);
-
-        Place place = new Place();
-        place.setId(1);
-        place.setName("quadra");
-        place.setPublic(true);
-        place.setNameResponsible("fulano");
-        placeRepository.save(place);
-        
-        Sport sport = new Sport();
-        sport.setId(1);
-        sport.setName("futebol");
-
-        SchedulingDTO schedulingDTO = new SchedulingDTO();
-        schedulingDTO.setCreator(creator.getRegistration());
-        schedulingDTO.setPlaceId(place.getId());
-        schedulingDTO.setSportId(sport.getId());
-        schedulingDTO.setScheduledDate("2023-05-23");
-        schedulingDTO.setScheduledStartTime("10:00");
-        schedulingDTO.setScheduledFinishTime("12:00");
 
         webTestClient.post()
                 .uri("/api/scheduling")
@@ -187,26 +189,10 @@ public class SchedulingServiceIntegrationTest {
     
     @Test
     public void testGetScheduling() {
-        User user = new User();
-        user.setId(1);
-        user.setName("igor");
-        user.setEmail("igor@gmail.com");
-        user.setRegistration(111L);
-        userRepository.save(user);
 
-        Place place = new Place();
-        place.setId(1);
-        place.setName("quadra");
-        place.setPublic(true);
-        place.setNameResponsible("fulano");
-        placeRepository.save(place);
-
-        Sport sport = new Sport();
-        sport.setId(1);
-        sport.setName("futebol");
         
         Scheduling scheduling = new Scheduling();
-        scheduling.setCreator(user);
+        scheduling.setCreator(creator);
         scheduling.setPlace(place);
         scheduling.setSport(sport);
         scheduling.setScheduledDate(LocalDate.of(2023, 06, 15));
@@ -230,7 +216,7 @@ public class SchedulingServiceIntegrationTest {
                     
                     assertEquals(scheduling.getScheduledFinishTime(),LocalTime.parse( response.getScheduledFinishTime()));
                     
-                    assertEquals(user.getRegistration(), response.getCreator());
+                    assertEquals(creator.getRegistration(), response.getCreator());
                     
                     assertEquals(place.getId(), response.getPlaceId());
                 });
@@ -268,7 +254,6 @@ public class SchedulingServiceIntegrationTest {
             	
             	 assertNotNull(exception);
             	 assertTrue(exception.contains("O id do local não pode ser nulo!"));
-            	 System.out.println("a "+exception);
             	
             });
             
@@ -279,62 +264,57 @@ public class SchedulingServiceIntegrationTest {
     @Transactional
     public void testAddSchedulingParticipantIntegration() throws Exception {
         
-        Place place = new Place();
-        place.setId(1);
-        place.setName("quadra");
-        place.setPublic(true);
-        place.setNameResponsible("fulano");
-         place.setMaximumCapacityParticipants(3);
+        Place place1 = new Place();
+     
+        place1.setName("quadra");
+        place1.setPublic(true);
+        place1.setNameResponsible("fulano");
+         place1.setMaximumCapacityParticipants(3);
          
          
          
-        Sport sport = new Sport();
-        sport.setId(1);
-        sport.setName("futebol");
+        Sport sport1 = new Sport();
         
-        User user = new User();
+        sport1.setName("futebol");
+      
         
-        user.setName("Igor");
-        user.setRegistration(11L);
+        User user1 = new User();
+        
+        user1.setName("Igor");
+        user1.setRegistration(11L);
         
         
-        userService.save(user);
+        userService.save(user1);
        
         Scheduling scheduling = new Scheduling();
-        scheduling.setId(1);
-        scheduling.setCreator(user);
+       
+        scheduling.setCreator(user1);
         scheduling.setPlace(place);
         scheduling.setSport(sport);
         scheduling.setScheduledDate(LocalDate.of(2023, 06, 15));
         scheduling.setScheduledStartTime(LocalTime.of(10, 0));
         scheduling.setScheduledFinishTime(LocalTime.of(12, 0));
-        
+     
         Scheduling savedScheduling = schedulingRepository.save(scheduling);
 
-      
-        
-
-        System.out.println(savedScheduling.toString());
-       
-        boolean added = schedulingService.addSchedulingParticipant(savedScheduling.getId(), user);
-
-        
+        boolean added = schedulingService.addSchedulingParticipant(savedScheduling.getId(), user1);
        
         assertTrue(added);
-
-        
+ 
         Scheduling updatedScheduling = schedulingRepository.getById(savedScheduling.getId());
-
-       
+  
         Set<User> participants = updatedScheduling.getParticipants();
-        assertTrue(participants.contains(user));
+        assertTrue(participants.contains(user1));
     }
-    
+   
+ 
     @AfterEach
     public void tearDown() throws Exception {
       
     	userRepository.deleteAll();
-    	schedulingRepository.deleteAll();
+    	
+    	placeRepository.deleteAll();
+    	sportRepository.deleteAll();
        
         
     }
