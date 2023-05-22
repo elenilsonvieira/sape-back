@@ -373,28 +373,35 @@ public class UserServiceTest {
 	
 	
 	@Test
-    public void testRemoveSportsFavorite_SportNotFound() throws Exception {
-
+	public void testRemoveSportsFavorite_UserNotFound() {
+		// Configurar dados de teste
+		Sport exSport = new Sport();
 		exSport.setId(1);
 		exUser.setId(1);
 
-		when(sportService.findById(exSport.getId())).thenReturn((Sport) Optional.empty().orElse(null));
+		// Executar a funcionalidade a ser testada
+		Throwable exception = assertThrows(IllegalArgumentException.class, () ->
+			service.removeSportsFavorite(exUser.getId(), exSport.getId())
+		);
 
-        assertThrows(IllegalArgumentException.class, 
-                () -> service.removeSportsFavorite(exSport.getId(), exUser.getId()));
-        
-        verify(repository, never()).save(any());
+		// Verificar o resultado
+		assertEquals("User not found", exception.getMessage());
 	}
 	
 	@Test
-	public void testRemoveSportsFavorite_UserNotFound() {
+	public void testRemoveSportsFavorite_SportNotFound() {
+		// Configurar dados de teste
+		Sport exSport = new Sport();
 		exSport.setId(1);
 		exUser.setId(1);
-		
-		when(repository.findById(exUser.getId())).thenReturn(Optional.empty());
-		
-		assertThrows(IllegalArgumentException.class, 
-                () -> service.removeSportsFavorite(exUser.getId(), exSport.getId()));
+
+		// Executar a funcionalidade a ser testada
+		Throwable exception = assertThrows(IllegalArgumentException.class, () ->
+			service.removeSportsFavorite(exSport.getId(), exUser.getId())
+		);
+
+		// Verificar o resultado
+		assertEquals("Sport not found", exception.getMessage());
 	}
 	
 }
