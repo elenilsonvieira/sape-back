@@ -4,6 +4,11 @@ package br.edu.ifpb.dac.sape.service;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,19 +47,19 @@ public class UserServiceIntegrationTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		exUser = new User();
-		exUser.setId(1);
+		
 		exUser.setName("Ytallo");
 		exUser.setRegistration(111112L);
 		userService.save(exUser);
 		
 		exSport = new Sport();
-		exSport.setId(1);
+		
 		exSport.setName("Ping Pong");
 		sportService.save(exSport);
-		userService.addSportsFavorite(exUser.getId(), 1);
+		
 		
 		exSport2 = new Sport();
-		exSport2.setId(2);
+		
 		exSport2.setName("Vôlei");
 		sportService.save(exSport2);
 	}
@@ -70,13 +75,34 @@ public class UserServiceIntegrationTest {
 //		
 //	}
 //	
+//	@Test
+//    public void testRemoveSportsFavorite_SportNoIntheList() throws Exception {
+//		
+//		exUser.setSportsFavorite(new ArrayList<>());
+//		exUser.getSportsFavorite().add(exSport);
+//		int initialSize = exUser.getFavorateSports().size();
+//		
+//		userService.removeSportsFavorite(exUser.getId(), 2);
+//		int finalSize = exUser.getSportsFavorite().size();
+//		
+//		assertNotEquals(initialSize, finalSize);
+//	}
+	
 	@Test
-    public void testRemoveSportsFavorite_SportNoIntheList() throws Exception {
-		int initialSize = exUser.getFavorateSports().size();
-		userService.removeSportsFavorite(exUser.getId(), 2);
-		int finalSize = exUser.getSportsFavorite().size();
-		
-		assertNotEquals(initialSize, finalSize);
+	@Transactional
+	public void testRemoveSportsFavorite_SportNoIntheList() throws Exception {
+	  
+	    exUser.setSportsFavorite(new ArrayList<>());
+	    exUser.getSportsFavorite().add(exSport);
+	    
+	    int initialSize = exUser.getSportsFavorite().size();    
+	  
+	    userService.removeSportsFavorite(exUser.getId(), exSport.getId());
+	 
+	    int finalSize = exUser.getSportsFavorite().size();
+	    System.out.println(initialSize);
+	    System.out.println(finalSize);
+	    assertNotEquals(initialSize, finalSize);
 	}
 
 	

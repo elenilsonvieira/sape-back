@@ -6,7 +6,7 @@ import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
 
 @SelectClasses({br.edu.ifpb.dac.sape.controller.UserControllerTest.class, br.edu.ifpb.dac.sape.service.SchedulingServiceTest.class,
-br.edu.ifpb.dac.sape.controller.SchedulingControllerTest.class,br.edu.ifpb.dac.sape.service.UserServiceTest.class})
+br.edu.ifpb.dac.sape.controller.SchedulingControllerIntegrationTest.class,br.edu.ifpb.dac.sape.service.UserServiceIntegrationTest.class})
 @SelectPackages({"br.edu.ifpb.dac.sape.controller.sportControllerTest", "br.edu.ifpb.dac.sape.service.RoleServiceImplementationTest"
 	, "br.edu.ifpb.dac.sape.model.user"})
 @Suite

@@ -197,7 +197,8 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			
 		}
         user.getFavorateSports().remove(removedSport);
         //last step is saving our changes

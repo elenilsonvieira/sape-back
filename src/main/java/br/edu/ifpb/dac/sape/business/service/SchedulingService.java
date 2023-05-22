@@ -144,7 +144,7 @@ public class SchedulingService {
 		Scheduling scheduling = findById(schedulingId);
 		if(scheduling.getParticipants() != null) {
 			if ( scheduling.getParticipants().size() >= scheduling.getPlace().getMaximumCapacityParticipants()) {
-				System.out.println("a");
+				
 				return false;
 
 			}
@@ -164,12 +164,17 @@ public class SchedulingService {
 	public boolean removeSchedulingParticipant(Integer schedulingId, User user) throws Exception {
 		Scheduling scheduling = findById(schedulingId);
 		
-		if (scheduling.getParticipants().size() <= 0) {
+		if(scheduling.getParticipants() != null) {
+			if (scheduling.getParticipants().size() <= 0) {
 			return false;
+			}
 		}
 		
-		scheduling.getParticipants().remove(user);
+		scheduling.setParticipants(new HashSet<>());
+		Set<User> setUser = new HashSet<>(scheduling.getParticipants());
 		
+		setUser.remove(user);
+		scheduling.setParticipants(setUser);
 		save(scheduling);
 		return true;
 	}
