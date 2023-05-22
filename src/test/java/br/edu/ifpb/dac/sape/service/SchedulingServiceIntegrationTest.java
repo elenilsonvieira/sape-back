@@ -105,9 +105,7 @@ public class SchedulingServiceIntegrationTest {
          sport.setName("futeboll");
          sportRepository.save(sport);
         
-        
-      
-    	 schedulingDTO = new SchedulingDTO();
+         schedulingDTO = new SchedulingDTO();
     
 		 schedulingDTO.setScheduledDate("2023-06-25");
 		 schedulingDTO.setScheduledStartTime("10:00");
@@ -121,16 +119,9 @@ public class SchedulingServiceIntegrationTest {
     @Test
     public void testSaveScheduling() throws Exception {
     	
-    	
-       
-        
-
-        
-        HttpHeaders headers = new HttpHeaders();
+    	HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-
-      
         webTestClient.post()
         .uri("/api/scheduling")
         .contentType(MediaType.APPLICATION_JSON)
@@ -269,9 +260,7 @@ public class SchedulingServiceIntegrationTest {
         place1.setName("quadra");
         place1.setPublic(true);
         place1.setNameResponsible("fulano");
-         place1.setMaximumCapacityParticipants(3);
-         
-         
+        place1.setMaximumCapacityParticipants(3);
          
         Sport sport1 = new Sport();
         
@@ -306,16 +295,14 @@ public class SchedulingServiceIntegrationTest {
         Set<User> participants = updatedScheduling.getParticipants();
         assertTrue(participants.contains(user1));
     }
-   
- 
+    
+
     @AfterEach
     public void tearDown() throws Exception {
       
     	userRepository.deleteAll();
-    	
     	placeRepository.deleteAll();
     	sportRepository.deleteAll();
        
-        
     }
 }

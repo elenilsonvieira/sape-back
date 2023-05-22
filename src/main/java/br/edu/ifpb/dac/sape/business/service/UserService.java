@@ -183,6 +183,10 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
         //Here we recover the user by its id 
 		User user = userRepository.findById(userId).orElseThrow(
         		() -> new IllegalArgumentException("Usuário não encontrado"));
+		
+
+
+        		
         //this variable will receive the sport the user wants to remove
         Sport removedSport = null;
         
