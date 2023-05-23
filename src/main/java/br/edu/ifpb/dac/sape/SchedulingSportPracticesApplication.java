@@ -34,13 +34,7 @@ public class SchedulingSportPracticesApplication implements WebMvcConfigurer, Co
 
 	@Override
 	public void run(String... args) throws Exception {
-//		EmailDataDTO emaildto = new EmailDataDTO();
-//		emaildto.setName("igor");
-//		emaildto.setToEmail("igorgmz1421@gmail.com");
-//		emaildto.setSubject("Olaa");
-//		
-//		
-//		email.sendEmail(emaildto);
+
 		roleService.createDefaultValues();
 	}
 	
