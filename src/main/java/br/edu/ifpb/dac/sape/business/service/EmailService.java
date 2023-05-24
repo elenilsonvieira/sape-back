@@ -66,4 +66,10 @@ public class EmailService {
     	sendEmail(user.getEmail(), subject, templateName, user.getName());
 			
 	}
+    
+    public void notifyPlaceResponsible(String subject, String templateName, User user) {
+    	
+    	sendEmail(user.getEmail(), subject, templateName, user.getName());
+			
+	}
 }

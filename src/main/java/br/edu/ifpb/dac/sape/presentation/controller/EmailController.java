@@ -40,7 +40,7 @@ public class EmailController {
     	
         String subject = "Você demonstrou interesse em participar da prática!";
         
-        emailService.notifyAllParticipants(subject, "template-notify-scheduling-participants.ftl", participants);
+        emailService.notifyAllParticipants(subject,"template-notify-scheduling-participants.ftl",participants);
 
     }
     @PostMapping("/notify/favoritesportscheduling/{sportId}")
@@ -52,7 +52,7 @@ public class EmailController {
     	
     	String subject = "Uma atividade que pode lhe interessar";
     	
-    	emailService.notifyAllParticipants(subject, "template-notify-favorite-sport.ftl", (Set<User>) users);
+    	emailService.notifyAllParticipants(subject,"template-notify-favorite-sport.ftl",(Set<User>) users);
     	
     }
     
@@ -67,6 +67,22 @@ public class EmailController {
 			emailService.notifyCreator(subject,"template-notify-scheduling-creator", creator);
 			
 			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+    }
+    
+    @PostMapping("/notify/placeresponsible/{schedulingId}")
+    public ResponseEntity notifyPrivatePlaceResponsible(@PathVariable Integer schedulingId) {
+    	
+    	try {
+    		Scheduling scheduling = schedulingService.findById(schedulingId);
+    		Set<User>responsibles = scheduling.getPlace().getResponsibles();
+    		String subject = "Uma atividade foi agendado num local de sua responsabilidade";
+    		for (User users : responsibles) {
+				emailService.notifyPlaceResponsible(subject,"template-notify-private-scheduling",users);
+			}
+    		return new ResponseEntity(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

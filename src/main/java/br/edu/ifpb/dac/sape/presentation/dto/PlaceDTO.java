@@ -1,10 +1,14 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
+import java.util.Set;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+
+import br.edu.ifpb.dac.sape.model.entity.User;
 
 public class PlaceDTO {
 
@@ -17,26 +21,26 @@ public class PlaceDTO {
 	@Max(value = 400, message = "O valor máximo para capacidade de participantes é 400!")
 	private int maximumCapacityParticipants;
 	private boolean isPublic;
-	private String nameResponsible;
+	private Set<User>responsibles;
 	public PlaceDTO() {
 		
 	}
 	
-	public PlaceDTO(String name, String reference, int maximumCapacityParticipants, boolean isPublic, String nameResponsible) {
+	public PlaceDTO(String name, String reference, int maximumCapacityParticipants, boolean isPublic, Set<User> responsibles) {
 		this.name = name;
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
-		this.nameResponsible = nameResponsible;
+		this.responsibles = responsibles;
 	}
 	
-	public PlaceDTO(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic,String nameResponsible) {
+	public PlaceDTO(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic, Set<User> responsibles) {
 		this.id = id;
 		this.name = name;
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
-		this.nameResponsible = nameResponsible;
+		this.responsibles = responsibles;
 	}
 
 	public Integer getId() {
@@ -79,12 +83,12 @@ public class PlaceDTO {
 		this.isPublic = isPublic;
 	}
 
-	public String getNameResponsible() {
-		return nameResponsible;
+	public Set<User> getResponsibles() {
+		return responsibles;
 	}
 
-	public void setNameResponsible(String nameResponsible) {
-		this.nameResponsible = nameResponsible;
+	public void setNameResponsible(Set<User> responsibles) {
+		this.responsibles = responsibles;
 	}
 	
 }

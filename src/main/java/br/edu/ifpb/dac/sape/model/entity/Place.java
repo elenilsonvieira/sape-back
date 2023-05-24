@@ -38,9 +38,11 @@ public class Place implements Serializable {
 	
 	@Column(name = "PLACE_IS_PUBLIC", nullable = false)
 	private Boolean isPublic;
-	
+	 
 	@Column(name = "RESPONSIBLE_OF_THE_LOCATION", nullable = false)
-	private String nameResponsible;
+	@OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLACE_ID")
+	private Set<User> responsibles;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ID_PLACE")
@@ -50,13 +52,13 @@ public class Place implements Serializable {
 	
 	}
 
-	public Place(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic,String nameResponsible) {
+	public Place(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic,Set<User> responsibles) {
 		this.id = id;
 		this.name = name;
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
-		this.nameResponsible = nameResponsible;
+		this.responsibles = responsibles;
 	}
 
 	public Integer getId() {
@@ -100,12 +102,12 @@ public class Place implements Serializable {
 		this.isPublic = isPublic;
 	}
 	
-	public String getNameResponsible() {
-		return nameResponsible;
+	public Set<User> getResponsibles() {
+		return responsibles;
 	}
 
-	public void setNameResponsible(String nameResponsible) {
-		this.nameResponsible = nameResponsible;
+	public void setResponsibles(Set<User> responsibles) {
+		this.responsibles = responsibles;
 	}
 
 	@Override
