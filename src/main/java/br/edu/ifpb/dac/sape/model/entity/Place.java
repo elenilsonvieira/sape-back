@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -40,8 +42,12 @@ public class Place implements Serializable {
 	private Boolean isPublic;
 	 
 	@Column(name = "RESPONSIBLE_OF_THE_LOCATION", nullable = false)
-	@OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PLACE_ID")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+	        name = "RESPONSIBLE_PLACE",
+	        joinColumns = @JoinColumn(name = "USER_ID"),
+	        inverseJoinColumns = @JoinColumn(name = "PLACE_ID")
+	)
 	private Set<User> responsibles;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -52,13 +58,12 @@ public class Place implements Serializable {
 	
 	}
 
-	public Place(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic,Set<User> responsibles) {
+	public Place(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic) {
 		this.id = id;
 		this.name = name;
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
-		this.responsibles = responsibles;
 	}
 
 	public Integer getId() {

@@ -21,26 +21,23 @@ public class PlaceDTO {
 	@Max(value = 400, message = "O valor máximo para capacidade de participantes é 400!")
 	private int maximumCapacityParticipants;
 	private boolean isPublic;
-	private Set<User>responsibles;
 	public PlaceDTO() {
 		
 	}
 	
-	public PlaceDTO(String name, String reference, int maximumCapacityParticipants, boolean isPublic, Set<User> responsibles) {
+	public PlaceDTO(String name, String reference, int maximumCapacityParticipants, boolean isPublic) {
 		this.name = name;
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
-		this.responsibles = responsibles;
 	}
 	
-	public PlaceDTO(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic, Set<User> responsibles) {
+	public PlaceDTO(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic) {
 		this.id = id;
 		this.name = name;
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
-		this.responsibles = responsibles;
 	}
 
 	public Integer getId() {
@@ -82,13 +79,4 @@ public class PlaceDTO {
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
-
-	public Set<User> getResponsibles() {
-		return responsibles;
-	}
-
-	public void setNameResponsible(Set<User> responsibles) {
-		this.responsibles = responsibles;
-	}
-	
 }

@@ -13,7 +13,7 @@ public class PlaceConverterService {
 
 	public Place dtoToPlace(PlaceDTO dto) {
 		if (dto != null) {
-			Place entity = new Place(dto.getId(), dto.getName(), dto.getReference(), dto.getMaximumCapacityParticipants(), dto.isPublic(),dto.getResponsibles());
+			Place entity = new Place(dto.getId(), dto.getName(), dto.getReference(), dto.getMaximumCapacityParticipants(), dto.isPublic());
 			
 			return entity;
 		}
@@ -23,7 +23,7 @@ public class PlaceConverterService {
 	
 	public PlaceDTO placeToDto(Place entity) {
 		if (entity != null) {
-			PlaceDTO dto = new PlaceDTO(entity.getId(), entity.getName(), entity.getReference(), entity.getMaximumCapacityParticipants(), entity.isPublic(),entity.getResponsibles());
+			PlaceDTO dto = new PlaceDTO(entity.getId(), entity.getName(), entity.getReference(), entity.getMaximumCapacityParticipants(), entity.isPublic());
 			
 			return dto;
 		}
