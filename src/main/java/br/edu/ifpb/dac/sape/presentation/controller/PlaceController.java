@@ -1,6 +1,7 @@
 package br.edu.ifpb.dac.sape.presentation.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpb.dac.sape.business.service.PlaceConverterService;
 import br.edu.ifpb.dac.sape.business.service.PlaceService;
+import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.Place;
+import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.PlaceDTO;
 
 @RestController
@@ -29,6 +33,8 @@ public class PlaceController {
 	private PlaceService placeService;
 	@Autowired
 	private PlaceConverterService converterService;
+	@Autowired
+	private UserService userService;
 	
 	// Falta organizar o getAll para funcionar com um filtro para name também (utilizando Example)
 	
@@ -99,4 +105,35 @@ public class PlaceController {
 		}
 	}
 	
+	@PatchMapping("/{placeId}/addResponsibles/{userRegistration}")
+	public ResponseEntity addResponsibles(@PathVariable Integer placeId, @PathVariable Long userRegistration) {
+		
+		try {
+			User user = userService.findByRegistration(userRegistration).orElse(null);
+			
+			if(user != null) {
+				placeService.addResponsibles(placeId, user);
+			}
+			return ResponseEntity.noContent().build();
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@PatchMapping("/{placeId}/removeResponsibles/{userRegistration}")
+	public ResponseEntity removeResponsibles(@PathVariable Integer placeId, @PathVariable Long userRegistration) {
+		
+		try {
+			User user = userService.findByRegistration(userRegistration).orElse(null);
+			
+			if(user != null) {
+				placeService.removeResponsibles(placeId, user);
+			}
+			return ResponseEntity.noContent().build();
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 }

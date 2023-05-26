@@ -1,12 +1,15 @@
 package br.edu.ifpb.dac.sape.business.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.sape.model.entity.Place;
+import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.PlaceRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
@@ -17,6 +20,8 @@ public class PlaceService {
 	
 	@Autowired
 	private PlaceRepository placeRepository;
+	@Autowired
+	private UserService userService;
 	
 	public List<Place> findAll() {
 		return placeRepository.findAll();
@@ -106,4 +111,39 @@ public class PlaceService {
 		placeRepository.deleteById(id);
 	}
 	
+	public Boolean addResponsibles(Integer placeId, User responsible)throws Exception{
+		Place place = findById(placeId);
+		if(place == null) {
+			return false;
+		}
+		
+		place.setResponsibles(new HashSet<>());
+		Set<User> responsibles = new HashSet<>(place.getResponsibles());
+		
+		responsibles.add(responsible);
+		place.setResponsibles(responsibles);
+		
+		placeRepository.save(place);
+		
+		return true;
+	}
+	
+	public Boolean removeResponsibles(Integer placeId, User responsible)throws Exception{
+		Place place = findById(placeId);
+		if(place.getResponsibles() != null) {
+			if(place.getResponsibles().size() <= 0) {
+				return false;
+			}
+		}
+		
+		place.setResponsibles(new HashSet<>());
+		Set<User> responsibles = new HashSet<>(place.getResponsibles());
+		
+		responsibles.remove(responsible);
+		place.setResponsibles(responsibles);
+		
+		placeRepository.save(place);
+		
+		return true;
+	}
 }
