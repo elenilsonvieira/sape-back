@@ -117,8 +117,11 @@ public class PlaceService {
 			return false;
 		}
 		
-		Set<User> responsibles = new HashSet<>(place.getResponsibles());
+		Set<User> responsibles = place.getResponsibles();
 		
+		if(responsibles.contains(responsible)) {
+			return false;
+		}
 		responsibles.add(responsible);
 		place.setResponsibles(responsibles);
 		
@@ -135,10 +138,8 @@ public class PlaceService {
 			}
 		}
 		
-		Set<User> responsibles = new HashSet<>(place.getResponsibles());
-		if(responsibles.contains(responsible)) {
-			return false;
-		}
+		Set<User> responsibles = place.getResponsibles();
+		
 		responsibles.remove(responsible);
 		place.setResponsibles(responsibles);
 		
