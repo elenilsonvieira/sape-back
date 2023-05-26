@@ -75,7 +75,7 @@ public class EmailService {
 			
 	}
     
-<<<<<<< HEAD
+
     public void notifyFavoriteSportScheduling(Set<User> users) throws Exception {
     
  	
@@ -93,11 +93,10 @@ public class EmailService {
         notifyAllParticipants(subject, "template-notify-scheduling-participants.ftl", participants);
 
     }
-=======
+
     public void notifyPlaceResponsible(String subject, String templateName, User user) {
     	
     	sendEmail(user.getEmail(), subject, templateName, user.getName());
 			
 	}
->>>>>>> b99b7488046d17dbaeb7685159494b193c86e33e
 }

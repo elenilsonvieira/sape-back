@@ -117,7 +117,6 @@ public class PlaceService {
 			return false;
 		}
 		
-		place.setResponsibles(new HashSet<>());
 		Set<User> responsibles = new HashSet<>(place.getResponsibles());
 		
 		responsibles.add(responsible);
@@ -136,7 +135,6 @@ public class PlaceService {
 			}
 		}
 		
-		place.setResponsibles(new HashSet<>());
 		Set<User> responsibles = new HashSet<>(place.getResponsibles());
 		
 		responsibles.remove(responsible);
