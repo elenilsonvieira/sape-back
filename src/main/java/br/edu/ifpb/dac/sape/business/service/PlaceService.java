@@ -136,7 +136,9 @@ public class PlaceService {
 		}
 		
 		Set<User> responsibles = new HashSet<>(place.getResponsibles());
-		
+		if(responsibles.contains(responsible)) {
+			return false;
+		}
 		responsibles.remove(responsible);
 		place.setResponsibles(responsibles);
 		
