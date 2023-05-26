@@ -119,10 +119,11 @@ public class PlaceService {
 		
 		place.setResponsibles(new HashSet<>());
 		Set<User> responsibles = new HashSet<>(place.getResponsibles());
+		
 		responsibles.add(responsible);
 		place.setResponsibles(responsibles);
 		
-		update(place);
+		placeRepository.save(place);
 		
 		return true;
 	}
@@ -137,10 +138,11 @@ public class PlaceService {
 		
 		place.setResponsibles(new HashSet<>());
 		Set<User> responsibles = new HashSet<>(place.getResponsibles());
+		
 		responsibles.remove(responsible);
 		place.setResponsibles(responsibles);
 		
-		update(place);
+		placeRepository.save(place);
 		
 		return true;
 	}

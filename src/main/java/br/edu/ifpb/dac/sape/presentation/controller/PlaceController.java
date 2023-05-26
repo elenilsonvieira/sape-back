@@ -121,7 +121,7 @@ public class PlaceController {
 		}
 	}
 	
-	@DeleteMapping("/{placeId}/removeResponsibles/{userRegistration}")
+	@PatchMapping("/{placeId}/removeResponsibles/{userRegistration}")
 	public ResponseEntity removeResponsibles(@PathVariable Integer placeId, @PathVariable Long userRegistration) {
 		
 		try {
