@@ -21,6 +21,7 @@ import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
+import br.edu.ifpb.dac.sape.util.EmailSender;
 
 
 @Service
@@ -31,6 +32,9 @@ public class SchedulingService {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EmailSender emailSender;
 	
 	public List<Scheduling> findAll() {
 		List<Scheduling> list = schedulingRepository.findAll();
@@ -87,7 +91,20 @@ public class SchedulingService {
 		return schedulingRepository.getById(id);
 	}
 	
-	public Scheduling save(Scheduling scheduling) {
+	public Scheduling save(Scheduling scheduling) throws Exception {
+		
+		Set<User> users = null;
+	    try {
+	        users = userService.findBySportFavorite(scheduling.getSport());
+	    } catch (Exception e) {
+	       
+	        e.printStackTrace();
+	    }
+
+	    if (users != null) {
+	        emailSender.notifyFavoriteSportScheduling(users);
+	    }
+		
 		return schedulingRepository.save(scheduling);
 	}
 	
@@ -149,15 +166,17 @@ public class SchedulingService {
 
 			}
 		} 
-
 		scheduling.setParticipants(new HashSet<>());
 		Set<User> setUser = new HashSet<>(scheduling.getParticipants());
 		
 		setUser.add(user);
 		scheduling.setParticipants(setUser);
 		
-
+		emailSender.notifySchedulingParticipants(schedulingId, setUser);
 		save(scheduling);
+		
+		
+		
 		return true;
 	}
 	

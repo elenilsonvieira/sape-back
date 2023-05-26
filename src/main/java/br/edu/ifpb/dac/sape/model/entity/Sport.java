@@ -64,7 +64,7 @@ public class Sport implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(id, name);
 	}
 
 	@Override
@@ -76,7 +76,9 @@ public class Sport implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Sport other = (Sport) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
 	}
+
+	
 	
 }

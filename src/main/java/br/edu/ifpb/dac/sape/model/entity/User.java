@@ -102,9 +102,11 @@ public class User implements UserDetails {
 		this.registration = registration;
 	}
 
+	
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(email, id, name, registration, roles, sportsFavorite);
 	}
 
 	@Override
@@ -116,9 +118,10 @@ public class User implements UserDetails {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(registration, other.registration) && Objects.equals(sportsFavorite, other.sportsFavorite);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "User [name=" + name + ", email=" + email + ", registration=" + registration + ", roles=" + roles

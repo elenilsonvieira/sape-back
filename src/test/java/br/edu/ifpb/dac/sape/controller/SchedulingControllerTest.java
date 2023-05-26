@@ -431,7 +431,7 @@ public class SchedulingControllerTest {
 	}
 	
 	@Test
-	public void testAddAndRemoveParticipantInvalidId() {
+	public void testAddAndRemoveParticipantInvalidId() throws Exception {
 		String errorMessage = "Não foi encontrado agendamento com id 1";
 		
 		try {
@@ -512,7 +512,7 @@ public class SchedulingControllerTest {
 	
 	@Test
 	@DisplayName("Testing if the schedilling id is invalid when removing a participation")
-	public void testRemoveIsPresentInvalidschedullingId() {
+	public void testRemoveIsPresentInvalidschedullingId() throws Exception {
 		String errorMessage = "Não foi encontrado agendamento com id 1";
 		
 		try {
@@ -536,7 +536,7 @@ public class SchedulingControllerTest {
 	
 	@Test
 	@DisplayName("Testing if the schedilling id is invalid when adding a participation")
-	public void testAddIsPresentInvalidschedullingId() {
+	public void testAddIsPresentInvalidschedullingId() throws Exception {
 		String errorMessage = "Não foi encontrado agendamento com id 1";
 		
 		try {

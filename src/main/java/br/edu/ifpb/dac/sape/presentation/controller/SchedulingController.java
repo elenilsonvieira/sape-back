@@ -2,6 +2,8 @@ package br.edu.ifpb.dac.sape.presentation.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.edu.ifpb.dac.sape.business.service.EmailService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingConverterService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingService;
 import br.edu.ifpb.dac.sape.business.service.SchedulingValidatorService;
@@ -42,6 +46,8 @@ public class SchedulingController {
 	@Autowired
 	private UserService userService;
 
+	
+	
 	@Autowired
 	private UserConverterService userConverterService;
 
@@ -93,6 +99,7 @@ public class SchedulingController {
 	}
 
 	@PostMapping
+	@Transactional
 	public ResponseEntity save(@RequestBody @Valid SchedulingDTO dto) {
 
 		try {
@@ -103,7 +110,7 @@ public class SchedulingController {
 			entity = schedulingService.save(entity);
 
 			dto = converterService.schedulingToDto(entity);
-
+	
 			return new ResponseEntity(dto, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
