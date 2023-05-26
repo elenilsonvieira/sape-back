@@ -122,7 +122,7 @@ public class PlaceService {
 		responsibles.add(responsible);
 		place.setResponsibles(responsibles);
 		
-		save(place);
+		update(place);
 		
 		return true;
 	}
@@ -140,7 +140,7 @@ public class PlaceService {
 		responsibles.remove(responsible);
 		place.setResponsibles(responsibles);
 		
-		save(place);
+		update(place);
 		
 		return true;
 	}
