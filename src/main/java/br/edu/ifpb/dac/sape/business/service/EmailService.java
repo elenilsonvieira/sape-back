@@ -93,9 +93,11 @@ public class EmailService {
 
     }
 
-    public void notifyPlaceResponsible(String subject, String templateName, User user) {
+    public void notifyPlaceResponsibles(Integer placeId, Set<User>responsibles)throws Exception {
     	
-    	sendEmail(user.getEmail(), subject, templateName, user.getName());
+    	String subject = "Uma atividade foi cadastrada num local de sua responsabilidade";
+    	
+    	notifyAllParticipants(subject,"template-notify-private-scheduling.ftl",(Set<User>)responsibles);
 			
 	}
 }

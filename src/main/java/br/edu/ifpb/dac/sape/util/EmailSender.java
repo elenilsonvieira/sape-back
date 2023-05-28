@@ -39,4 +39,9 @@ public class EmailSender {
     public void notifySchedulingParticipants(Integer schedulingId, Set<User> users) throws Exception {
         emailService.notifySchedulingParticipants(schedulingId, users);
     }
+    
+    @Async
+    public void notifyPlaceResponsibles(Integer placeId, Set<User> users) throws Exception {
+        emailService.notifyPlaceResponsibles(placeId, users);
+    }
 }

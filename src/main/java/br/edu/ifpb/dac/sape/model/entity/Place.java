@@ -42,7 +42,7 @@ public class Place implements Serializable {
 	private Boolean isPublic;
 	 
 	@Column(name = "RESPONSIBLE_OF_THE_LOCATION", nullable = false)
-	@ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(
 	        name = "RESPONSIBLE_PLACE",
 	        joinColumns = @JoinColumn(name = "PLACE_ID"),

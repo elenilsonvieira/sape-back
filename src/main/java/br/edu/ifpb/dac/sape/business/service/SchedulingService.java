@@ -107,7 +107,11 @@ public class SchedulingService {
 	    }
 	    	
 	    }
-	    
+	    if(scheduling.getStatus() == StatusScheduling.PENDING) {
+	    	Integer placeId = scheduling.getPlace().getId();
+	    	Set<User> responsibles = scheduling.getPlace().getResponsibles();
+	    	emailSender.notifyPlaceResponsibles(placeId,responsibles);
+	    }
 		
 		return schedulingRepository.save(scheduling);
 	}

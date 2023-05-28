@@ -2,10 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Boas-vindas</title>
+    <title>Olá bem-vindo(a)!</title>
 </head>
 <body>
-    <h1>Bem-vindo(a), ${name}!</h1>
-    <p>Obrigado por se juntar à nossa comunidade.</p>
+    <h1>Olá, ${name}!</h1>
+    <p>Obrigado por se juntar a nossa comunidade</p>
 </body>
 </html>
