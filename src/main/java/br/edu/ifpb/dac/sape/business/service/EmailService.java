@@ -74,6 +74,13 @@ public class EmailService {
 			
 	}
     
+    public void notifyCreator(Integer schedulingId, Set<User> creator) {
+    	
+    	String subject = "Sua Atividade foi Aprovada";
+    	notifyAllParticipants(subject,"template-notify-scheduling-creator.ftl",creator);
+			
+	}
+    
 
     public void notifyFavoriteSportScheduling(Set<User> users) throws Exception {
     
@@ -99,5 +106,5 @@ public class EmailService {
     	
     	notifyAllParticipants(subject,"template-notify-private-scheduling.ftl",(Set<User>)responsibles);
 			
-	}
+	}   
 }

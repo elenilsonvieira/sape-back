@@ -31,6 +31,11 @@ public class EmailSender {
     }
     
     @Async
+    public void notifyCreator(Integer schedulingId, Set<User> users) throws Exception{
+        emailService.notifyCreator(schedulingId, users);
+    }
+    
+    @Async
     public void notifyFavoriteSportScheduling(Set<User> users) throws Exception {
         emailService.notifyFavoriteSportScheduling(users);
     }
