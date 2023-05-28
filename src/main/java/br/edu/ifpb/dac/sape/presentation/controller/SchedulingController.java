@@ -237,12 +237,12 @@ public class SchedulingController {
 	}
 	
 	@PatchMapping("/approvedscheduling/{schedulingId}")
-	public ResponseEntity removeParticipant(@PathVariable Integer schedulingId) {
+	public ResponseEntity approveScheduling(@PathVariable Integer schedulingId) {
 		try {
 			Scheduling scheduling = schedulingService.findById(schedulingId);
 
 			if (scheduling != null) {
-				schedulingService.approvePrivatePlaceScheduling(schedulingId);
+				schedulingService.approvePrivatePlaceScheduling(scheduling);
 			}
 
 			return ResponseEntity.noContent().build();

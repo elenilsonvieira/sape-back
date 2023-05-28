@@ -255,8 +255,7 @@ public class SchedulingService {
 		return selectedList;
 	}
 	
-	public boolean approvePrivatePlaceScheduling(Integer schedulingId)throws Exception {
-		Scheduling scheduling = findById(schedulingId);
+	public boolean approvePrivatePlaceScheduling(Scheduling scheduling)throws Exception {
 		
 		if(scheduling.getPlace().getReference() != null) {
 			scheduling.setStatus(StatusScheduling.CONFIRMED);
