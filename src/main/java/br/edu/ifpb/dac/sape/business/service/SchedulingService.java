@@ -259,6 +259,7 @@ public class SchedulingService {
 		
 		if(scheduling.getPlace().getReference() != null) {
 			scheduling.setStatus(StatusScheduling.CONFIRMED);
+			save(scheduling);
 			return true;
 		}
 			return false;
