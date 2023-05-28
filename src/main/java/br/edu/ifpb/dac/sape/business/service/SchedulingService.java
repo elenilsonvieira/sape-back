@@ -260,6 +260,9 @@ public class SchedulingService {
 		if(scheduling.getPlace().getReference() != null) {
 			scheduling.setStatus(StatusScheduling.CONFIRMED);
 			save(scheduling);
+			Set<User> users = new HashSet<>();
+			users.add(scheduling.getCreator());
+			emailSender.notifyCreator(scheduling.getId(), users);
 			return true;
 		}
 			return false;
