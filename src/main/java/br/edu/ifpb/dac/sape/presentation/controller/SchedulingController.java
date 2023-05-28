@@ -235,6 +235,21 @@ public class SchedulingController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	@PatchMapping("/approvedscheduling/{schedulingId}")
+	public ResponseEntity removeParticipant(@PathVariable Integer schedulingId) {
+		try {
+			Scheduling scheduling = schedulingService.findById(schedulingId);
+
+			if (scheduling != null) {
+				schedulingService.approvePrivatePlaceScheduling(schedulingId);
+			}
+
+			return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity delete(@PathVariable Integer id) {
