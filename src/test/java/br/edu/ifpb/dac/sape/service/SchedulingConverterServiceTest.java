@@ -52,7 +52,7 @@ public class SchedulingConverterServiceTest {
 	
 	@BeforeAll
 	public static void setUp() {
-		place = Optional.of(new Place(1, "Ginásio", "Perto do estacionamento", 80, false,"Pedro Alves"));
+		place = Optional.of(new Place(1, "Ginásio", "Perto do estacionamento", 80, false));
 		sport = Optional.of(new Sport(2, "Futebol"));
 		
 		System.out.println("Setting attributtes for entity...");

@@ -4,18 +4,23 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import br.edu.ifpb.dac.sape.business.service.PlaceConverterService;
 import br.edu.ifpb.dac.sape.model.entity.Place;
+import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.PlaceDTO;
+import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 
 public class PlaceConverterServiceTest {
 
 	private static PlaceConverterService converterService;
 	private static Place entity;
 	private static PlaceDTO dto;
+	private static UserDTO userDTO;
 	
 	
 	@BeforeAll
@@ -30,6 +35,11 @@ public class PlaceConverterServiceTest {
 		entity.setReference("Perto do estacionamento");
 		entity.setMaximumCapacityParticipants(80);
 		
+		userDTO = new UserDTO();  
+		userDTO.setId(1);
+    	userDTO.setName("igor"); 
+    	userDTO.setRegistration(1111L);
+		
 		System.out.println("Setting attributtes for dto...");
 		dto = new PlaceDTO();
 		dto.setId(1);
@@ -37,6 +47,8 @@ public class PlaceConverterServiceTest {
 		dto.setPublic(false);
 		dto.setReference("Perto do estacionamento");
 		dto.setMaximumCapacityParticipants(80);
+		dto.setResponsible(null);
+		dto.setResponsible(userDTO);
 	}
 	
 	@Test
@@ -51,8 +63,11 @@ public class PlaceConverterServiceTest {
 		);
 	}
 	
+	
+	//Quebrado
 	@Test
-	public void testConvertDtoToEntity() {
+	@Transactional
+	public void testConvertDtoToEntity() throws Exception {
 		Place entityConverted = converterService.dtoToPlace(dto);
 		assertAll("Testing comparing dto and entity field by field",
 			() -> assertEquals(entityConverted.getId(), dto.getId()),

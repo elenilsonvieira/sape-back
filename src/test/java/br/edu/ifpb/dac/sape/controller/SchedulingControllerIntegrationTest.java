@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
@@ -95,7 +95,13 @@ public class SchedulingControllerIntegrationTest {
     	 place = new Place();     
          place.setName("quadraa");
          place.setPublic(true);
-         place.setNameResponsible("fulano");
+         
+         place.setResponsibles(new HashSet<User>());
+		 Set<User> setUser = new HashSet<>(place.getResponsibles());
+			
+		 setUser.add(creator);
+		 place.setResponsibles(setUser);
+         
          place.setMaximumCapacityParticipants(25);
          placeRepository.save(place);
          
