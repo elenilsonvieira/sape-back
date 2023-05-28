@@ -20,10 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifpb.dac.sape.business.service.PlaceConverterService;
 import br.edu.ifpb.dac.sape.business.service.PlaceService;
+import br.edu.ifpb.dac.sape.business.service.UserConverterService;
 import br.edu.ifpb.dac.sape.business.service.UserService;
 import br.edu.ifpb.dac.sape.model.entity.Place;
+import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.PlaceDTO;
+import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
+import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 
 @RestController
 @RequestMapping("/api/place")
@@ -35,6 +39,8 @@ public class PlaceController {
 	private PlaceConverterService converterService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserConverterService userConverterService;
 	
 	// Falta organizar o getAll para funcionar com um filtro para name também (utilizando Example)
 	
@@ -52,6 +58,7 @@ public class PlaceController {
 		
 		try {
 			Place entity = placeService.findById(id);
+			
 			PlaceDTO dto = converterService.placeToDto(entity);
 			
 			return ResponseEntity.ok().body(dto);
@@ -105,6 +112,20 @@ public class PlaceController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
+	@GetMapping("/getResponsibles/{placeId}")
+	public ResponseEntity getResponsibles(@PathVariable Integer placeId) throws Exception {
+	try {
+		List<User> entityList = placeService.getResponsibles(placeId);
+		
+		List<UserDTO> dtoList = userConverterService.usersToDtos(entityList);
+		
+		return ResponseEntity.ok().body(dtoList);
+	} catch (Exception e) {
+		return ResponseEntity.badRequest().body(e.getMessage());
+	}
+}
+	
 	
 	@PatchMapping("/{placeId}/addResponsibles/{userRegistration}")
 	public ResponseEntity addResponsibles(@PathVariable Integer placeId, @PathVariable Long userRegistration) {

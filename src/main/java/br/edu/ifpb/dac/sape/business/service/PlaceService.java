@@ -1,5 +1,6 @@
 package br.edu.ifpb.dac.sape.business.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -111,6 +112,21 @@ public class PlaceService {
 		
 		placeRepository.deleteById(id);
 	}
+	
+	public List<User> getResponsibles(Integer id) throws Exception{
+		Place place = findById(id);
+		
+		if(place == null) {
+			
+		}
+		
+		List<User> responsibles = new ArrayList<>();
+		responsibles.addAll(place.getResponsibles());
+		
+		return responsibles;
+		
+	}
+	
 	
 	public Boolean addResponsibles(Integer placeId, User responsible)throws Exception{
 		Place place = findById(placeId);

@@ -29,6 +29,7 @@ public class PlaceDTO {
 	
 	private UserDTO responsible;
 	
+	
 	public PlaceDTO() {
 		
 	}
@@ -98,6 +99,10 @@ public class PlaceDTO {
 	public void setResponsible(UserDTO responsible) {
 		this.responsible = responsible;
 	}
+
+	
+	
+	
 	
 	
 	

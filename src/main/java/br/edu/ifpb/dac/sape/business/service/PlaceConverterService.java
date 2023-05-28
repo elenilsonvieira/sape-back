@@ -12,12 +12,16 @@ import org.springframework.stereotype.Service;
 import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.PlaceDTO;
+import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 
 @Service
 public class PlaceConverterService {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	UserConverterService userConverterService;
 	
 	public Place dtoToPlace(PlaceDTO dto) throws Exception {
 		if (dto != null) {
@@ -54,6 +58,7 @@ public class PlaceConverterService {
 			dto.setMaximumCapacityParticipants(entity.getMaximumCapacityParticipants());
 			dto.setPublic(entity.isPublic());
 			dto.setReference(entity.getReference());
+			
 			
 			
 			
