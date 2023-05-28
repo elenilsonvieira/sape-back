@@ -65,6 +65,7 @@ public class PlaceController {
 	public ResponseEntity save(@RequestBody @Valid PlaceDTO dto) {
 		
 		try {
+			System.out.println(dto.getResponsible());
 			Place entity = converterService.dtoToPlace(dto);
 			entity = placeService.save(entity);
 			dto = converterService.placeToDto(entity);

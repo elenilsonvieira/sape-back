@@ -1,5 +1,6 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.Max;
@@ -13,14 +14,21 @@ import br.edu.ifpb.dac.sape.model.entity.User;
 public class PlaceDTO {
 
 	private Integer id;
+	
 	@NotBlank(message = "É obrigatório informar o nome do local!")
 	@Pattern(regexp = "^[a-zA-ZÀ-ú0-9\\s]{4,255}$", message = "Nome inválido! Deve possuir mais que 3 caracteres e não possuir caracteres especiais")
 	private String name;
+	
 	private String reference;
+	
 	@Positive(message = "A capacidade de participantes deve ser um valor positivo!")
 	@Max(value = 400, message = "O valor máximo para capacidade de participantes é 400!")
 	private int maximumCapacityParticipants;
+	
 	private boolean isPublic;
+	
+	private UserDTO responsible;
+	
 	public PlaceDTO() {
 		
 	}
@@ -30,6 +38,8 @@ public class PlaceDTO {
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
+		
+		
 	}
 	
 	public PlaceDTO(Integer id, String name, String reference, int maximumCapacityParticipants, boolean isPublic) {
@@ -38,6 +48,7 @@ public class PlaceDTO {
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
+		
 	}
 
 	public Integer getId() {
@@ -79,4 +90,15 @@ public class PlaceDTO {
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
+
+	public UserDTO getResponsible() {
+		return responsible;
+	}
+
+	public void setResponsible(UserDTO responsible) {
+		this.responsible = responsible;
+	}
+	
+	
+	
 }

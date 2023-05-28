@@ -101,9 +101,13 @@ public class SchedulingService {
 	        e.printStackTrace();
 	    }
 
-	    if (users != null) {
+	    if(scheduling.getPlace().isPublic()) {
+	    	if (users != null) {
 	        emailSender.notifyFavoriteSportScheduling(users);
 	    }
+	    	
+	    }
+	    
 		
 		return schedulingRepository.save(scheduling);
 	}

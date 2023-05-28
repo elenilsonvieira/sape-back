@@ -20,6 +20,7 @@ public class PlaceService {
 	
 	@Autowired
 	private PlaceRepository placeRepository;
+	
 	@Autowired
 	private UserService userService;
 	

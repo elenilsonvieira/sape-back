@@ -1,9 +1,7 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
 
 public class SportDTO { 
 	

@@ -45,8 +45,8 @@ public class Place implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(
 	        name = "RESPONSIBLE_PLACE",
-	        joinColumns = @JoinColumn(name = "USER_ID"),
-	        inverseJoinColumns = @JoinColumn(name = "PLACE_ID")
+	        joinColumns = @JoinColumn(name = "PLACE_ID"),
+	        inverseJoinColumns = @JoinColumn(name = "USER_ID")
 	)
 	private Set<User> responsibles;
 	
@@ -64,6 +64,7 @@ public class Place implements Serializable {
 		this.reference = reference;
 		this.maximumCapacityParticipants = maximumCapacityParticipants;
 		this.isPublic = isPublic;
+		
 	}
 
 	public Integer getId() {
