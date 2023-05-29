@@ -249,11 +249,7 @@ public class SchedulingController {
 		}
 	}
 	
-<<<<<<< HEAD
 	@PatchMapping("/approvedScheduling/{schedulingId}")
-=======
-	@PatchMapping("/approvedscheduling/{schedulingId}")
->>>>>>> 42bbf9b3a2c818817782b8d22e6cb19c3385e9d9
 	public ResponseEntity approveScheduling(@PathVariable Integer schedulingId) {
 		try {
 			Scheduling scheduling = schedulingService.findById(schedulingId);

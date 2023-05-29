@@ -278,7 +278,6 @@ public class SchedulingService {
 	}
 	
 	public boolean approvePrivatePlaceScheduling(Scheduling scheduling)throws Exception {
-<<<<<<< HEAD
 
         if(scheduling.getPlace().getResponsibles() != null) { 
         	
@@ -295,17 +294,6 @@ public class SchedulingService {
         }
             return false;
     }
-=======
 		
-		if(scheduling.getPlace().getReference() != null) {
-			scheduling.setStatus(StatusScheduling.CONFIRMED);
-			save(scheduling);
-			Set<User> users = new HashSet<>();
-			users.add(scheduling.getCreator());
-			emailSender.notifyCreator(scheduling.getId(), users);
-			return true;
-		}
-			return false;
-	}
->>>>>>> 42bbf9b3a2c818817782b8d22e6cb19c3385e9d9
+		
 }
