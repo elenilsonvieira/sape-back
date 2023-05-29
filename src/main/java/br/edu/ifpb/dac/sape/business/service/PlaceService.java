@@ -117,7 +117,7 @@ public class PlaceService {
 		Place place = findById(id);
 		
 		if(place == null) {
-			
+			throw new ObjectNotFoundException("local", "id", id);
 		}
 		
 		List<User> responsibles = new ArrayList<>();

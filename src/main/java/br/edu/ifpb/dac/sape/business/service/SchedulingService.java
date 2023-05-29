@@ -14,6 +14,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.enums.IsPresent;
@@ -34,10 +35,14 @@ public class SchedulingService {
 	private UserService userService;
 	
 	@Autowired
+	private PlaceService placeService;
+	
+	@Autowired
 	private EmailSender emailSender;
 	
 	public List<Scheduling> findAll() {
-		List<Scheduling> list = schedulingRepository.findAll();
+		List<Scheduling> list = schedulingRepository.findAllByStatus(StatusScheduling.CONFIRMED);
+		System.out.println(list.size());
 		return schedulingsBeginingToday(list);
 	}
 	
@@ -160,6 +165,23 @@ public class SchedulingService {
 	    return Collections.emptyList();
 	}
 	
+	public List<Scheduling> getAllSchedulingPendingByPlaceResponsible( User responsible) throws Exception{
+		
+			List<Scheduling> schedulings = schedulingRepository.findAllByStatus(StatusScheduling.PENDING);
+			List<Scheduling> schedulingsPending = new ArrayList<>();
+			
+			for (Scheduling scheduling : schedulings) {
+				if (scheduling.getPlace().getResponsibles().contains(responsible)) {
+					schedulingsPending.add(scheduling);
+					
+				}
+				
+			}
+			
+		return schedulingsPending;
+	
+	}
+	
 	public List<Scheduling> getSchedulingByParticipant(User participant) {
 	    return schedulingRepository.findAllByParticipantsContaining(participant);
 	}
@@ -255,13 +277,21 @@ public class SchedulingService {
 		return selectedList;
 	}
 	
-	public boolean approvePrivatePlaceScheduling(Integer schedulingId)throws Exception {
-		Scheduling scheduling = findById(schedulingId);
-		
-		if(scheduling.getPlace().getReference() != null) {
-			scheduling.setStatus(StatusScheduling.CONFIRMED);
-			return true;
-		}
-			return false;
-	}
+	public boolean approvePrivatePlaceScheduling(Scheduling scheduling)throws Exception {
+
+        if(scheduling.getPlace().getResponsibles() != null) { 
+        	
+            scheduling.setStatus(StatusScheduling.CONFIRMED);
+           
+            save(scheduling);
+            
+            Set<User> users = new HashSet<>();
+            users.add(scheduling.getCreator());
+            
+            emailSender.notifyCreator(scheduling.getId(), users);
+            
+            return true;
+        }
+            return false;
+    }
 }

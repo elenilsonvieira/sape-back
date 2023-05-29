@@ -143,11 +143,11 @@ public class PlaceController {
 		}
 	}
 	
-	@PatchMapping("/{placeId}/removeResponsibles/{userRegistration}")
-	public ResponseEntity removeResponsibles(@PathVariable Integer placeId, @PathVariable Long userRegistration) {
+	@PatchMapping("/{placeId}/removeResponsibles/{userId}")
+	public ResponseEntity removeResponsibles(@PathVariable Integer placeId, @PathVariable Integer userId) {
 		
 		try {
-			User user = userService.findByRegistration(userRegistration).orElse(null);
+			User user = userService.findById(userId);
 			
 			if(user != null) {
 				placeService.removeResponsibles(placeId, user);

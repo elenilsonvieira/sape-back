@@ -129,6 +129,19 @@ public class SchedulingController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	@GetMapping("/ResponsiblePlace/{userRegistration}")
+	public ResponseEntity getAllSchedulingPendingByPlaceResponsible(@PathVariable Long userRegistration) {  
+		try {
+			User user = userService.findByRegistration(userRegistration).orElse(null);
+			
+			List<Scheduling> entityList = schedulingService.getAllSchedulingPendingByPlaceResponsible( user);
+			List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
+			
+			return ResponseEntity.ok().body(dtoList);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 
 	@GetMapping("/confirmedBySport/{id}")
 	public ResponseEntity getAllSchedulingConfirmedBySport(@PathVariable Integer id) { // v.2
@@ -236,13 +249,14 @@ public class SchedulingController {
 		}
 	}
 	
-	@PatchMapping("/approvedscheduling/{schedulingId}")
-	public ResponseEntity removeParticipant(@PathVariable Integer schedulingId) {
+	@PatchMapping("/approvedScheduling/{schedulingId}")
+	public ResponseEntity approveScheduling(@PathVariable Integer schedulingId) {
 		try {
 			Scheduling scheduling = schedulingService.findById(schedulingId);
 
+			System.out.println(scheduling.toString());
 			if (scheduling != null) {
-				schedulingService.approvePrivatePlaceScheduling(schedulingId);
+				schedulingService.approvePrivatePlaceScheduling(scheduling);
 			}
 
 			return ResponseEntity.noContent().build();
