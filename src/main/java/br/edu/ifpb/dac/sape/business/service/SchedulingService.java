@@ -166,18 +166,19 @@ public class SchedulingService {
 	}
 	
 	public List<Scheduling> getAllSchedulingPendingByPlaceResponsible( User responsible) throws Exception{
-		
+		System.out.println(responsible.toString());
 			List<Scheduling> schedulings = schedulingRepository.findAllByStatus(StatusScheduling.PENDING);
 			List<Scheduling> schedulingsPending = new ArrayList<>();
-			
+			System.out.println(schedulings.size()); 
 			for (Scheduling scheduling : schedulings) {
 				if (scheduling.getPlace().getResponsibles().contains(responsible)) {
+					
 					schedulingsPending.add(scheduling);
 					
 				}
 				
 			}
-			
+			System.out.println(schedulings.size());
 		return schedulingsPending;
 	
 	}

@@ -20,6 +20,7 @@ public class UserConverterService {
 			entity.setName(dto.getName());
 			entity.setEmail(dto.getEmail());
 			entity.setRegistration(dto.getRegistration());
+			entity.setRoles((List<Role>) dto.getRoles());
 			entity.setSportsFavorite(dto.getSportsFavorite());
 			
 			
