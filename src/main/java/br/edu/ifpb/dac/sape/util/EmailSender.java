@@ -1,5 +1,6 @@
 package br.edu.ifpb.dac.sape.util;
 
+import java.sql.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import br.edu.ifpb.dac.sape.business.service.EmailService;
+import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 
 @Component
@@ -16,37 +18,37 @@ public class EmailSender {
     private EmailService emailService;
     
     @Async
-    public void sendEmail(String toEmail, String subject, String templateName, Object nome) {
-        emailService.sendEmail(toEmail, subject, templateName, nome);
+    public void sendEmail(String toEmail, String subject, String templateName, Object nome, Scheduling scheduling) {
+        emailService.sendEmail(toEmail, subject, templateName, nome, scheduling );
     }
     
     @Async
-    public void notifyAllParticipants(String subject, String templateName, Set<User> users) {
-        emailService.notifyAllParticipants(subject, templateName, users);
+    public void notifyAllParticipants(String subject, String templateName, Set<User> users, Scheduling scheduling) {
+        emailService.notifyAllParticipants(subject, templateName, users, scheduling);
     }
     
     @Async
     public void notifyCreator(String subject, String templateName, User user) {
-        emailService.notifyCreator(subject, templateName, user);
+        emailService.notifyCreator(subject, templateName, user, null);
     }
     
     @Async
-    public void notifyCreator(Integer schedulingId, Set<User> users) throws Exception{
-        emailService.notifyCreator(schedulingId, users);
+    public void notifyCreator( Set<User> users, Scheduling scheduling) throws Exception{
+        emailService.notifyCreator( users, scheduling);
     }
     
     @Async
-    public void notifyFavoriteSportScheduling(Set<User> users) throws Exception {
-        emailService.notifyFavoriteSportScheduling(users);
+    public void notifyFavoriteSportScheduling(Set<User> users, Scheduling scheduling) throws Exception {
+        emailService.notifyFavoriteSportScheduling(users, scheduling);
     }
     
     @Async
-    public void notifySchedulingParticipants(Integer schedulingId, Set<User> users) throws Exception {
-        emailService.notifySchedulingParticipants(schedulingId, users);
+    public void notifySchedulingParticipants( Set<User> users, Scheduling scheduling) throws Exception {
+        emailService.notifySchedulingParticipants( users, scheduling);
     }
     
     @Async
-    public void notifyPlaceResponsibles(Integer placeId, Set<User> users) throws Exception {
-        emailService.notifyPlaceResponsibles(placeId, users);
+    public void notifyPlaceResponsibles(Integer placeId, Set<User> users, Scheduling scheduling) throws Exception {
+        emailService.notifyPlaceResponsibles(placeId, users, scheduling);
     }
 }

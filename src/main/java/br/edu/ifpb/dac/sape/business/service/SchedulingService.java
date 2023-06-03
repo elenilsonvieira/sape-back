@@ -108,14 +108,14 @@ public class SchedulingService {
 
 	    if(scheduling.getPlace().isPublic()) {
 	    	if (users != null) {
-	        emailSender.notifyFavoriteSportScheduling(users);
+	        emailSender.notifyFavoriteSportScheduling(users, scheduling);
 	    }
 	    	
 	    }
 	    if(scheduling.getStatus() == StatusScheduling.PENDING) {
 	    	Integer placeId = scheduling.getPlace().getId();
 	    	Set<User> responsibles = scheduling.getPlace().getResponsibles();
-	    	emailSender.notifyPlaceResponsibles(placeId,responsibles);
+	    	emailSender.notifyPlaceResponsibles(placeId,responsibles,scheduling);
 	    }
 		
 		return schedulingRepository.save(scheduling);
@@ -203,7 +203,7 @@ public class SchedulingService {
 		setUser.add(user);
 		scheduling.setParticipants(setUser);
 		
-		emailSender.notifySchedulingParticipants(schedulingId, setUser);
+		emailSender.notifySchedulingParticipants( setUser, scheduling);
 		save(scheduling);
 		
 		
@@ -283,14 +283,16 @@ public class SchedulingService {
         if(scheduling.getPlace().getResponsibles() != null) { 
         	
             scheduling.setStatus(StatusScheduling.CONFIRMED);
-           
-            save(scheduling);
             
+          
             Set<User> users = new HashSet<>();
             users.add(scheduling.getCreator());
             
-            emailSender.notifyCreator(scheduling.getId(), users);
-            
+            emailSender.notifyFavoriteSportScheduling(users, scheduling);
+           
+            emailSender.notifyCreator( users, scheduling);
+             
+            save(scheduling);
             return true;
         }
             return false;

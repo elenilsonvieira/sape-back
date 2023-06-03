@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -33,7 +34,7 @@ public class EmailService {
     
     
 
-    public void sendEmail(String toEmail, String subject, String templateName, Object nome) {
+    public void sendEmail(String toEmail, String subject, String templateName, Object nome, Scheduling scheduling) {
     	
     	System.out.println("chegou aqui");
         try {
@@ -46,6 +47,17 @@ public class EmailService {
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", nome);
+            if(scheduling != null) {
+            	System.out.println("aki");
+            	model.put("sport", scheduling.getSport().getName());
+                model.put("location", scheduling.getPlace().getName());
+                model.put("date", scheduling.getScheduledDate());
+                model.put("timeStart", scheduling.getScheduledStartTime());
+                model.put("timeFinish", scheduling.getScheduledFinishTime());
+                model.put("nameResponsible", scheduling.getCreator().getName());
+                model.put("status", scheduling.getStatus());
+                
+            }
             
             Template template = freemarkerConfig.getTemplate(templateName);
             String htmlBody = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
@@ -59,52 +71,52 @@ public class EmailService {
         }
     }
     
-    public void notifyAllParticipants(String subject, String templateName, Set<User> users) {
+    public void notifyAllParticipants(String subject, String templateName, Set<User> users, Scheduling scheduling) {
     	
     	for (User user : users) {
 			if(user.getEmail()!= null) {
-				sendEmail(user.getEmail(), subject, templateName, user.getName());
+				sendEmail(user.getEmail(), subject, templateName, user.getName(),scheduling);
 			}
 		}
     }
     
-    public void notifyCreator(String subject, String templateName, User user) {
+    public void notifyCreator(String subject, String templateName, User user, Scheduling scheduling) {
     	
-    	sendEmail(user.getEmail(), subject, templateName, user.getName());
+    	sendEmail(user.getEmail(), subject, templateName, user.getName(), scheduling);
 			
 	}
     
-    public void notifyCreator(Integer schedulingId, Set<User> creator) {
+    public void notifyCreator( Set<User> creator, Scheduling scheduling  ) {
     	
     	String subject = "Sua Atividade foi Aprovada";
-    	notifyAllParticipants(subject,"template-notify-scheduling-creator.ftl",creator);
+    	notifyAllParticipants(subject,"template-notify-scheduling-creator.ftl",creator, scheduling);
 			
 	}
     
 
-    public void notifyFavoriteSportScheduling(Set<User> users) throws Exception {
+    public void notifyFavoriteSportScheduling(Set<User> users, Scheduling scheduling) throws Exception {
     
  	
     	String subject = "Uma atividade de seu Esporte Favorito foi Criada!";
     	System.out.println(users.toString());
-    	notifyAllParticipants(subject, "template-notify-favorite-sport.ftl", (Set<User>) users);
+    	notifyAllParticipants(subject, "template-notify-favorite-sport.ftl", (Set<User>) users, scheduling);
     	
     }
     
-    public void notifySchedulingParticipants(Integer schedulingId, Set<User> participants) throws Exception {
+    public void notifySchedulingParticipants( Set<User> participants , Scheduling scheduling) throws Exception {
     	 //notifica todos os participantes confirmado
     	
         String subject = "Você demonstrou interesse em participar da prática!";
         
-        notifyAllParticipants(subject, "template-notify-scheduling-participants.ftl", participants);
+        notifyAllParticipants(subject, "template-notify-scheduling-participants.ftl", participants,scheduling);
 
     }
 
-    public void notifyPlaceResponsibles(Integer placeId, Set<User>responsibles)throws Exception {
+    public void notifyPlaceResponsibles(Integer placeId, Set<User>responsibles, Scheduling scheduling )throws Exception {
     	
     	String subject = "Uma atividade foi cadastrada num local de sua responsabilidade";
     	
-    	notifyAllParticipants(subject,"template-notify-private-scheduling.ftl",(Set<User>)responsibles);
+    	notifyAllParticipants(subject,"template-notify-private-scheduling.ftl",(Set<User>)responsibles, scheduling);
 			
 	}   
 }
