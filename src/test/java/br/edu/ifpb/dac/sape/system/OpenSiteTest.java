@@ -1,6 +1,7 @@
 package br.edu.ifpb.dac.sape.system;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.TimeUnit;
@@ -40,12 +41,13 @@ public class OpenSiteTest {
 	}
 	
 	@Test
-	@DisplayName("Verifica titulo da aba")
+	@DisplayName("Verifica URL da aplicação e título da aba")
 	void title() {
 		String title = driver.getTitle();
+		String url = driver.getCurrentUrl().toString();
 		assertAll("Página errada",
 				() -> assertTrue(title.contentEquals("SAPE")),
-				() -> assertTrue(title.length() == 4)
+				() -> assertEquals("http://localhost:3000/",url)
 		);
 	}
 

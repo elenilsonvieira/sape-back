@@ -34,12 +34,17 @@ public class PlaceConverterService {
 			entity.setReference(dto.getReference());
 			entity.setPublic(dto.isPublic());
 			
-			User user = userService.findByRegistration(dto.getResponsible().getRegistration()).orElse(null);
-		
+			Set<UserDTO> responsibles = dto.getResponsibles();
+			
 			entity.setResponsibles(new HashSet<User>());
 			Set<User> setUser = new HashSet<>(entity.getResponsibles());
+			for (UserDTO userDTO : responsibles) {
+				setUser.add(userService.findById(userDTO.getId()));
+			}
+			//User user = userService.findByRegistration(dto.getResponsible().getRegistration()).orElse(null);
+		
 			
-			setUser.add(user);
+			//setUser.add(user);
 			entity.setResponsibles(setUser);
 			
 			
@@ -60,7 +65,13 @@ public class PlaceConverterService {
 			dto.setReference(entity.getReference());
 			
 			
+			Set<User> responsibles = entity.getResponsibles();
+			Set<UserDTO> responsiblesDTO = new HashSet<UserDTO>();
+			for (User user : responsibles) {
+				responsiblesDTO.add(userConverterService.userToDto(user));
+			}
 			
+			dto.setResponsibles(responsiblesDTO);
 			
 			return dto;
 		}

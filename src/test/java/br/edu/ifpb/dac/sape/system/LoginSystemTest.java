@@ -103,7 +103,7 @@ public class LoginSystemTest {
 		//abrir página de login
 		driver.get("http://localhost:3000/login");
 		//prencher campos
-		writeFields("202315020008","*************");
+		writeFields("201715020017","qwe1238246GILZA");
 		//botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
@@ -115,7 +115,7 @@ public class LoginSystemTest {
 		assertAll("Teste de login válido",
 				/*aviso de sucesso*/
 				() -> assertEquals("Sucesso", cardTitle),
-				() -> assertEquals("Bem vindo(a)202315020008", cardMsg),
+				() -> assertEquals("Bem vindo(a)201715020017", cardMsg),
 				/*se o redirecionamento foi feito à página informada*/
 				() -> assertEquals("http://localhost:3000/createScheduling", driver.getCurrentUrl().toString()));
 		

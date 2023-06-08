@@ -27,7 +27,9 @@ public class PlaceDTO {
 	
 	private boolean isPublic;
 	
-	private UserDTO responsible;
+	//private UserDTO responsible;
+	
+	private Set<UserDTO> responsibles;
 	
 	
 	public PlaceDTO() {
@@ -92,13 +94,23 @@ public class PlaceDTO {
 		this.isPublic = isPublic;
 	}
 
-	public UserDTO getResponsible() {
-		return responsible;
+	public Set<UserDTO> getResponsibles() {
+		return responsibles;
 	}
 
-	public void setResponsible(UserDTO responsible) {
-		this.responsible = responsible;
+	public void setResponsibles(Set<UserDTO> responsibles) {
+		this.responsibles = responsibles;
 	}
+	
+	
+
+//	public UserDTO getResponsible() {
+//		return responsible;
+//	}
+//
+//	public void setResponsible(UserDTO responsible) {
+//		this.responsible = responsible;
+//	}
 
 	
 	
