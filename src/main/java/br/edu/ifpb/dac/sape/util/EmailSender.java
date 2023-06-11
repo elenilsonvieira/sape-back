@@ -1,6 +1,5 @@
 package br.edu.ifpb.dac.sape.util;
 
-import java.sql.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;

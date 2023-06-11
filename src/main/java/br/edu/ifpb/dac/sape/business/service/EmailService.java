@@ -26,13 +26,6 @@ public class EmailService {
     @Autowired
     private Configuration freemarkerConfig;
     
-    @Autowired
-    private SportService sportService;
-    
-    @Autowired
-    private UserService	userService;
-    
-    
 
     public void sendEmail(String toEmail, String subject, String templateName, Object nome, Scheduling scheduling) {
     	
@@ -47,8 +40,9 @@ public class EmailService {
 
             Map<String, Object> model = new HashMap<>();
             model.put("name", nome);
+            
             if(scheduling != null) {
-            	System.out.println("aki");
+            	
             	model.put("sport", scheduling.getSport().getName());
                 model.put("location", scheduling.getPlace().getName());
                 model.put("date", scheduling.getScheduledDate());
