@@ -41,6 +41,7 @@ class PlaceCRUDFrontTests {
 		
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor)driver;
+		login();
 		
 		place = new Place();
 		place.setName("Quadra");
@@ -469,7 +470,17 @@ class PlaceCRUDFrontTests {
 			clickElement(element);
 		}
 	}
-
+	
+	private void login() {
+		//abrir página de login
+		driver.get("http://localhost:3000/login");
+		//prencher campos
+		writeFields("201715020017","qwe1238246GILZA");
+		//botão login
+		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
+		clickElement(buttonLogin);
+	}
+	
 	private WebElement getElementById(String id) {
 		return driver.findElement(By.id(id));
 	}
