@@ -25,6 +25,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.edu.ifpb.dac.sape.business.service.UserService;
@@ -39,12 +40,12 @@ public class PlaceCRUDSystemTest{
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
 	private static Place place;
-	private static User responsible;
+	
 //	@Autowired
 //	private static UserService userService;
 
 	@BeforeAll
-	static void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		System.setProperty("webdriver.edge.driver", 
 				"C:\\Users\\ytall\\Documents\\workspace-spring-tool-suite-4-4.17.2.RELEASE\\msedgedriver.exe");
 		
@@ -57,7 +58,7 @@ public class PlaceCRUDSystemTest{
 //		userService.save(responsible);
 		
 		place = new Place();
-		place.setName("Quadra");
+		place.setName("Ar Livre");
 		place.setReference("Logo na entrada");
 		place.setMaximumCapacityParticipants(100);
 		place.setPublic(false);
@@ -77,7 +78,7 @@ public class PlaceCRUDSystemTest{
 	}
 
 	@AfterAll
-	static void tearDown() throws InterruptedException {
+	public static void tearDown() throws InterruptedException {
 		Thread.sleep(1000);
 		driver.quit();
 	}
@@ -158,13 +159,13 @@ public class PlaceCRUDSystemTest{
 		
 		// caixa nome
 		if(placeName != null) {
-			element = getElementById("lab");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[1]/input");
 			element.sendKeys(placeName);
 		}
 		
 		// caixa referência
 		if(reference != null) {
-			element = getElementByClass("form-control");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[2]/input");
 			element.sendKeys(reference);
 		}
 
@@ -176,13 +177,17 @@ public class PlaceCRUDSystemTest{
 
 		// caixa "é público?"
 		if(isPublic) {
-			element = getElementById("flexCheckDefault");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[4]/input");
 			clickElement(element);
 		}
 		//nome do responsável
 		if(responsibleName != null) {
-			element = getElementByClass("filterUser");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[5]/div/div/div/input");
+			element.click();
 			element.sendKeys(responsibleName);
+			Select select=new Select(element); 
+			select.selectByVisibleText(responsibleName);
+		
 		}
 	}
 	
