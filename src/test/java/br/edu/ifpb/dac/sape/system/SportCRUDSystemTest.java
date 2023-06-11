@@ -3,14 +3,11 @@ package br.edu.ifpb.dac.sape.system;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -27,7 +24,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class SportCRUDSystemTest {
-	
 	
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
@@ -172,14 +168,14 @@ public class SportCRUDSystemTest {
 		clickElement( buttonFavourite);
 		Thread.sleep(1000);
 		
-		String cardTitle = getElementByClass("toast-title").getText();
-		String cardMsg = getElementByClass("toast-message").getText();
+		String title = getElementByClass("toast-title").getText();
+		String message = getElementByClass("toast-message").getText();
 		
 		
 		assertAll(
 				/*aviso de sucesso*/
-				() -> assertEquals("Sucesso", cardTitle),
-				() -> assertEquals("Você demonstrou interesse nesse esporte!", cardMsg));
+				() -> assertEquals("Sucesso", title),
+				() -> assertEquals("Você demonstrou interesse nesse esporte!", message));
 		
 	}
 	
