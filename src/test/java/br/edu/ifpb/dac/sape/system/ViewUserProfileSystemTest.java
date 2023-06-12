@@ -125,7 +125,7 @@ public class ViewUserProfileSystemTest {
 	}
 	
 	@Test
-	@DisplayName("Desfavoritando esporte")
+	@DisplayName("Redicionando para criação de agendamento")
 	@Order(3)
 	public void redirectingToCreateScheduling() throws InterruptedException{
 		
