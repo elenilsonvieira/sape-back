@@ -46,15 +46,13 @@ public class PlaceCRUDSystemTest{
 //	private static UserService userService;
 
 	@BeforeAll
-<<<<<<< HEAD
+
 	static void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", 
 				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
-=======
-	public static void setUp() throws Exception {
-		System.setProperty("webdriver.edge.driver", 
-				"C:\\Users\\ytall\\Documents\\workspace-spring-tool-suite-4-4.17.2.RELEASE\\msedgedriver.exe");
->>>>>>> 7638e937dde1a654b10280120437681bcdbbcdcb
+
+	
+
 		
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor)driver;
@@ -270,17 +268,16 @@ public class PlaceCRUDSystemTest{
 		//nome do responsável
 		if(responsibleName != null) {
 			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[5]/div/div/div/input");
-<<<<<<< HEAD
+
 			element.sendKeys(responsibleName);
 			clickElement(element);
 			
-=======
+
 			element.click();
 			element.sendKeys(responsibleName);
 			Select select=new Select(element); 
 			select.selectByVisibleText(responsibleName);
-		
->>>>>>> 7638e937dde1a654b10280120437681bcdbbcdcb
+
 		}
 	}
 	
@@ -334,7 +331,7 @@ public class PlaceCRUDSystemTest{
 		//abrir página de login
 		driver.get("http://localhost:3000/login");
 		//prencher campos
-		writeLoginFields("201915020021","99458444e.");
+		writeLoginFields("201915020021","");
 		//botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
