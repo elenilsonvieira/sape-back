@@ -26,6 +26,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.edu.ifpb.dac.sape.business.service.UserService;
@@ -40,14 +41,20 @@ public class PlaceCRUDSystemTest{
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
 	private static Place place;
-	private static User responsible;
+	
 //	@Autowired
 //	private static UserService userService;
 
 	@BeforeAll
+<<<<<<< HEAD
 	static void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", 
 				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
+=======
+	public static void setUp() throws Exception {
+		System.setProperty("webdriver.edge.driver", 
+				"C:\\Users\\ytall\\Documents\\workspace-spring-tool-suite-4-4.17.2.RELEASE\\msedgedriver.exe");
+>>>>>>> 7638e937dde1a654b10280120437681bcdbbcdcb
 		
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor)driver;
@@ -58,7 +65,7 @@ public class PlaceCRUDSystemTest{
 //		userService.save(responsible);
 		
 		place = new Place();
-		place.setName("Quadra");
+		place.setName("Ar Livre");
 		place.setReference("Logo na entrada");
 		place.setMaximumCapacityParticipants(100);
 		place.setPublic(false);
@@ -80,7 +87,7 @@ public class PlaceCRUDSystemTest{
 	}
 
 	@AfterAll
-	static void tearDown() throws InterruptedException {
+	public static void tearDown() throws InterruptedException {
 		Thread.sleep(1000);
 		driver.quit();
 	}
@@ -263,9 +270,17 @@ public class PlaceCRUDSystemTest{
 		//nome do responsável
 		if(responsibleName != null) {
 			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[5]/div/div/div/input");
+<<<<<<< HEAD
 			element.sendKeys(responsibleName);
 			clickElement(element);
 			
+=======
+			element.click();
+			element.sendKeys(responsibleName);
+			Select select=new Select(element); 
+			select.selectByVisibleText(responsibleName);
+		
+>>>>>>> 7638e937dde1a654b10280120437681bcdbbcdcb
 		}
 	}
 	
