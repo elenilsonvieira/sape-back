@@ -42,17 +42,24 @@ public class SchedulingService {
 	
 	public List<Scheduling> findAll() {
 		List<Scheduling> list = schedulingRepository.findAllByStatus(StatusScheduling.CONFIRMED);
-		System.out.println(list.size());
+		System.out.println("tamanho:  "+list.size());
 		return schedulingsBeginingToday(list);
 	}
 	
 	public List<Scheduling> findAll(Scheduling filter) {
+		filter.setStatus(StatusScheduling.CONFIRMED);
 		Example<Scheduling> exp = Example.of(filter,
 				ExampleMatcher.matching()
 				.withIgnoreCase()
 				.withStringMatcher(StringMatcher.CONTAINING));
 		
 		List<Scheduling> list = schedulingRepository.findAll(exp);
+//		List<Scheduling> schedulingsConfirmed = new ArrayList<>();
+//		for (Scheduling scheduling : list) {
+//			if (scheduling.getStatus() == StatusScheduling.CONFIRMED) {
+//				schedulingsConfirmed.add(scheduling);
+//			}
+//		}
 		
 		System.out.println("Tamanho da lista retornada pelo repository.findAll(filtro): " + list.size());
 		return schedulingsBeginingToday(list);
@@ -280,22 +287,26 @@ public class SchedulingService {
 	
 	public boolean approvePrivatePlaceScheduling(Scheduling scheduling)throws Exception {
 
-        if(scheduling.getPlace().getResponsibles() != null) { 
-        	
-            scheduling.setStatus(StatusScheduling.CONFIRMED);
+        if(scheduling.getPlace().getResponsibles() == null) { 
+        	return false;
             
-          
-            Set<User> users = new HashSet<>();
-            users.add(scheduling.getCreator());
-            
-            emailSender.notifyFavoriteSportScheduling(users, scheduling);
-           
-            emailSender.notifyCreator( users, scheduling);
-             
-            save(scheduling);
-            return true;
         }
-            return false;
+        scheduling.setStatus(StatusScheduling.CONFIRMED);
+        
+        
+        Set<User> creator = new HashSet<>();
+        creator.add(scheduling.getCreator());
+        
+        Set<User> usersSportFavorite = new HashSet<>();
+        usersSportFavorite.addAll(userService.findBySportFavorite(scheduling.getSport()));
+        
+        emailSender.notifyFavoriteSportScheduling(usersSportFavorite, scheduling);
+       
+        emailSender.notifyCreator( creator, scheduling);
+         
+        save(scheduling);
+        return true;
+            
     }
 		
 		

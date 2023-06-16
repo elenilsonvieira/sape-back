@@ -19,6 +19,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 @TestMethodOrder(OrderAnnotation.class)
 public class LoginSystemTest {
@@ -28,10 +29,10 @@ public class LoginSystemTest {
 	
 	@BeforeAll
 	static void setUp() throws InterruptedException {
-		System.setProperty("webdriver.edge.driver", 
-				"C:\\Users\\ytall\\Documents\\workspace-spring-tool-suite-4-4.17.2.RELEASE\\msedgedriver.exe");
+		System.setProperty("webdriver.chrome.driver", 
+				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
 		
-		driver = new EdgeDriver();
+		driver = new ChromeDriver();
 		jse = (JavascriptExecutor)driver;
 		
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -103,7 +104,7 @@ public class LoginSystemTest {
 		//abrir página de login
 		driver.get("http://localhost:3000/login");
 		//prencher campos
-		writeFields("201715020017","qwe1238246GILZA");
+		writeFields("201915020021","99458444e.");
 		//botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
@@ -115,7 +116,7 @@ public class LoginSystemTest {
 		assertAll("Teste de login válido",
 				/*aviso de sucesso*/
 				() -> assertEquals("Sucesso", cardTitle),
-				() -> assertEquals("Bem vindo(a)201715020017", cardMsg),
+				() -> assertEquals("Bem vindo(a)201915020021", cardMsg),
 				/*se o redirecionamento foi feito à página informada*/
 				() -> assertEquals("http://localhost:3000/createScheduling", driver.getCurrentUrl().toString()));
 		

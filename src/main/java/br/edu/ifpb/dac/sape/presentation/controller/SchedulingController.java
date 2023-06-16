@@ -55,7 +55,7 @@ public class SchedulingController {
 	public ResponseEntity getAll() {
 		try {
 			List<Scheduling> entityList = schedulingService.findAll();
-
+				System.out.println(entityList.size());
 			List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
 
 			

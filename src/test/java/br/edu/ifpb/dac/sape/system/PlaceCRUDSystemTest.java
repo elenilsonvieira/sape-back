@@ -24,6 +24,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,10 +46,10 @@ public class PlaceCRUDSystemTest{
 
 	@BeforeAll
 	static void setUp() throws Exception {
-		System.setProperty("webdriver.edge.driver", 
-				"C:\\Users\\ytall\\Documents\\workspace-spring-tool-suite-4-4.17.2.RELEASE\\msedgedriver.exe");
+		System.setProperty("webdriver.chrome.driver", 
+				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
 		
-		driver = new EdgeDriver();
+		driver = new ChromeDriver();
 		jse = (JavascriptExecutor)driver;
 	
 //		responsible = new User();
@@ -74,6 +75,8 @@ public class PlaceCRUDSystemTest{
 	@AfterEach
 	void beforeEach() throws InterruptedException {
 		Thread.sleep(1000);
+		login();
+		
 	}
 
 	@AfterAll
@@ -85,7 +88,7 @@ public class PlaceCRUDSystemTest{
 	@Test
 	@DisplayName("criar local no banco - CASO POSITIVO")
 	@Order(1)
-	public void createPlace() throws InterruptedException {
+	public void createPlaceValid() throws InterruptedException {
 		login();
 		Thread.sleep(2000);
 		driver.get("http://localhost:3000/createPlace");
@@ -93,26 +96,30 @@ public class PlaceCRUDSystemTest{
 		String placeName = place.getName();
 		String placeReference = place.getReference();
 		String placeMaxCapacity = String.valueOf(place.getMaximumCapacityParticipants());
-		String responsibleName = "Igor Silva";
+		String responsibleName = "Igor Silva Sobral";
 		
 		boolean placeIsPublic = place.isPublic();
+		
 		Thread.sleep(2000);
 		// Campos de preenchiemtno sendo setados com valores respectivos de:
 		writeFields(placeName, placeReference, placeMaxCapacity, placeIsPublic, responsibleName);
 		Thread.sleep(2000);
 		// botão salvar
-		WebElement buttonSave = getElementByXPath("//button[@class='btn btn-primary']");
+		WebElement buttonSave = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
 		clickElement(buttonSave);
 		
 		// card de sucesso
 		String cardTitle = getElementByClass("toast-title").getText();
 		String cardMsg = getElementByClass("toast-message").getText();
-
+	
 		// pega todos os elementos da tabela
-		String tBody = getElementByTagName("TBODY").getText();
+		WebElement tbodyElement = driver.findElement(By.cssSelector("#root > div:nth-child(2) > header > fieldset > div > table > tbody"));
+		
+		String tBody = tbodyElement.getText();
 		
 		// captura a linha específica que representa o objeto criado
 		String lineOnTable = getSpecificLine(tBody, placeName);
+		
 		
 		assertAll("Testes do front ao criar place",
 				/*aviso de sucesso*/
@@ -129,60 +136,136 @@ public class PlaceCRUDSystemTest{
 				() -> assertTrue(lineOnTable.contains((placeIsPublic) ? "Sim" : "Não"))
 		);
 	}
-	
-	
-	
-	private String getSpecificLine(String tBody, String idOrName) {
-		Pattern pattern;
-		Matcher matcher;
-		String lineOnTable = "";
-		
-		// se conter apenas dígitos
-		if(idOrName.matches("^\\d+$")) {
-			pattern = Pattern.compile(String.format("\\n?%s.*", idOrName));
-		} else {
-			pattern = Pattern.compile(String.format("\\n?\\d+ %s.*", idOrName));
-		}
-		
-		matcher = pattern.matcher(tBody);
 
-		if(matcher.find()) { // método find é NECESSÁRIO para iniciar a busca da parte especificada pelo regex.
-			lineOnTable = matcher.group(0); // captura toda a expressão
+	
+	@ParameterizedTest
+	@ValueSource(strings = {"1", "2", "3", "4", "5", "6", "7"})
+	@DisplayName("criar local no banco - CASO NEGATIVO por campos em branco e regras de negócio")
+	@Order(2)
+	void createPlaceFail(String s) throws InterruptedException {
+		
+		Thread.sleep(2000);
+		driver.get("http://localhost:3000/createPlace");
+		
+		String placeName = place.getName();
+		String placeReference = place.getReference();
+		String placeMaxCapacity = String.valueOf(place.getMaximumCapacityParticipants());
+		String responsibleName = "Igor Silva Sobral";
+		
+		boolean placeIsPublic = place.isPublic();
+		
+		final String messageErro;
+		
+		switch (s) {
+		case "1":
+			writeFields(null, placeReference, placeMaxCapacity, placeIsPublic,responsibleName);
+			messageErro = "É obrigatório informar o nome do local!";
+			break;
+		case "2":
+			writeFields(placeName, null, placeMaxCapacity, placeIsPublic,responsibleName);
+			messageErro = "É obrigatório informar um local de referência!";
+			break;
+		case "3":
+			writeFields(placeName, placeReference, null, placeIsPublic,responsibleName);
+			messageErro = "É obrigatório informar a capacidade máxima do local!";
+			break;
+		case "4":
+			// "Blo" - 3 caracteres
+			writeFields("abc", placeReference, placeMaxCapacity, placeIsPublic,responsibleName);
+			messageErro = "Nome inválido! Deve possuir mais que 3 caracteres e não possuir caracteres especiais";
+			break;
+		case "5":
+			// capacidade não positiva
+			writeFields(placeName, placeReference, "0", placeIsPublic,responsibleName);
+			messageErro = "A capacidade de participantes deve ser um valor positivo!";
+			break;
+		case "6":
+			// 401 excede a capacidade máxima
+			writeFields(placeName, placeReference, "401", placeIsPublic,responsibleName); 
+			messageErro = "O valor máximo para capacidade de participantes é 400!";
+			break;
+		case "7":
+			// local já está cadastrado no bancod de dados
+			writeFields(placeName, placeReference, placeMaxCapacity, placeIsPublic,responsibleName);
+			messageErro = "Já existe um local com nome " + placeName ;
+			break;
+//		case "8":
+//			// local já está cadastrado no bancod de dados
+//			writeFields(placeName, placeReference, placeMaxCapacity, placeIsPublic,null);
+//			messageErro = "Já existe um local com nome " + placeName ;
+//			break;
+		default:
+			messageErro = "";
 		}
 		
-		return lineOnTable;
+		Thread.sleep(1500);
+		
+		// botão salvar
+		WebElement buttonSave = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		clickElement(buttonSave);
+
+		Thread.sleep(500);
+		
+		// card de sucesso
+		String cardTitle = getElementByClass("toast-title").getText();
+		String cardMsg = getElementByClass("toast-message").getText();
+
+		assertAll("Testes do front ao criar place - mesangem de campos",
+				/*aviso de falha para cada card*/
+				() -> assertEquals("Erro", cardTitle),
+				() -> assertEquals(messageErro, cardMsg),
+				
+				/*a página ainda deve ser a mesma depois do erro*/
+				() -> assertEquals("http://localhost:3000/createPlace", driver.getCurrentUrl())
+		);
 	}
 	
-	private void writeFields(String placeName, String reference, String capacityM, boolean isPublic, String responsibleName) {
+	private String getSpecificLine(String tBody, String idOrName) {
+	    String[] lines = tBody.split("\\n");
+	    
+	    for (String line : lines) {
+	        if (line.contains(idOrName)) {
+	            return line.trim();
+	        }
+	    }
+	    
+	    return ""; 
+	}
+
+	
+	private void writeFields(String placeName, String reference, String capacityM, boolean isPublic, String responsibleName) throws InterruptedException {
 		WebElement element;
 		
 		// caixa nome
 		if(placeName != null) {
-			element = getElementById("lab");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[1]/input");
 			element.sendKeys(placeName);
 		}
 		
 		// caixa referência
 		if(reference != null) {
-			element = getElementByClass("form-control");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[2]/input");
 			element.sendKeys(reference);
 		}
 
 		// caixa capacidade total
 		if(capacityM != null) {
-			element = getElementByClass("form-control-small");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[3]/input");
 			element.sendKeys(capacityM);
 		}
 
 		// caixa "é público?"
 		if(isPublic) {
-			element = getElementById("flexCheckDefault");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[4]/input");
 			clickElement(element);
+			Thread.sleep(3000);
 		}
 		//nome do responsável
 		if(responsibleName != null) {
-			element = getElementByClass("filterUser");
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[5]/div/div/div/input");
 			element.sendKeys(responsibleName);
+			clickElement(element);
+			
 		}
 	}
 	
@@ -236,7 +319,7 @@ public class PlaceCRUDSystemTest{
 		//abrir página de login
 		driver.get("http://localhost:3000/login");
 		//prencher campos
-		writeLoginFields("201715020017","qwe1238246GILZA");
+		writeLoginFields("201915020021","99458444e.");
 		//botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
