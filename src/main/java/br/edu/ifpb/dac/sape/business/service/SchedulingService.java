@@ -54,14 +54,7 @@ public class SchedulingService {
 				.withStringMatcher(StringMatcher.CONTAINING));
 		
 		List<Scheduling> list = schedulingRepository.findAll(exp);
-//		List<Scheduling> schedulingsConfirmed = new ArrayList<>();
-//		for (Scheduling scheduling : list) {
-//			if (scheduling.getStatus() == StatusScheduling.CONFIRMED) {
-//				schedulingsConfirmed.add(scheduling);
-//			}
-//		}
-		
-		System.out.println("Tamanho da lista retornada pelo repository.findAll(filtro): " + list.size());
+
 		return schedulingsBeginingToday(list);
 	}
 	
@@ -284,7 +277,7 @@ public class SchedulingService {
 		
 		return selectedList;
 	}
-	
+	//!!!!
 	public boolean approvePrivatePlaceScheduling(Scheduling scheduling)throws Exception {
 
         if(scheduling.getPlace().getResponsibles() == null) { 
