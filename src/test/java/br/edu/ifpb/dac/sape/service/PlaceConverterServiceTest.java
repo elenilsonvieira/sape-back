@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -47,8 +50,9 @@ public class PlaceConverterServiceTest {
 		dto.setPublic(false);
 		dto.setReference("Perto do estacionamento");
 		dto.setMaximumCapacityParticipants(80);
-		dto.setResponsible(null);
-		dto.setResponsible(userDTO);
+		Set<UserDTO> responsibles = new HashSet<>();
+		responsibles.add(userDTO);
+		dto.setResponsibles(responsibles);
 	}
 	
 	@Test
