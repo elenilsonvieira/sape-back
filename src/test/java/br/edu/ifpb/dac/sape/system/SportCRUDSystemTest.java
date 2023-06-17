@@ -134,12 +134,15 @@ public class SportCRUDSystemTest {
 	@DisplayName("Deletando esporte")
 	@Order(3)
 	void deletingSport() throws InterruptedException {
+	
 		driver.get("http://localhost:3000/listSports");
+		Thread.sleep(2000);
 		
-		WebElement element = getElementByXPath("/html/body/div/div[2]/header/fieldset/table/tbody/tr/td[1]");
+		WebElement element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[1]");
 		String name = element.getText();
+		Thread.sleep(2000);
 		
-		WebElement buttonDelete = getElementByXPath("/html/body/div/div[2]/header/fieldset/table/tbody/tr/td[2]/td/button[2]");
+		WebElement buttonDelete = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[3]/td/button[2]");
 		clickElement(buttonDelete);
 		Thread.sleep(1000);
 		
@@ -162,12 +165,13 @@ public class SportCRUDSystemTest {
 		clickElement(saveButton);
 		Thread.sleep(1000);
 		driver.get("http://localhost:3000/listSports");
-		
-		//botão de favoritar
-		WebElement buttonFavourite = getElementByXPath("/html/body/div/div[2]/header/fieldset/table/tbody/tr/td[2]/td/button[1]");
-		clickElement( buttonFavourite);
 		Thread.sleep(1000);
+		//botão de favoritar
+		WebElement buttonFavourite = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[3]/td/button[1]");
+		Thread.sleep(2000);
+		clickElement( buttonFavourite);
 		
+		Thread.sleep(2000);
 		String title = getElementByClass("toast-title").getText();
 		String message = getElementByClass("toast-message").getText();
 		
@@ -184,10 +188,13 @@ public class SportCRUDSystemTest {
 	@DisplayName("Favoritando esporte - Caso Inválido")
 	@Order(5)
 	public void favouriteSportInvalid() throws InterruptedException {
+		
 		//botao favoritar
-		WebElement buttonFavourite = getElementByXPath("/html/body/div/div[2]/header/fieldset/table/tbody/tr/td[2]/td/button[1]");
+		WebElement buttonFavourite = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[3]/td/button[1]");
+		Thread.sleep(2000);
 		clickElement( buttonFavourite);
-		Thread.sleep(1000);
+		
+		Thread.sleep(2000);
 		//título do alerta
 		String cardTitle = getElementByClass("toast-title").getText();
 	
@@ -202,7 +209,7 @@ public class SportCRUDSystemTest {
 		//abrir página de login
 		driver.get("http://localhost:3000/login");
 		//prencher campos
-		writeLoginFields("201715020017","qwe1238246GILZA");
+		writeLoginFields("202315020008","qwe1238246@GILZA");
 		//botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		buttonLogin.click();

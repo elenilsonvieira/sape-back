@@ -32,9 +32,10 @@ public class ViewUserProfileSystemTest {
 		System.setProperty("webdriver.edge.driver", 
 				"C:\\Users\\ytall\\Documents\\workspace-spring-tool-suite-4-4.17.2.RELEASE\\msedgedriver.exe");
 		
-		jse = (JavascriptExecutor)driver;
-		driver = new EdgeDriver();
 		
+		driver = new EdgeDriver();
+		jse = (JavascriptExecutor)driver;
+		login();
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 	}
 
@@ -54,26 +55,29 @@ public class ViewUserProfileSystemTest {
 	@DisplayName("Atualizando perfil - Caso Inválido")
 	@Order(1)
 	public void UpdatingProfileInvalid(String inputs) throws InterruptedException {
-		login();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
+		
 		driver.get("http://localhost:3000/viewUser");
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		String errorMessage = null;
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		//botão atualizar do perfil
-		WebElement updateButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/div[4]/button[2]");
+		WebElement updateButton = getElementByXPath("//*[@id=\"root\"]/div[2]/header/fieldset/div/button[2]");
 		clickElement(updateButton);
-		Thread.sleep(2000);
+		Thread.sleep(1000);
+		
+		Thread.sleep(1000);
 		//botão atualizar da página de atualização de perfil
-		WebElement updateButton2 = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/button[1]");
-		Thread.sleep(2000);
-	
+		WebElement updateButton2 = getElementByXPath("//*[@id=\"btn-upd\"]");
+		Thread.sleep(1000);
+		
+		
 		//passando entradas inválidas
 		switch (inputs) {
 		
 		case "1":
 			writeFields("ytallopereiralves@");
-			
+		
 			errorMessage = "Informe um email válido!";
 			break;
 			
@@ -94,28 +98,65 @@ public class ViewUserProfileSystemTest {
 			
 			errorMessage = "Informe um email válido!";
 			break;
+		default:
+			errorMessage="";
 		}
-	
+		
 		clickElement(updateButton2);
+		
+		Thread.sleep(1000);
 		String title = getElementByClass("toast-title").getText();
 		String message = getElementByClass("toast-message").getText();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
+		
 		assertEquals("Erro", title);
 		assertEquals(errorMessage, message);
+	}	
+	
+	@Test
+	@Order(2)
+	public void UpdatingProfileValid() throws InterruptedException{
+		Thread.sleep(2000);
+		driver.get("http://localhost:3000/viewUser");
+		Thread.sleep(2000);
+		
+		//botão atualizar do perfil
+		WebElement updateButton = getElementByXPath("//*[@id=\"root\"]/div[2]/header/fieldset/div/button[2]");
+		clickElement(updateButton);
+		Thread.sleep(2000);
+		
+		Thread.sleep(2000);
+		//botão atualizar da página de atualização de perfil
+		WebElement updateButton2 = getElementByXPath("//*[@id=\"btn-upd\"]");
+		Thread.sleep(2000);
+		
+		writeFields("ytallopereiralves@gmail.com");
+		clickElement(updateButton2);
+		Thread.sleep(2000);
+		
+		String title = getElementByClass("toast-title").getText();
+		String message = getElementByClass("toast-message").getText();
+		
+		assertEquals("Sucesso", title);
+		assertEquals("Usuario atualizado com sucesso!", message);
+		
 	}
 	
 	@Test
 	@DisplayName("Desfavoritando esporte")
-	@Order(2)
+	@Order(3)
 	public void unFavouriteSport() throws InterruptedException{
-		
-		login();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		driver.get("http://localhost:3000/viewUser");
 		Thread.sleep(2000);
-		WebElement unFavouriteButton = getElementByXPath("html/body/div/div[2]/header/fieldset/div/div[5]/table/tbody/tr/td[2]/td/button");
+		WebElement favouriteButton = getElementByXPath("//*[@id=\"root\"]/div[2]/header/fieldset/div/button[3]");
+		clickElement(favouriteButton);
+		Thread.sleep(2000);
+		
+		WebElement unFavouriteButton = getElementByXPath("//*[@id=\"root\"]/div[2]/header/div/table/tbody/tr/td[2]/td/button");
 		clickElement(unFavouriteButton);
 		Thread.sleep(2000);
+		
 		String title = getElementByClass("toast-title").getText();
 		String message = getElementByClass("toast-message").getText();
 		
@@ -126,58 +167,28 @@ public class ViewUserProfileSystemTest {
 	
 	@Test
 	@DisplayName("Redicionando para criação de agendamento")
-	@Order(3)
+	@Order(4)
 	public void redirectingToCreateScheduling() throws InterruptedException{
-		
-		login();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		driver.get("http://localhost:3000/viewUser");
 		Thread.sleep(2000);
-		WebElement createScheduling = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/div[4]/button[1]");
+		
+		WebElement createScheduling = getElementByXPath("//*[@id=\"root\"]/div[2]/header/fieldset/div/button[1]");
 		clickElement(createScheduling);
 		Thread.sleep(2000);
+		
 		String currentURL = driver.getCurrentUrl().toString();
 		
 		assertEquals("http://localhost:3000/createScheduling",currentURL);
 	
 	}
 	
-	
-	
-	private void login() {
-		//abrir página de login
-		driver.get("http://localhost:3000/login");
-		//prencher campos
-		writeLoginFields("201715020017","qwe1238246GILZA");
-		//botão login
-		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
-		buttonLogin.click();
-	}
-	
-	private void writeLoginFields(String registration,String password) {
-		WebElement element;
-		
-		// campo matricula
-		if(registration != null) {
-			element = getElementById("input1");
-			element.sendKeys(registration);
-		}
-		
-		// campo senha referência
-		if(password != null) {
-			element = getElementById("input2");
-			element.sendKeys(password);
-		}
-
-	}
-	
-	
 	private void writeFields(String email) throws InterruptedException {
 		
 		WebElement element;
 		if( email != null) {
-			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/div[2]/input");
-			
+			element = getElementByXPath("//*[@id=\"email\"]");
+			element.clear();
 			element.sendKeys(email);
 		}
 
@@ -193,7 +204,7 @@ public class ViewUserProfileSystemTest {
 		}
 	}
 	
-	private WebElement getElementById(String id) {
+	private static WebElement getElementById(String id) {
 		return driver.findElement(By.id(id));
 	}
 
@@ -201,11 +212,42 @@ public class ViewUserProfileSystemTest {
 		return driver.findElement(By.className(className));
 	}
 
-	private WebElement getElementByXPath(String xPath) {
+	private static WebElement getElementByXPath(String xPath) {
 		return driver.findElement(By.xpath(xPath));
 	}
 	
 	private WebElement getElementByTagName(String tag) {
 		return driver.findElement(By.tagName(tag));
 	}
+<<<<<<< HEAD
 }
+=======
+	
+	private static void login() {
+		//abrir página de login
+		driver.get("http://localhost:3000/login");
+		//prencher campos
+		writeLoginFields("201715020017","qwe1238246GILZA");
+		//botão login
+		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
+		buttonLogin.click();
+	}
+	
+	private static void writeLoginFields(String registration,String password) {
+		WebElement element;
+		
+		// campo matricula
+		if(registration != null) {
+			element = getElementById("input1");
+			element.sendKeys(registration);
+		}
+		
+		// campo senha referência
+		if(password != null) {
+			element = getElementById("input2");
+			element.sendKeys(password);
+		}
+
+	}
+}
+>>>>>>> 53c7dea2211f8a8c0f967333fe8e9c5ab8ac183b
