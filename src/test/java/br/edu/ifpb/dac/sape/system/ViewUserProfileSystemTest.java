@@ -219,10 +219,7 @@ public class ViewUserProfileSystemTest {
 	private WebElement getElementByTagName(String tag) {
 		return driver.findElement(By.tagName(tag));
 	}
-<<<<<<< HEAD
-}
-=======
-	
+
 	private static void login() {
 		//abrir página de login
 		driver.get("http://localhost:3000/login");
@@ -249,5 +246,5 @@ public class ViewUserProfileSystemTest {
 		}
 
 	}
+
 }
->>>>>>> 53c7dea2211f8a8c0f967333fe8e9c5ab8ac183b

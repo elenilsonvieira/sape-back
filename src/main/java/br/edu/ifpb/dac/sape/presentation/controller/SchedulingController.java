@@ -254,7 +254,6 @@ public class SchedulingController {
 		try {
 			Scheduling scheduling = schedulingService.findById(schedulingId);
 
-			System.out.println(scheduling.toString());
 			if (scheduling != null) {
 				schedulingService.approvePrivatePlaceScheduling(scheduling);
 			}
