@@ -277,7 +277,7 @@ public class SchedulingService {
 		
 		return selectedList;
 	}
-	//!!!!
+	
 	public boolean approvePrivatePlaceScheduling(Scheduling scheduling)throws Exception {
 
         if(scheduling.getPlace().getResponsibles() == null) { 
@@ -286,17 +286,19 @@ public class SchedulingService {
         }
         scheduling.setStatus(StatusScheduling.CONFIRMED);
         
+        Set<User> setCreator = new HashSet<>();
+        User creator = scheduling.getCreator();
+        setCreator.add(creator);
         
-        Set<User> creator = new HashSet<>();
-        creator.add(scheduling.getCreator());
+        if(creator.getEmail() != null) {
+        	Set<User> usersSportFavorite = new HashSet<>();
+            usersSportFavorite.addAll(userService.findBySportFavorite(scheduling.getSport()));
+            
+            emailSender.notifyFavoriteSportScheduling(usersSportFavorite, scheduling);
+           
+            emailSender.notifyCreator(setCreator, scheduling);
+        }
         
-        Set<User> usersSportFavorite = new HashSet<>();
-        usersSportFavorite.addAll(userService.findBySportFavorite(scheduling.getSport()));
-        
-        emailSender.notifyFavoriteSportScheduling(usersSportFavorite, scheduling);
-       
-        emailSender.notifyCreator( creator, scheduling);
-         
         save(scheduling);
         return true;
             
