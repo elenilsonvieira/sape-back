@@ -21,23 +21,24 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+
 @TestMethodOrder(OrderAnnotation.class)
 public class LoginSystemTest {
-	
+
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
-	
+
 	@BeforeAll
 	static void setUp() throws InterruptedException {
-		System.setProperty("webdriver.chrome.driver", 
+		System.setProperty("webdriver.chrome.driver",
 				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
-		
+
 		driver = new ChromeDriver();
-		jse = (JavascriptExecutor)driver;
-		
+		jse = (JavascriptExecutor) driver;
+
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
-	
+
 	@AfterEach
 	void beforeEach() throws InterruptedException {
 		Thread.sleep(1000);
@@ -48,99 +49,102 @@ public class LoginSystemTest {
 		Thread.sleep(1000);
 		driver.quit();
 	}
-	
-	@ParameterizedTest
-	@ValueSource(strings = {"1", "2", "3"})
-	@DisplayName("Testar login inválido")
+
+	@Test
+	@DisplayName("Testar login válido")
 	@Order(1)
-	public void invalidLoginTest(String input) throws InterruptedException{
-		
-		//abrir página de login
+	public void validLoginTest() throws InterruptedException {
+		Thread.sleep(1000);
+		// abrir página de login
 		driver.get("http://localhost:3000/login");
-		
+		// prencher campos
+		writeFields("sua matricula", "sua senha");
+		// botão login
+		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
+		clickElement(buttonLogin);
+		Thread.sleep(1500);
+
+		// card de sucesso
+		String cardTitle = getElementByClass("toast-title").getText();
+		String cardMsg = getElementByClass("toast-message").getText();
+
+		assertAll("Teste de login válido",
+				/* aviso de sucesso */
+				() -> assertEquals("Sucesso", cardTitle), () -> assertEquals("Bem vindo(a)201915020021", cardMsg),
+				/* se o redirecionamento foi feito à página informada */
+				() -> assertEquals("http://localhost:3000/createScheduling", driver.getCurrentUrl().toString()));
+
+		WebElement buttonLoggout = getElementByXPath("/html/body/div/div[1]/div/div/ul/li[1]/a");
+		Thread.sleep(1000);
+		buttonLoggout.click();
+		Thread.sleep(500);
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = { "1", "2", "3" })
+	@DisplayName("Testar login inválido")
+	@Order(2)
+	public void invalidLoginTest(String input) throws InterruptedException {
+		Thread.sleep(100);
+		// abrir página de login
+		driver.get("http://localhost:3000/login");
+
 		String errorMessage;
-		
+
 		switch (input) {
 		case "1":
-			//campo matrícula vazio
-			writeFields(null,"12103921312");
+			// campo matrícula vazio
+			writeFields(null, "12103921312");
 			errorMessage = "Login Inválido!";
 			break;
 		case "2":
-			//campo senha vazio
-			writeFields("203015020008",null);
+			// campo senha vazio
+			writeFields("203015020008", null);
 			errorMessage = "Login Inválido!";
 			break;
 		case "3":
-			//campos preenchidos porém inválidos
-			writeFields("203015020008","asud29281288");
+			// campos preenchidos porém inválidos
+			writeFields("203015020008", "asud29281288");
 			errorMessage = "Login Inválido!";
 			break;
 		default:
 			errorMessage = "";
 		}
-		
+
 		Thread.sleep(1500);
-		
-		//botão login
+
+		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
-		
+
 		// card de erro
 		String cardTitle = getElementByClass("toast-title").getText();
 		String cardMsg = getElementByClass("toast-message").getText();
-		
+
 		assertAll("Teste de login inválido",
-				/*aviso de sucesso*/
-				() -> assertEquals("Erro", cardTitle),
-				() -> assertEquals(errorMessage, cardMsg));
-				
+				/* aviso de sucesso */
+				() -> assertEquals("Erro", cardTitle), () -> assertEquals(errorMessage, cardMsg));
+
+		Thread.sleep(1500);
 	}
-	
-	@Test
-	@DisplayName("Testar login válido")
-	@Order(2)
-	public void validLoginTest() {
-		//abrir página de login
-		driver.get("http://localhost:3000/login");
-		//prencher campos
-		writeFields("201915020021","99458444e.");
-		//botão login
-		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
-		clickElement(buttonLogin);
-		
-		// card de sucesso
-		String cardTitle = getElementByClass("toast-title").getText();
-		String cardMsg = getElementByClass("toast-message").getText();
-		
-		assertAll("Teste de login válido",
-				/*aviso de sucesso*/
-				() -> assertEquals("Sucesso", cardTitle),
-				() -> assertEquals("Bem vindo(a)201915020021", cardMsg),
-				/*se o redirecionamento foi feito à página informada*/
-				() -> assertEquals("http://localhost:3000/createScheduling", driver.getCurrentUrl().toString()));
-		
-	}
-	
-	
-	
-	private void writeFields(String registration,String password) {
+
+	private void writeFields(String registration, String password) {
 		WebElement element;
-		
+
 		// campo matricula
-		if(registration != null) {
-			element = getElementById("input1");
+		if (registration != null) {
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[1]/input");
 			element.sendKeys(registration);
 		}
-		
+
 		// campo senha referência
-		if(password != null) {
-			element = getElementById("input2");
+		if (password != null) {
+			element = getElementByXPath("/html/body/div/div[2]/header/fieldset/div[2]/input");
 			element.sendKeys(password);
 		}
 
 	}
-	
+
 	private void clickElement(WebElement we) {
 		try {
 			we.click();
@@ -148,15 +152,15 @@ public class LoginSystemTest {
 			jse.executeScript("arguments[0].click()", we);
 		}
 	}
-	
+
 	private WebElement getElementById(String id) {
 		return driver.findElement(By.id(id));
 	}
-	
+
 	private WebElement getElementByXPath(String xPath) {
 		return driver.findElement(By.xpath(xPath));
 	}
-	
+
 	private WebElement getElementByClass(String className) {
 		return driver.findElement(By.className(className));
 	}

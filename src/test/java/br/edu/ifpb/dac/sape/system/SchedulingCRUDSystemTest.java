@@ -43,7 +43,6 @@ public class SchedulingCRUDSystemTest {
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
 		login();
-
 	}
 
 	@AfterEach
@@ -53,7 +52,7 @@ public class SchedulingCRUDSystemTest {
 
 	@AfterAll
 	static void tearDown() throws InterruptedException {
-		Thread.sleep(5000);
+		Thread.sleep(3000);
 		driver.quit();
 	}
 
@@ -485,8 +484,6 @@ public class SchedulingCRUDSystemTest {
 		}
 	}
 
-	
-
 	private static void login() throws InterruptedException {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
@@ -494,9 +491,9 @@ public class SchedulingCRUDSystemTest {
 		writeLoginFields("201915020021", "");
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
-
+		Thread.sleep(500);
 		clickElement(buttonLogin);
-		Thread.sleep(1000);
+		Thread.sleep(1500);
 	}
 
 	private static void writeFilters(String date, String place, String sport) throws InterruptedException {

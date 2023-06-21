@@ -115,7 +115,7 @@ public class UserController {
 	}
 	
 	@PatchMapping("/{userId}/sportsFavorite/{sportId}")
-    public ResponseEntity addSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) {
+    public ResponseEntity addSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) throws Exception {
         try {
             userService.addSportsFavorite(userId, sportId);
             return ResponseEntity.noContent().build();

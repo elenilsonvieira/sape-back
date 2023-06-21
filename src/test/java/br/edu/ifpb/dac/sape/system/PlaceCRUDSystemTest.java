@@ -29,7 +29,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import br.edu.ifpb.dac.sape.model.entity.Place;
 
-
 @TestMethodOrder(OrderAnnotation.class)
 public class PlaceCRUDSystemTest {
 
@@ -48,22 +47,14 @@ public class PlaceCRUDSystemTest {
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor) driver;
 
-//		responsible = new User();
-//		responsible.setName("Ytallo Pereira Alves");
-//		responsible.setRegistration(202115020009L);
-//		userService.save(responsible);
 
 		place = new Place();
 		place.setName("Ar Livre");
 		place.setReference("Logo na entrada");
 		place.setMaximumCapacityParticipants(100);
 		place.setPublic(false);
-//		Set<User>responsibles = place.getResponsibles();
-//		responsibles.add(responsible);
-//		place.setResponsibles(responsibles);
 
-		// caso não encontre um elemento (em uma busca), espera n segundos (fazendo
-		// novas buscas) antes de lançar erro. OBS: o getCurrentURL não se enquadra.
+
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
 		login();
@@ -78,7 +69,7 @@ public class PlaceCRUDSystemTest {
 
 	@AfterAll
 	public static void tearDown() throws InterruptedException {
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 		driver.quit();
 	}
 
@@ -130,6 +121,7 @@ public class PlaceCRUDSystemTest {
 				() -> assertTrue(lineOnTable.contains(placeReference)),
 				() -> assertTrue(lineOnTable.contains(placeMaxCapacity)),
 				() -> assertTrue(lineOnTable.contains((placeIsPublic) ? "Sim" : "Não")));
+		Thread.sleep(1000);
 	}
 
 	@ParameterizedTest
@@ -200,7 +192,7 @@ public class PlaceCRUDSystemTest {
 		WebElement buttonSave = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
 		clickElement(buttonSave);
 
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 
 		// card de sucesso
 		String cardTitle = getElementByClass("toast-title").getText();
@@ -285,10 +277,11 @@ public class PlaceCRUDSystemTest {
 
 		// clicando no botão de Atualizar
 		WebElement buttonUpdate = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		Thread.sleep(1000);
 		clickElement(buttonUpdate);
 		WebElement tbodyElement = driver
 				.findElement(By.cssSelector("#root > div:nth-child(2) > header > fieldset > div > table > tbody"));
-
+		Thread.sleep(1000);
 		// pegando todas as tuplas da tabela
 		String tBody = tbodyElement.getText();
 
@@ -354,6 +347,100 @@ public class PlaceCRUDSystemTest {
 
 		assertAll("Exclusão de local", () -> assertTrue(lineWithId.isEmpty()),
 				() -> assertEquals("http://localhost:3000/listPlaces", driver.getCurrentUrl()));
+	}
+
+	@ParameterizedTest
+	@ValueSource(ints = { 1, 2, 3, 4 })
+	@DisplayName("Criando lOCAIS e verificando se estão na tabela")
+	@Order(5)
+	public void createPlaces(int cases) throws InterruptedException {
+		Thread.sleep(1000);
+		driver.get("http://localhost:3000/createPlace");
+
+		String name;
+		String reference;
+		String capacity;
+		boolean isPublic = true;
+		String responsible = "Igor Silva Sobral";
+
+		switch (cases) {
+		case 1:
+			name = "AABB";
+			reference = "Perto da BR";
+			capacity = "25";
+			writeFields(name, reference, capacity, isPublic, responsible);
+
+			break;
+
+		case 2:
+			name = "Ginásio";
+			reference = "Do Lado do Estacionamento";
+			capacity = "25";
+			writeFields(name, reference, capacity, isPublic, responsible);
+			break;
+
+		case 3:
+			name = "Quadra";
+			reference = "Escola Estadual";
+			capacity = "25";
+			writeFields(name, reference, capacity, isPublic, responsible);
+
+			break;
+
+		case 4:
+			name = "Feitosão";
+			reference = "Atrás do Hospital";
+			capacity = "25";
+			writeFields(name, reference, capacity, isPublic, responsible);
+
+			break;
+
+		}
+
+		Thread.sleep(500);
+		WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		saveButton.click();
+
+		String title = getElementByClass("toast-title").getText();
+		String message = getElementByClass("toast-message").getText();
+
+		assertAll(() -> assertEquals("http://localhost:3000/listPlaces", driver.getCurrentUrl().toString()),
+				() -> assertEquals("Sucesso", title), () -> assertEquals("Local criado com Sucesso!", message)
+
+		);
+
+		// Validações na tela de listagem de agendamento
+
+		WebElement tbodyElement = driver
+				.findElement(By.cssSelector("#root > div:nth-child(2) > header > fieldset > div > table > tbody"));
+
+		String tableBody = tbodyElement.getText();
+
+		// captura a linha específica que representa o objeto criado
+
+		WebElement nameElement = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[1]");
+		String placeName = nameElement.getText();
+		WebElement referElement = getElementByXPath("/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[2]");
+		String referenceValue = referElement.getText();
+		WebElement capacityElement = getElementByXPath(
+				"/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[3]");
+		String capacityValue = capacityElement.getText();
+
+		Pattern p = Pattern.compile(String.format("\n?.*%s.*%s.*%s.*", placeName, referenceValue, capacityValue));
+		Matcher m = p.matcher(tableBody);
+
+		final String lineOnTable;
+		if (m.find()) {
+			lineOnTable = m.group(0);
+		} else {
+			lineOnTable = "";
+		}
+		assertAll("Verificando se elemento salvo está na listagem de Locais",
+				() -> assertTrue(lineOnTable.contains(placeName)),
+				() -> assertTrue(lineOnTable.contains(referenceValue)),
+				() -> assertTrue(lineOnTable.contains(capacityValue))
+
+		);
 	}
 
 	private String getSpecificLine(String tBody, String idOrName) {
@@ -452,7 +539,7 @@ public class PlaceCRUDSystemTest {
 		element.sendKeys(del);
 	}
 
-	private static void login() {
+	private static void login() throws InterruptedException {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
@@ -460,6 +547,7 @@ public class PlaceCRUDSystemTest {
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
+		Thread.sleep(1500);
 	}
 
 	private static void writeLoginFields(String registration, String password) {

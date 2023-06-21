@@ -11,23 +11,24 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 
-
 public class OpenSiteTest {
-	
+
 	private static WebDriver driver;
-	
 
 	@BeforeAll
 	static void setUp() {
-		System.setProperty("webdriver.edge.driver", 
-				"C:\\Users\\ytall\\Documents\\workspace-spring-tool-suite-4-4.17.2.RELEASE\\msedgedriver.exe");
-		driver = new EdgeDriver();
-		// caso não encontre um elemento (em uma busca), espera 10s (fazendo novas buscas) antes de lançar erro.
-		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS); 
+		System.setProperty("webdriver.chrome.driver",
+				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
+
+		driver = new ChromeDriver();
+		// caso não encontre um elemento (em uma busca), espera 10s (fazendo novas
+		// buscas) antes de lançar erro.
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 	}
-	
+
 	@AfterAll
 	static void tearDown() {
 		driver.quit();
@@ -39,17 +40,14 @@ public class OpenSiteTest {
 		driver.get("http://localhost:3000");
 		Thread.sleep(2000);
 	}
-	
+
 	@Test
 	@DisplayName("Verifica URL da aplicação e título da aba")
 	void title() {
 		String title = driver.getTitle();
 		String url = driver.getCurrentUrl().toString();
-		assertAll("Página errada",
-				() -> assertTrue(title.contentEquals("SAPE")),
-				() -> assertEquals("http://localhost:3000/",url)
-		);
+		assertAll("Página errada", () -> assertTrue(title.contentEquals("SAPE")),
+				() -> assertEquals("http://localhost:3000/", url));
 	}
 
-	
 }
