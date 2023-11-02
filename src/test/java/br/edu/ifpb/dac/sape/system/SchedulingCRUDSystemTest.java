@@ -36,7 +36,7 @@ public class SchedulingCRUDSystemTest {
 	@BeforeAll
 	static void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
+				"C:\\Users\\josej\\Downloads\\chromedriver_win32\\chromedriver.exe");
 
 		driver = new ChromeDriver();
 

@@ -21,7 +21,7 @@ public class OpenSiteTest {
 	@BeforeAll
 	static void setUp() {
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
+				"C:\\Users\\josej\\Downloads\\chromedriver_win32\\chromedriver.exe");
 
 		driver = new ChromeDriver();
 		// caso não encontre um elemento (em uma busca), espera 10s (fazendo novas
