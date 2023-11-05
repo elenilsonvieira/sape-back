@@ -20,6 +20,7 @@ import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
+import br.edu.ifpb.dac.sape.presentation.dto.CalendarDTO;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.util.EmailSender;
@@ -57,6 +58,18 @@ public class SchedulingService {
 
 		return schedulingsBeginingToday(list);
 	}
+	
+	public List<CalendarDTO> findAllEvents(){
+		List<Scheduling> list = new ArrayList<>();
+		list = this.findAll();
+		
+		List<CalendarDTO> listCalendar = new ArrayList<>();
+		for(Scheduling s: list) {
+			listCalendar.add(new CalendarDTO(s.getSport().getName(), s.getPlace().getName(), s.getScheduledDate() +"T"+ s.getScheduledStartTime()+":00",s.getScheduledDate() +"T"+ s.getScheduledFinishTime()+":00"));
+		}
+		return listCalendar;
+	}
+	
 	
 	public List<Scheduling> findAllByPlaceId(Integer id) {
 		return schedulingRepository.findAllByPlaceId(id);
