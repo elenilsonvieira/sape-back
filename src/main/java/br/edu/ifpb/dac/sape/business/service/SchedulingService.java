@@ -58,14 +58,16 @@ public class SchedulingService {
 
 		return schedulingsBeginingToday(list);
 	}
-	
+	//metodo criado para o get scheduling do calendario
 	public List<CalendarDTO> findAllEvents(){
 		List<Scheduling> list = new ArrayList<>();
 		list = this.findAll();
 		
 		List<CalendarDTO> listCalendar = new ArrayList<>();
 		for(Scheduling s: list) {
-			listCalendar.add(new CalendarDTO(s.getSport().getName(), s.getPlace().getName(), s.getScheduledDate() +"T"+ s.getScheduledStartTime()+":00",s.getScheduledDate() +"T"+ s.getScheduledFinishTime()+":00"));
+			listCalendar.add(new CalendarDTO(s.getSport().getName(), s.getPlace().getName(),
+					s.getScheduledDate() +"T"+ s.getScheduledStartTime()+":00",
+					s.getScheduledDate() +"T"+ s.getScheduledFinishTime()+":00"));
 		}
 		return listCalendar;
 	}
