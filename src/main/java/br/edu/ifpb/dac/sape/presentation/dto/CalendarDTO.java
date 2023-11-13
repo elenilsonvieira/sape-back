@@ -1,18 +1,34 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
 public class CalendarDTO {
+	private Integer schedulingId;
 	private String title;
 	private String location;
 	private String start;
 	private String end;
 	
-	public CalendarDTO(String title, String location, String start, String end) {
+	public CalendarDTO(Integer schedulingId, String title, String location, String start, String end) {
 		super();
+		this.schedulingId = schedulingId;
 		this.title = title;
 		this.location = location;
 		this.start = start;
 		this.end = end;
 	}
+	
+	
+
+	public Integer getSchedulingId() {
+		return schedulingId;
+	}
+
+
+
+	public void setSchedulingId(Integer schedulingId) {
+		this.schedulingId = schedulingId;
+	}
+
+
 
 	public String getTitle() {
 		return title;

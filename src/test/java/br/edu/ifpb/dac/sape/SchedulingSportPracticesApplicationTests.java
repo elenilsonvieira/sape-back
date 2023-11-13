@@ -5,7 +5,8 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 import org.junit.platform.suite.api.SuiteDisplayName;
 
-@SelectClasses({ br.edu.ifpb.dac.sape.system.OpenSiteTest.class,				 
+@SelectClasses({ br.edu.ifpb.dac.sape.system.CreateLocal.class,
+				 br.edu.ifpb.dac.sape.system.OpenSiteTest.class,				 
 				 br.edu.ifpb.dac.sape.system.PlaceCRUDSystemTest.class,
 				 br.edu.ifpb.dac.sape.system.SportCRUDSystemTest.class,
 				 br.edu.ifpb.dac.sape.system.SchedulingCRUDSystemTest.class,

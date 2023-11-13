@@ -45,7 +45,6 @@ public class SchedulingDTO {
 	private IsPresent willBePresent;
 	
 	public SchedulingDTO() {
-		
 	}
 	
 	public SchedulingDTO(Integer id, String scheduledDate, String scheduledStartTime, String scheduledFinishTime, LocalTime startTime,  
