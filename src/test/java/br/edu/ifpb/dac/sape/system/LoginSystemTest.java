@@ -3,6 +3,7 @@ package br.edu.ifpb.dac.sape.system;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
@@ -30,8 +31,11 @@ public class LoginSystemTest {
 
 	@BeforeAll
 	static void setUp() throws InterruptedException {
+		
+		
+		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\josej\\Downloads\\chromedriver_win32\\chromedriver.exe");
+				file.getAbsolutePath());
 
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor) driver;
@@ -52,13 +56,13 @@ public class LoginSystemTest {
 
 	@Test
 	@DisplayName("Testar login válido")
-	@Order(1)
+	@Order(2)
 	public void validLoginTest() throws InterruptedException {
 		Thread.sleep(1000);
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeFields("sua matricula", "sua senha");
+		writeFields("202015020008", "cqc");
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
@@ -70,7 +74,7 @@ public class LoginSystemTest {
 
 		assertAll("Teste de login válido",
 				/* aviso de sucesso */
-				() -> assertEquals("Sucesso", cardTitle), () -> assertEquals("Bem vindo(a)201915020021", cardMsg),
+				() -> assertEquals("Sucesso", cardTitle), () -> assertEquals("Bem vindo(a)202015020008", cardMsg),
 				/* se o redirecionamento foi feito à página informada */
 				() -> assertEquals("http://localhost:3000/createScheduling", driver.getCurrentUrl().toString()));
 
@@ -83,7 +87,7 @@ public class LoginSystemTest {
 	@ParameterizedTest
 	@ValueSource(strings = { "1", "2", "3" })
 	@DisplayName("Testar login inválido")
-	@Order(2)
+	@Order(1)
 	public void invalidLoginTest(String input) throws InterruptedException {
 		Thread.sleep(100);
 		// abrir página de login

@@ -44,6 +44,11 @@ public class SchedulingDTO {
 	
 	private IsPresent willBePresent;
 	
+	private String title;
+	private String location;
+	private String start;
+	private String end;
+	
 	public SchedulingDTO() {
 	}
 	
@@ -130,6 +135,40 @@ public class SchedulingDTO {
 
 	public void setWillBePresent(IsPresent willBePresent) {
 		this.willBePresent = willBePresent;
+	}
+	
+	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
 	}
 
 	@Override

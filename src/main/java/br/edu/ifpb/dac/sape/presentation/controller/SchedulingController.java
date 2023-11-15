@@ -67,14 +67,6 @@ public class SchedulingController {
 		}
 	}
 	
-	@GetMapping("/events")
-	public ResponseEntity getAllEvents() {
-		try {
-			return ResponseEntity.ok().body(schedulingService.findAllEvents());
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
 	
 	@GetMapping("/useFilter")
 	public ResponseEntity getAllWithFilter(
