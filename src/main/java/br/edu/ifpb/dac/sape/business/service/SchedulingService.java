@@ -18,6 +18,7 @@ import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
+import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.util.EmailSender;
@@ -301,6 +302,24 @@ public class SchedulingService {
         return true;
             
     }
+	
+
+	public Scheduling update(Integer id, Scheduling entity) throws Exception {
+		
+		Scheduling getScheduling = this.findById(id);
+		
+		getScheduling.setCreator(entity.getCreator());
+		getScheduling.setParticipants(entity.getParticipants());
+		getScheduling.setPlace(entity.getPlace());
+		getScheduling.setScheduledDate(entity.getScheduledDate());
+		getScheduling.setScheduledFinishTime(entity.getScheduledFinishTime());
+		getScheduling.setScheduledStartTime(entity.getScheduledStartTime());
+		getScheduling.setSport(entity.getSport());
+		getScheduling.setStatus(entity.getStatus());
+		getScheduling.setWillBePresent(entity.getWillBePresent());
+		
+		return this.save(getScheduling);
+	}
 		
 		
 }
