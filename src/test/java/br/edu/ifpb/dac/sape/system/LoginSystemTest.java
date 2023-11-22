@@ -62,7 +62,7 @@ public class LoginSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeFields("202015020008", "cqc");
+		writeFields("202015020008", "");
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);

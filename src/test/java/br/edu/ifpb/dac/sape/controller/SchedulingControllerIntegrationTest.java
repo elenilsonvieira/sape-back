@@ -36,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
@@ -100,23 +101,23 @@ public class SchedulingControllerIntegrationTest {
         sportRepository.deleteAll();
 
         creator = new User();
-        creator.setName("Igor");
-        creator.setRegistration(1111L);
+        creator.setName("José Roberto Farias Oliveira Júnior");
+        creator.setRegistration(202015020008L);
         this.creator = userService.save(creator);
 
 
-        place = new Place();
-        place.setName("Quadra");
-        place.setPublic(true);
+        this.place = new Place();
+        this.place.setName("Ginásio");
+        this.place.setPublic(true);
 
-        place.setResponsibles(new HashSet<User>());
+        this.place.setResponsibles(new HashSet<User>());
         Set<User> setUser = new HashSet<>(place.getResponsibles());
-
+        User userReturned = userService.findById(creator.getId());
         setUser.add(creator);
-        place.setResponsibles(setUser);
+        this.place.setResponsibles(setUser);
 
-        place.setMaximumCapacityParticipants(25);
-        place.setReference("Ginásio esportivo do IFPB");
+        this.place.setMaximumCapacityParticipants(25);
+        this.place.setReference("Ginásio esportivo do IFPB");
         this.place = placeService.save(place);
 
         sport = new Sport();

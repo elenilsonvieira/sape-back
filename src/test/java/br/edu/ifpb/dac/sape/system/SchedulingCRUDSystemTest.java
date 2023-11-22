@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
@@ -35,8 +36,9 @@ public class SchedulingCRUDSystemTest {
 
 	@BeforeAll
 	static void setUp() throws Exception {
+		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\josej\\Downloads\\chromedriver_win32\\chromedriver.exe");
+				file.getAbsolutePath());
 
 		driver = new ChromeDriver();
 
@@ -488,7 +490,7 @@ public class SchedulingCRUDSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeLoginFields("201915020021", "");
+		writeLoginFields("202015020008", "");
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		Thread.sleep(500);

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
@@ -22,6 +23,7 @@ import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.util.EmailSender;
+import ch.qos.logback.core.filter.Filter;
 
 
 @Service
@@ -55,6 +57,11 @@ public class SchedulingService {
 		List<Scheduling> list = schedulingRepository.findAll(exp);
 
 		return schedulingsBeginingToday(list);
+	}
+	
+	public List<Scheduling> findAllRresponsibleAndCreator(){
+		List<Scheduling> list = schedulingRepository.findAll();
+		return list;
 	}
 	
 	public List<Scheduling> findAllByPlaceId(Integer id) {

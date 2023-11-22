@@ -68,6 +68,19 @@ public class SchedulingController {
 		}
 	}
 	
+	@GetMapping("/userCreator")
+	public ResponseEntity getAllWithCreator(){
+		try {
+			List<Scheduling> entityList = schedulingService.findAllRresponsibleAndCreator();
+			
+			List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
+			
+			return  ResponseEntity.ok().body(dtoList);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
 	
 	@GetMapping("/useFilter")
 	public ResponseEntity getAllWithFilter(

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,8 +35,10 @@ public class SportCRUDSystemTest {
 
 	@BeforeAll
 	public static void setUp() throws InterruptedException {
+		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\josej\\Downloads\\chromedriver_win32\\chromedriver.exe");
+				file.getAbsolutePath());
+
 
 		driver = new ChromeDriver();
 
@@ -67,9 +70,11 @@ public class SportCRUDSystemTest {
 		Thread.sleep(1000);
 		writeFields("Basquete");
 		Thread.sleep(1000);
-		WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		driver.findElement(By.cssSelector(".btn-primary")).click();
+		//WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
 		Thread.sleep(1000);
-		clickElement(saveButton);
+		//clickElement(saveButton);
+		driver.findElement(By.cssSelector(".btn-primary")).click();
 
 		Thread.sleep(1000);
 
@@ -121,8 +126,9 @@ public class SportCRUDSystemTest {
 
 		Thread.sleep(2000);
 
-		WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
-		clickElement(saveButton);
+		//WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		//clickElement(saveButton);
+		driver.findElement(By.cssSelector(".btn-primary")).click();
 
 		String title = getElementByClass("toast-title").getText();
 		String message = getElementByClass("toast-message").getText();
@@ -166,9 +172,10 @@ public class SportCRUDSystemTest {
 		Thread.sleep(1000);
 		writeFields("Basquete");
 		Thread.sleep(1000);
-		WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		//WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
 		Thread.sleep(1000);
-		clickElement(saveButton);
+		//clickElement(saveButton);
+		driver.findElement(By.cssSelector(".btn-primary")).click();
 		Thread.sleep(1000);
 		driver.get("http://localhost:3000/listSports");
 		Thread.sleep(1000);
@@ -248,8 +255,10 @@ public class SportCRUDSystemTest {
 
 		}
 
-		WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
-		saveButton.click();
+		//WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		Thread.sleep(1000);
+		//clickElement(saveButton);
+		driver.findElement(By.cssSelector(".btn-primary")).click();
 
 		String title = getElementByClass("toast-title").getText();
 		String message = getElementByClass("toast-message").getText();
@@ -294,7 +303,7 @@ public class SportCRUDSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeLoginFields("201915020021", "");
+		writeLoginFields("202015020008", "");
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		Thread.sleep(1000);
@@ -331,7 +340,7 @@ public class SportCRUDSystemTest {
 
 	private void clickElement(WebElement we) {
 		try {
-			we.click();
+			clickElement(we);
 		} catch (Exception e) {
 			jse.executeScript("arguments[0].click()", we);
 		}

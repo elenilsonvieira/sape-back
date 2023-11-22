@@ -159,6 +159,10 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
         
 		try {
 			sport = sportService.findById(sportId);
+			
+//			if(user.getFavorateSports().contains(sport.getName())) {
+//				throw new IllegalArgumentException("Esporte já favoritado!");
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -167,6 +171,7 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
 		  if (user.getSportsFavorite() == null) {
 		         user.setSportsFavorite(new ArrayList<>());
 		    }
+		
 		
         user.getFavorateSports().add(sport);
         

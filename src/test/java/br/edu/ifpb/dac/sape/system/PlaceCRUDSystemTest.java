@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -41,8 +42,9 @@ public class PlaceCRUDSystemTest {
 
 	@BeforeAll
 	static void setUp() throws InterruptedException {
+		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\josej\\Downloads\\chromedriver_win32\\chromedriver.exe");
+				file.getAbsolutePath());
 
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor) driver;
@@ -84,7 +86,7 @@ public class PlaceCRUDSystemTest {
 		String placeName = place.getName();
 		String placeReference = place.getReference();
 		String placeMaxCapacity = String.valueOf(place.getMaximumCapacityParticipants());
-		String responsibleName = "Igor Silva Sobral";
+		String responsibleName = "José Roberto Farias Oliveira Júnior";
 
 		boolean placeIsPublic = place.isPublic();
 
@@ -136,7 +138,7 @@ public class PlaceCRUDSystemTest {
 		String placeName = place.getName();
 		String placeReference = place.getReference();
 		String placeMaxCapacity = String.valueOf(place.getMaximumCapacityParticipants());
-		String responsibleName = "Igor Silva Sobral";
+		String responsibleName = "José Roberto Farias Oliveira Júnior";
 
 		boolean placeIsPublic = place.isPublic();
 
@@ -361,7 +363,7 @@ public class PlaceCRUDSystemTest {
 		String reference;
 		String capacity;
 		boolean isPublic = true;
-		String responsible = "Igor Silva Sobral";
+		String responsible = "José Roberto Farias Oliveira Júnior";
 
 		switch (cases) {
 		case 1:
@@ -398,8 +400,8 @@ public class PlaceCRUDSystemTest {
 		}
 
 		Thread.sleep(500);
-		WebElement saveButton = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
-		saveButton.click();
+		WebElement buttonSave = getElementByXPath("/html/body/div/div[2]/header/fieldset/button[1]");
+		clickElement(buttonSave);
 
 		String title = getElementByClass("toast-title").getText();
 		String message = getElementByClass("toast-message").getText();
@@ -543,7 +545,7 @@ public class PlaceCRUDSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeLoginFields("201915020021", "");
+		writeLoginFields("202015020008", "");
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);

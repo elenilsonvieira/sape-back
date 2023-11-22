@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
@@ -20,8 +21,9 @@ public class OpenSiteTest {
 
 	@BeforeAll
 	static void setUp() {
+		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\josej\\Downloads\\chromedriver_win32\\chromedriver.exe");
+				file.getAbsolutePath());
 
 		driver = new ChromeDriver();
 		// caso não encontre um elemento (em uma busca), espera 10s (fazendo novas
