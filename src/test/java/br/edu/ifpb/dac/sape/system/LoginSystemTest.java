@@ -21,16 +21,18 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.springframework.beans.factory.annotation.Value;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class LoginSystemTest {
 
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
+	private String password = "";
 
 	@BeforeAll
 	static void setUp() throws InterruptedException {
+		
 		
 		
 		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
@@ -45,7 +47,7 @@ public class LoginSystemTest {
 
 	@AfterEach
 	void beforeEach() throws InterruptedException {
-		Thread.sleep(1000);
+		Thread.sleep(1000); 
 	}
 
 	@AfterAll
@@ -56,13 +58,13 @@ public class LoginSystemTest {
 
 	@Test
 	@DisplayName("Testar login válido")
-	@Order(2)
+	@Order(1)
 	public void validLoginTest() throws InterruptedException {
 		Thread.sleep(1000);
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeFields("202015020008", "");
+		writeFields("202015020008", this.password);
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
@@ -78,16 +80,16 @@ public class LoginSystemTest {
 				/* se o redirecionamento foi feito à página informada */
 				() -> assertEquals("http://localhost:3000/createScheduling", driver.getCurrentUrl().toString()));
 
-		WebElement buttonLoggout = getElementByXPath("/html/body/div/div[1]/div/div/ul/li[1]/a");
+		
 		Thread.sleep(1000);
-		buttonLoggout.click();
+		driver.findElement(By.linkText("Sair")).click();
 		Thread.sleep(500);
 	}
 
 	@ParameterizedTest
 	@ValueSource(strings = { "1", "2", "3" })
 	@DisplayName("Testar login inválido")
-	@Order(1)
+	@Order(2)
 	public void invalidLoginTest(String input) throws InterruptedException {
 		Thread.sleep(100);
 		// abrir página de login
@@ -108,7 +110,7 @@ public class LoginSystemTest {
 			break;
 		case "3":
 			// campos preenchidos porém inválidos
-			writeFields("203015020008", "asud29281288");
+			writeFields("203015020008", password);
 			errorMessage = "Login Inválido!";
 			break;
 		default:

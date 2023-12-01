@@ -1,6 +1,8 @@
 package br.edu.ifpb.dac.sape.presentation.controller;
 
 import java.util.ArrayList;
+
+import org.springframework.web.bind.annotation.RequestHeader;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -68,10 +70,10 @@ public class SchedulingController {
 		}
 	}
 	
-	@GetMapping("/userCreator")
-	public ResponseEntity getAllWithCreator(){
+	@GetMapping("/userCreator/{registration}")
+	public ResponseEntity getAllWithCreator(@PathVariable Long registration){
 		try {
-			List<Scheduling> entityList = schedulingService.findAllRresponsibleAndCreator();
+			List<Scheduling> entityList = schedulingService.findAllRresponsibleAndCreator(registration);
 			
 			List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
 			

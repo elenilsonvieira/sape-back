@@ -59,9 +59,17 @@ public class SchedulingService {
 		return schedulingsBeginingToday(list);
 	}
 	
-	public List<Scheduling> findAllRresponsibleAndCreator(){
+	public List<Scheduling> findAllRresponsibleAndCreator(Long registration){
 		List<Scheduling> list = schedulingRepository.findAll();
-		return list;
+		List<Scheduling> list2 = new ArrayList<>();
+		for(Scheduling s : list) {
+			if(s.getCreator().getRegistration().equals(registration)) {
+				list2.add(s);
+			}else if (s.getStatus() == StatusScheduling.CONFIRMED){
+				list2.add(s);
+			}
+		}
+		return list2;
 	}
 	
 	public List<Scheduling> findAllByPlaceId(Integer id) {

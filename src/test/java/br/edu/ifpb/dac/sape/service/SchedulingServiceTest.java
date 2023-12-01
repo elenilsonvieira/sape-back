@@ -77,7 +77,7 @@ public class SchedulingServiceTest {
 
 	@BeforeEach
 	public void beforeEach() {
-		MockitoAnnotations.openMocks(this);
+		MockitoAnnotations.openMocks(this); 
 		
 		User user = new User();
 		user.setId(1);

@@ -54,11 +54,14 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
 		List<User> users = findAll();
 		Set<User> usersContainSportsFavorite = new HashSet<User>();
 	
-		for (int i = 0; i < users.size(); i++) {		
-			if(users.get(i).getSportsFavorite().get(i).getName().equals(sport.getName())) {
-				System.out.println("added");
-				usersContainSportsFavorite.add(users.get(i));
+		for (int i = 0; i < users.size(); i++) {
+			if(users.get(i).getFavorateSports().size() > 0) {
+				if(users.get(i).getSportsFavorite().get(i).getName().equals(sport.getName())) {
+					System.out.println("added");
+					usersContainSportsFavorite.add(users.get(i));
+				}
 			}
+			
 		}
 		return usersContainSportsFavorite;		
 	}
