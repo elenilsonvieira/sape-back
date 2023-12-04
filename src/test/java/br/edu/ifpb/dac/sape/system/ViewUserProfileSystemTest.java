@@ -28,7 +28,7 @@ public class ViewUserProfileSystemTest {
 
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
-	private static String password = "roberto2101#";
+	private static String password = "";
 
 	@BeforeAll
 	public static void setUp() throws InterruptedException {

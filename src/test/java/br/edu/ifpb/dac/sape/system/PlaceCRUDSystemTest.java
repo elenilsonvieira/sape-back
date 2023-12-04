@@ -37,7 +37,7 @@ public class PlaceCRUDSystemTest {
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
 	private static Place place;
-	private static String password = "roberto2101#";
+	private static String password = "";
 
 //	@Autowired
 //	private static UserService userService;
