@@ -22,6 +22,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -36,7 +37,7 @@ public class PlaceCRUDSystemTest {
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
 	private static Place place;
-	private static String password = "";
+	private static String password = "roberto2101#";
 
 //	@Autowired
 //	private static UserService userService;
@@ -49,6 +50,8 @@ public class PlaceCRUDSystemTest {
 
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor) driver;
+
+	    driver.manage().window().setSize(new Dimension(1552, 840));
 
 
 		place = new Place();
@@ -310,7 +313,7 @@ public class PlaceCRUDSystemTest {
 		assertTrue(driver.getCurrentUrl().contains("http://localhost:3000/updatePlace/"));
 
 	
-		driver.findElement((By) getElementByXPath("/html/body/div/div[2]/header/fieldset/button[2]")).click();
+		driver.findElement(By.cssSelector(".btn-danger")).click();
 		
 
 		Thread.sleep(500);

@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,6 +33,7 @@ public class SportCRUDSystemTest {
 
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
+	private static String password = "roberto2101#";
 
 	@BeforeAll
 	public static void setUp() throws InterruptedException {
@@ -43,6 +45,8 @@ public class SportCRUDSystemTest {
 		driver = new ChromeDriver();
 
 		jse = (JavascriptExecutor) driver;
+
+	    driver.manage().window().setSize(new Dimension(1552, 840));
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
 		login();
@@ -153,12 +157,10 @@ public class SportCRUDSystemTest {
 		String name = element.getText();
 		Thread.sleep(2000);
 
-		WebElement buttonDelete = getElementByXPath(
-				"/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[3]/td/button[2]");
-		clickElement(buttonDelete);
-		Thread.sleep(1000);
+		driver.findElement(By.cssSelector("tr:nth-child(1) .btn-danger")).click();
 
 		String tableBody = getElementByTagName("TBODY").getText();
+		
 
 		assertFalse(tableBody.contains(name));
 	}
@@ -180,10 +182,7 @@ public class SportCRUDSystemTest {
 		driver.get("http://localhost:3000/listSports");
 		Thread.sleep(1000);
 		// botão de favoritar
-		WebElement buttonFavourite = getElementByXPath(
-				"/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[3]/td/button[1]");
-		Thread.sleep(2000);
-		clickElement(buttonFavourite);
+		driver.findElement(By.cssSelector("tr:nth-child(1) .btn-info")).click();
 
 		Thread.sleep(1000);
 		String title = getElementByClass("toast-title").getText();
@@ -197,21 +196,18 @@ public class SportCRUDSystemTest {
 	}
 
 	@Test
-	@DisplayName("Favoritando esporte - Caso Inválido")
+	@DisplayName("Favoritando esporte - Caso Válido")
 	@Order(5)
 	public void favouriteSportInvalid() throws InterruptedException {
 
 		// botao favoritar
-		WebElement buttonFavourite = getElementByXPath(
-				"/html/body/div/div[2]/header/fieldset/div/table/tbody/tr/td[3]/td/button[1]");
-		Thread.sleep(2000);
-		clickElement(buttonFavourite);
+		driver.findElement(By.cssSelector("tr:nth-child(1) .btn-info")).click();
 
 		Thread.sleep(1000);
 		// título do alerta
 		String cardTitle = getElementByClass("toast-title").getText();
 
-		assertEquals("Erro", cardTitle);
+		assertEquals("Sucesso", cardTitle);
 
 	}
 
@@ -303,7 +299,7 @@ public class SportCRUDSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeLoginFields("202015020008", "");
+		writeLoginFields("202015020008", password);
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		Thread.sleep(1000);

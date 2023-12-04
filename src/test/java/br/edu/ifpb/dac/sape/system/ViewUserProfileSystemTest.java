@@ -28,6 +28,7 @@ public class ViewUserProfileSystemTest {
 
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
+	private static String password = "roberto2101#";
 
 	@BeforeAll
 	public static void setUp() throws InterruptedException {
@@ -227,7 +228,7 @@ public class ViewUserProfileSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeLoginFields("202015020008", "");
+		writeLoginFields("202015020008", password);
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		buttonLogin.click();
