@@ -2,6 +2,7 @@ package br.edu.ifpb.dac.sape.system;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -27,11 +28,13 @@ public class ViewUserProfileSystemTest {
 
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
+	private static String password = "";
 
 	@BeforeAll
 	public static void setUp() throws InterruptedException {
+		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
+				file.getAbsolutePath());
 
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor) driver;
@@ -225,7 +228,7 @@ public class ViewUserProfileSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeLoginFields("201915020021", "");
+		writeLoginFields("202015020008", password);
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		buttonLogin.click();

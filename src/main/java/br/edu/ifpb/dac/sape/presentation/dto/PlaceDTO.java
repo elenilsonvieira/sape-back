@@ -111,6 +111,19 @@ public class PlaceDTO {
 //	public void setResponsible(UserDTO responsible) {
 //		this.responsible = responsible;
 //	}
+	
+	public String toString() {
+		String string = "id: " + id +
+				", name: " + name+
+				", reference: "  + reference+
+				", maximumCapacityParticipants: " + maximumCapacityParticipants + 
+				", isPublic: " + isPublic +
+				", reponsible: ";
+		for(UserDTO u : responsibles) {
+			string += "  " + u.getName() + "  id:  " + u.getId(); 
+		}
+		return string;
+	}
 
 	
 	

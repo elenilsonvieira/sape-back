@@ -67,6 +67,10 @@ public class SchedulingConverterService {
 			dto.getStatus();
 			dto.setStatus(entity.getStatus());
 			dto.setWillBePresent(IsPresent.YES);
+			dto.setTitle(entity.getSport().getName());
+			dto.setLocation(entity.getPlace().getName());
+			dto.setStart(entity.getScheduledDate() +"T"+ entity.getScheduledStartTime()+":00");
+			dto.setEnd(entity.getScheduledDate() +"T"+ entity.getScheduledFinishTime()+":00");
 			
 			
 			return dto;

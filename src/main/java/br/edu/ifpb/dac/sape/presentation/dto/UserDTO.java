@@ -96,4 +96,11 @@ public class UserDTO {
 		this.sportsFavorite = sportsFavorite;
 	}
 	
+	public String toString() {
+		String string = "id: " + id +
+				", name: " + name+
+				", registration: "  + registration;
+		
+		return string;
+	}
 }

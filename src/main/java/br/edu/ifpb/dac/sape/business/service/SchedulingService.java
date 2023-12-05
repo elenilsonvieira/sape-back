@@ -5,24 +5,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
-import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
+import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.util.EmailSender;
+import ch.qos.logback.core.filter.Filter;
 
 
 @Service
@@ -56,6 +57,19 @@ public class SchedulingService {
 		List<Scheduling> list = schedulingRepository.findAll(exp);
 
 		return schedulingsBeginingToday(list);
+	}
+	
+	public List<Scheduling> findAllRresponsibleAndCreator(Long registration){
+		List<Scheduling> list = schedulingRepository.findAll();
+		List<Scheduling> list2 = new ArrayList<>();
+		for(Scheduling s : list) {
+			if(s.getCreator().getRegistration().equals(registration)) {
+				list2.add(s);
+			}else if (s.getStatus() == StatusScheduling.CONFIRMED){
+				list2.add(s);
+			}
+		}
+		return list2;
 	}
 	
 	public List<Scheduling> findAllByPlaceId(Integer id) {
@@ -117,7 +131,7 @@ public class SchedulingService {
 	    	Set<User> responsibles = scheduling.getPlace().getResponsibles();
 	    	emailSender.notifyPlaceResponsibles(placeId,responsibles,scheduling);
 	    }
-		
+	 
 		return schedulingRepository.save(scheduling);
 	}
 	
@@ -303,6 +317,24 @@ public class SchedulingService {
         return true;
             
     }
+	
+
+	public Scheduling update(Integer id, Scheduling entity) throws Exception {
+		
+		Scheduling getScheduling = this.findById(id);
+		
+		getScheduling.setCreator(entity.getCreator());
+		getScheduling.setParticipants(entity.getParticipants());
+		getScheduling.setPlace(entity.getPlace());
+		getScheduling.setScheduledDate(entity.getScheduledDate());
+		getScheduling.setScheduledFinishTime(entity.getScheduledFinishTime());
+		getScheduling.setScheduledStartTime(entity.getScheduledStartTime());
+		getScheduling.setSport(entity.getSport());
+		getScheduling.setStatus(entity.getStatus());
+		getScheduling.setWillBePresent(entity.getWillBePresent());
+		
+		return this.save(getScheduling);
+	}
 		
 		
 }

@@ -3,6 +3,7 @@ package br.edu.ifpb.dac.sape.system;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
@@ -20,18 +21,23 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.springframework.beans.factory.annotation.Value;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class LoginSystemTest {
 
 	private static WebDriver driver;
 	private static JavascriptExecutor jse;
+	private String password = "";
 
 	@BeforeAll
 	static void setUp() throws InterruptedException {
+		
+		
+		
+		File file = new File("webDriver/chromedriver-win64/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\igors\\Downloads\\chromedriver_win32/chromedriver.exe");
+				file.getAbsolutePath());
 
 		driver = new ChromeDriver();
 		jse = (JavascriptExecutor) driver;
@@ -41,7 +47,7 @@ public class LoginSystemTest {
 
 	@AfterEach
 	void beforeEach() throws InterruptedException {
-		Thread.sleep(1000);
+		Thread.sleep(1000); 
 	}
 
 	@AfterAll
@@ -58,7 +64,7 @@ public class LoginSystemTest {
 		// abrir página de login
 		driver.get("http://localhost:3000/login");
 		// prencher campos
-		writeFields("sua matricula", "sua senha");
+		writeFields("202015020008", this.password);
 		// botão login
 		WebElement buttonLogin = getElementByXPath("//button[@class='btn btn-primary']");
 		clickElement(buttonLogin);
@@ -70,13 +76,13 @@ public class LoginSystemTest {
 
 		assertAll("Teste de login válido",
 				/* aviso de sucesso */
-				() -> assertEquals("Sucesso", cardTitle), () -> assertEquals("Bem vindo(a)201915020021", cardMsg),
+				() -> assertEquals("Sucesso", cardTitle), () -> assertEquals("Bem vindo(a)202015020008", cardMsg),
 				/* se o redirecionamento foi feito à página informada */
 				() -> assertEquals("http://localhost:3000/createScheduling", driver.getCurrentUrl().toString()));
 
-		WebElement buttonLoggout = getElementByXPath("/html/body/div/div[1]/div/div/ul/li[1]/a");
+		
 		Thread.sleep(1000);
-		buttonLoggout.click();
+		driver.findElement(By.linkText("Sair")).click();
 		Thread.sleep(500);
 	}
 
@@ -104,7 +110,7 @@ public class LoginSystemTest {
 			break;
 		case "3":
 			// campos preenchidos porém inválidos
-			writeFields("203015020008", "asud29281288");
+			writeFields("203015020008", password);
 			errorMessage = "Login Inválido!";
 			break;
 		default:
