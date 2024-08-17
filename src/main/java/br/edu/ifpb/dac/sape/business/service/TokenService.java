@@ -1,10 +1,9 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import br.edu.ifpb.dac.sape.model.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 public interface TokenService {
@@ -19,6 +18,6 @@ public interface TokenService {
 	
 	Integer getUserId(String token);
 	
-	String get(HttpServletRequest request); 
+	String get(HttpServletRequest request);
 	
 }

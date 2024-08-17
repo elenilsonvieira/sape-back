@@ -1,9 +1,9 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
-public class SportDTO { 
+public class SportDTO {
 	
 	private Integer id;
 	

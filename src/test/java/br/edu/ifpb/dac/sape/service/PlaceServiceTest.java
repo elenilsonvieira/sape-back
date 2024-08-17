@@ -14,14 +14,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
-import br.edu.ifpb.dac.sape.business.service.PlaceService;
-import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.repository.PlaceRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.*;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

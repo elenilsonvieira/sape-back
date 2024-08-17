@@ -1,8 +1,7 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.Role;
+import org.springframework.stereotype.Service;
 
 @Service
 public interface RoleService {

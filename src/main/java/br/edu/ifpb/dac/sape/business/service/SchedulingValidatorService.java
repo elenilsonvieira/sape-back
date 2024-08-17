@@ -1,25 +1,23 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.presentation.exception.RuleViolationException;
 import br.edu.ifpb.dac.sape.presentation.exception.TimeAlreadyScheduledException;
 import br.edu.ifpb.dac.sape.util.Constants;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class SchedulingValidatorService {

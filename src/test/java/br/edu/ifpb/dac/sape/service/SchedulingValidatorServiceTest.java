@@ -13,32 +13,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import br.edu.ifpb.dac.sape.business.service.DateConverterService;
-import br.edu.ifpb.dac.sape.business.service.PlaceService;
-import br.edu.ifpb.dac.sape.business.service.SchedulingService;
-import br.edu.ifpb.dac.sape.business.service.SchedulingValidatorService;
-import br.edu.ifpb.dac.sape.business.service.SportService;
-import br.edu.ifpb.dac.sape.model.entity.Place;
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.presentation.exception.RuleViolationException;
 import br.edu.ifpb.dac.sape.presentation.exception.TimeAlreadyScheduledException;
 

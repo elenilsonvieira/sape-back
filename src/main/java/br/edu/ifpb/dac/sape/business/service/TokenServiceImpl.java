@@ -1,21 +1,19 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Service
 public class TokenServiceImpl implements TokenService{
@@ -32,7 +30,7 @@ public class TokenServiceImpl implements TokenService{
 	
 	@Override
 	public String generate(User user) {
-		long expiration = Long.valueOf(this.expiration);
+		long expiration = Long.parseLong(this.expiration);
 		
 		// calcula a expiração para ser setado como dado
 		LocalDateTime expirationLocalDateTime = LocalDateTime.now().plusMinutes(expiration);

@@ -1,8 +1,8 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.util.Comparator;
-
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
+
+import java.util.Comparator;
 
 public class ComparatorSchedulingDate implements Comparator<Scheduling> {
 

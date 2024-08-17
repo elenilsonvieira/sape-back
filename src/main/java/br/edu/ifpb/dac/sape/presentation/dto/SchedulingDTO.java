@@ -1,35 +1,28 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
-import java.time.LocalTime;
-import java.util.Objects;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+import java.time.LocalTime;
+import java.util.Objects;
 
 public class SchedulingDTO {
 	
 	private Integer id;
 	
 	@NotBlank(message = "É obrigatório informar a data da prática!")
-	@Pattern(regexp = "^\\d\\d\\d\\d-\\d\\d-\\d\\d$",
-			message = "A data deve ter formato 'yyyy-MM-dd'")
+	@Pattern(regexp = "^\\d\\d\\d\\d-\\d\\d-\\d\\d$", message = "A data deve ter formato 'yyyy-MM-dd'")
 	private String scheduledDate;
 	
 	@NotBlank(message = "É obrigatório informar o horário de início da prática!")
-	@Pattern(regexp = "^\\d\\d:\\d\\d$",
-			message = "O horário de início deve ter formato 'HH:mm'")
+	@Pattern(regexp = "^\\d\\d:\\d\\d$", message = "O horário de início deve ter formato 'HH:mm'")
 	private String scheduledStartTime;
 	
 	@NotBlank(message = "É obrigatório informar o horário de término da prática!")
-	@Pattern(regexp = "^\\d\\d:\\d\\d$",
-			message = "O horário de término deve ter formato 'HH:mm'")
+	@Pattern(regexp = "^\\d\\d:\\d\\d$", message = "O horário de término deve ter formato 'HH:mm'")
 	private String scheduledFinishTime;
 	
 	@NotNull(message = "O id do local não pode ser nulo!")

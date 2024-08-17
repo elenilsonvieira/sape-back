@@ -1,20 +1,18 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import br.edu.ifpb.dac.sape.business.service.RoleService.AVALIABLE_ROLES;
+import br.edu.ifpb.dac.sape.model.entity.Role;
+import br.edu.ifpb.dac.sape.model.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import br.edu.ifpb.dac.sape.business.service.RoleService.AVALIABLE_ROLES;
-import br.edu.ifpb.dac.sape.model.entity.Role;
-import br.edu.ifpb.dac.sape.model.entity.User;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class LoginConverterService {

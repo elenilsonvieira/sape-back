@@ -1,29 +1,14 @@
 package br.edu.ifpb.dac.sape.model.entity;
 
+import br.edu.ifpb.dac.sape.model.enums.IsPresent;
+import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Table;
-
-import br.edu.ifpb.dac.sape.model.enums.IsPresent;
-import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 
 
 @Table(name = "SCHEDULED_PRACTICE")

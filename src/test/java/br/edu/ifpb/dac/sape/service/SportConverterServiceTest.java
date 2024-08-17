@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import br.edu.ifpb.dac.sape.business.service.SportConverterService;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.presentation.dto.SportDTO;
 
 public class SportConverterServiceTest {

@@ -9,12 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import br.edu.ifpb.dac.sape.business.service.LoginConverterService;
-import br.edu.ifpb.dac.sape.business.service.LoginService;
-import br.edu.ifpb.dac.sape.business.service.SuapService;
-import br.edu.ifpb.dac.sape.business.service.TokenService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.User;
 
 
 public class LoginServiceTest {

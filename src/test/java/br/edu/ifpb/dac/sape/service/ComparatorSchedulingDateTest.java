@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import br.edu.ifpb.dac.sape.business.service.ComparatorSchedulingDate;
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 
 /**
  * 

@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -18,9 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -42,27 +39,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.edu.ifpb.dac.sape.business.service.SchedulingConverterService;
-import br.edu.ifpb.dac.sape.business.service.SchedulingService;
-import br.edu.ifpb.dac.sape.business.service.SchedulingValidatorService;
-import br.edu.ifpb.dac.sape.business.service.UserConverterService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Place;
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
-import br.edu.ifpb.dac.sape.presentation.controller.SchedulingController;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.presentation.exception.RuleViolationException;
 import br.edu.ifpb.dac.sape.presentation.exception.TimeAlreadyScheduledException;
 import br.edu.ifpb.dac.sape.util.Constants;

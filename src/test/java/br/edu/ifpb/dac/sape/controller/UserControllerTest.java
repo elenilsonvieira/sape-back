@@ -36,12 +36,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import br.edu.ifpb.dac.sape.business.service.UserConverterService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
-import br.edu.ifpb.dac.sape.presentation.controller.UserController;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 
 

@@ -14,13 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import br.edu.ifpb.dac.sape.business.service.RoleServiceImpl;
-import br.edu.ifpb.dac.sape.model.entity.Role;
 import br.edu.ifpb.dac.sape.model.repository.RoleRepository;
 
 public class RoleServiceImplementationTest {

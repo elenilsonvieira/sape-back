@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeAll;
 
-import br.edu.ifpb.dac.sape.business.service.SportService;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.*;
 
@@ -19,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class SportServiceTest {
