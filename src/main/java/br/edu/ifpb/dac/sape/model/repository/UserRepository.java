@@ -2,15 +2,14 @@ package br.edu.ifpb.dac.sape.model.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import br.edu.ifpb.dac.sape.model.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository <User, Integer>{
 	
-	public Optional<User> findByName(String name);
-	public boolean existsByName(String name);
-	public Optional<User> findByRegistration(Long registration);
-	public boolean existsByRegistration(Long registration);
+	Optional<User> findByName(String name);
+	boolean existsByName(String name);
+	Optional<User> findByRegistration(Long registration);
+	boolean existsByRegistration(Long registration);
 	
 }

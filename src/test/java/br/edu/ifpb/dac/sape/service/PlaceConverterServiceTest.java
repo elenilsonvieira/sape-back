@@ -12,9 +12,6 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import br.edu.ifpb.dac.sape.business.service.PlaceConverterService;
-import br.edu.ifpb.dac.sape.model.entity.Place;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.PlaceDTO;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 

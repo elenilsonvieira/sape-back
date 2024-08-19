@@ -1,22 +1,11 @@
 package br.edu.ifpb.dac.sape.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Table(name = "SPORTS_PRACTICE", uniqueConstraints = {@UniqueConstraint(columnNames = {"SPORT_NAME"})})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

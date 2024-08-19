@@ -1,29 +1,21 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
-import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.util.EmailSender;
-import ch.qos.logback.core.filter.Filter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.*;
 
 
 @Service
@@ -168,7 +160,7 @@ public class SchedulingService {
 
 	public List<Scheduling> getSchedulingsByUserRegistration(Long userRegistration) throws Exception {
 	   
-	    User user = userService.findByRegistration(userRegistration).orElse(null);
+	    User user = userService.findByRegistration(userRegistration);
 	    		
 
 	    if (user != null) {

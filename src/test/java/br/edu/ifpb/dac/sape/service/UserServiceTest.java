@@ -25,19 +25,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import br.edu.ifpb.dac.sape.business.service.SportService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
-
 
 
 public class UserServiceTest {

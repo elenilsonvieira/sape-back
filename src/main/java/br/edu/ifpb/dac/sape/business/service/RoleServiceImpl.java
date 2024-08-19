@@ -1,12 +1,11 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.util.Optional;
-
+import br.edu.ifpb.dac.sape.model.entity.Role;
+import br.edu.ifpb.dac.sape.model.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.ifpb.dac.sape.model.entity.Role;
-import br.edu.ifpb.dac.sape.model.repository.RoleRepository;
+import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements RoleService {

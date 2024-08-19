@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import br.edu.ifpb.dac.sape.business.service.DateConverterService;
 import br.edu.ifpb.dac.sape.presentation.exception.TimeParseException;
 
 class DateConverterServiceTest {

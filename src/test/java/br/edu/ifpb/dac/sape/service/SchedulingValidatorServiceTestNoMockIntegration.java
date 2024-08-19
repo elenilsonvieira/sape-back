@@ -6,8 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-import br.edu.ifpb.dac.sape.business.service.SchedulingValidatorService;
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 
 public class SchedulingValidatorServiceTestNoMockIntegration {

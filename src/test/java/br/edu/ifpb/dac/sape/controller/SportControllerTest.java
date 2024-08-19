@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import br.edu.ifpb.dac.sape.business.service.SportConverterService;
-import br.edu.ifpb.dac.sape.business.service.SportService;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;
-import br.edu.ifpb.dac.sape.presentation.controller.SportController;
 import br.edu.ifpb.dac.sape.presentation.dto.SportDTO;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 
 
 public class SportControllerTest {

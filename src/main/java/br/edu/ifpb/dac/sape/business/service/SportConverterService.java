@@ -1,12 +1,11 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.presentation.dto.SportDTO;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SportConverterService {

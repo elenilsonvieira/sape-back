@@ -1,16 +1,10 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
-import java.util.List;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 import br.edu.ifpb.dac.sape.model.entity.Role;
 import br.edu.ifpb.dac.sape.model.entity.Sport;
+import jakarta.validation.constraints.*;
+
+import java.util.List;
 
 public class UserDTO {
 	

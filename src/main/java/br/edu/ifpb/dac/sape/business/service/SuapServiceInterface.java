@@ -1,5 +1,7 @@
 package br.edu.ifpb.dac.sape.business.service;
 
+import br.edu.ifpb.dac.sape.model.entity.User;
+
 import java.util.Map;
 
 public interface SuapServiceInterface {
@@ -15,7 +17,7 @@ public interface SuapServiceInterface {
 	
 	// Dados do header de autenticação
 	public static final String TOKEN_HEADER_NAME = "Authorization";
-	public static final String TOKEN_HEADER_VALUE = "Bearer %s";
+	public static final String TOKEN_HEADER_VALUE = "Bearer ";
 	
 	// Header default
 	public static final Map<String, String> DEFAULT_HEADERS = Map.of("Content-type", "application/json");
@@ -28,13 +30,13 @@ public interface SuapServiceInterface {
 	// Encontra todos os servidores
 	public String findEmployee(String token);
 	// Encontra servidor específico
-	public String findEmployee(String token, String username);
+	public User findEmployee(String token, String username);
 	
 	// Encontra todos os alunos
 	public String findStudent(String token);
 	// Encontra aluno específico
-	public String findStudent(String token, String username);
+	public User findStudent(String token, String username);
 	
 	// Encontrar usuário de qualquer tipo
-	public String findUser(String token, String username);
+	User findUser(String token, String username);
 }

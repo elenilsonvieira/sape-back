@@ -13,14 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.edu.ifpb.dac.sape.business.service.PlaceService;
-import br.edu.ifpb.dac.sape.business.service.SchedulingService;
-import br.edu.ifpb.dac.sape.business.service.SportService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Place;
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.PlaceRepository;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;

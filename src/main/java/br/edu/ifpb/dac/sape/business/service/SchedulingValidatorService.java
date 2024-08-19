@@ -6,12 +6,12 @@ import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import br.edu.ifpb.dac.sape.presentation.exception.RuleViolationException;
 import br.edu.ifpb.dac.sape.presentation.exception.TimeAlreadyScheduledException;
 import br.edu.ifpb.dac.sape.util.Constants;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

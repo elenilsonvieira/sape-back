@@ -5,13 +5,13 @@ import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,7 +103,7 @@ public class SchedulingController {
         try {
             validatorService.validateSchedulingDTO(dto);
             Scheduling entity = converterService.dtoToScheduling(dto);
-			
+
             validatorService.validateScheduling(entity);
             entity = schedulingService.save(entity);
 
@@ -131,7 +131,7 @@ public class SchedulingController {
     @GetMapping("/ResponsiblePlace/{userRegistration}")
     public ResponseEntity getAllSchedulingPendingByPlaceResponsible(@PathVariable Long userRegistration) {
         try {
-            User user = userService.findByRegistration(userRegistration).orElse(null);
+            User user = userService.findByRegistration(userRegistration);
 
             List<Scheduling> entityList = schedulingService.getAllSchedulingPendingByPlaceResponsible(user);
             List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
@@ -189,7 +189,7 @@ public class SchedulingController {
     @PatchMapping("/{schedulingId}/addIsPresent/{userRegistration}")
     public ResponseEntity addIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
         try {
-            User user = userService.findByRegistration(userRegistration).orElse(null);
+            User user = userService.findByRegistration(userRegistration);
 
 
             if (user != null) {
@@ -205,7 +205,7 @@ public class SchedulingController {
     @PatchMapping("/{schedulingId}/removeIsPresent/{userRegistration}")
     public ResponseEntity removeIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
         try {
-            User user = userService.findByRegistration(userRegistration).orElse(null);
+            User user = userService.findByRegistration(userRegistration);
 
 
             if (user != null) {
@@ -221,7 +221,7 @@ public class SchedulingController {
     @PatchMapping("/participation/add/{id}")
     public ResponseEntity addParticipant(@PathVariable Integer id, @RequestBody Long matricula) {
         try {
-            User user = userService.findByRegistration(matricula).orElse(null);
+            User user = userService.findByRegistration(matricula);
 
             if (user != null) {
                 schedulingService.addSchedulingParticipant(id, user);
@@ -236,7 +236,7 @@ public class SchedulingController {
     @PatchMapping("/participation/remove/{id}")
     public ResponseEntity removeParticipant(@PathVariable Integer id, @RequestBody Long userRegistration) {
         try {
-            User user = userService.findByRegistration(userRegistration).orElse(null);
+            User user = userService.findByRegistration(userRegistration);
 
             if (user != null) {
                 schedulingService.removeSchedulingParticipant(id, user);
@@ -268,7 +268,7 @@ public class SchedulingController {
         try {
             validatorService.validateSchedulingDTO(dto);
             Scheduling entity = converterService.dtoToScheduling(dto);
-            entity.setId(id);
+
             validatorService.validateScheduling(entity);
             entity = schedulingService.update(id, entity);
 

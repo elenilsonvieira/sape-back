@@ -17,22 +17,16 @@ import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import br.edu.ifpb.dac.sape.business.service.SportService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Sport;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SportRepository;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 
 @SpringBootTest
 @Transactional

@@ -1,26 +1,18 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.Sport;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -43,13 +35,12 @@ public class UserService implements UserDetailsService {
 		return userRepository.existsByRegistration(registration);
 	}
 	
-	public User findById(Integer id) throws Exception {
-		if (!existsById(id)) {
-			throw new ObjectNotFoundException("usuário", "id", id);
-		}
-		return userRepository.getById(id);
+	public User findById(Integer id) {
+		return userRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("usuário", "id", id));
 	}
-public Set<User> findBySportFavorite(Sport sport) throws Exception {
+
+	public Set<User> findBySportFavorite(Sport sport) throws Exception {
 		
 		List<User> users = findAll();
 		Set<User> usersContainSportsFavorite = new HashSet<User>();
@@ -77,18 +68,15 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
 		return userRepository.findByName(name);
 	}
 	
-	public Optional<User> findByRegistration(Long registration) throws Exception {
+	public User findByRegistration(Long registration) throws Exception {
 		if (registration == null) {
 			throw new MissingFieldException("matrícula");
 		}
 		
-		if (!existsByRegistration(registration)) {
-			throw new ObjectNotFoundException("usuário", "matrícula", registration);
-		}
-		
-		return userRepository.findByRegistration(registration);
+		return userRepository.findByRegistration(registration)
+				.orElseThrow(() -> new ObjectNotFoundException("usuário", "matrícula", registration));
 	}
-	
+
 	public User save(User user) throws Exception {
 		if (user.getName() == null || user.getName().isBlank()) {
 			throw new MissingFieldException("nome", "save");
@@ -113,7 +101,7 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
 		}
 		
 		if (existsByRegistration(user.getRegistration())) {
-			User userSaved = findByRegistration(user.getRegistration()).get();
+			User userSaved = findByRegistration(user.getRegistration());
 			
 			if (userSaved.getId() != (user.getId().intValue())) {
 				
@@ -147,7 +135,7 @@ public Set<User> findBySportFavorite(Sport sport) throws Exception {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
-			User user = findByRegistration(Long.parseLong(username)).get();
+			User user = findByRegistration(Long.parseLong(username));
 			return user;
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("Não pode ser encontrado nenhum usuário com matrícula :" + username);

@@ -1,18 +1,16 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.Place;
 import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.presentation.dto.PlaceDTO;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class PlaceConverterService {

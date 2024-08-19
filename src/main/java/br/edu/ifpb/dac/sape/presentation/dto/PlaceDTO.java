@@ -1,15 +1,11 @@
 package br.edu.ifpb.dac.sape.presentation.dto;
 
-import java.util.List;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+
 import java.util.Set;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-
-import br.edu.ifpb.dac.sape.model.entity.User;
 
 public class PlaceDTO {
 
@@ -27,9 +23,7 @@ public class PlaceDTO {
 	
 	private boolean isPublic;
 	
-	//private UserDTO responsible;
-	
-	private Set<UserDTO> responsibles;
+	private Set<br.edu.ifpb.dac.sape.presentation.dto.UserDTO> responsibles;
 	
 	
 	public PlaceDTO() {
@@ -94,11 +88,11 @@ public class PlaceDTO {
 		this.isPublic = isPublic;
 	}
 
-	public Set<UserDTO> getResponsibles() {
+	public Set<br.edu.ifpb.dac.sape.presentation.dto.UserDTO> getResponsibles() {
 		return responsibles;
 	}
 
-	public void setResponsibles(Set<UserDTO> responsibles) {
+	public void setResponsibles(Set<br.edu.ifpb.dac.sape.presentation.dto.UserDTO> responsibles) {
 		this.responsibles = responsibles;
 	}
 	
@@ -125,10 +119,4 @@ public class PlaceDTO {
 		return string;
 	}
 
-	
-	
-	
-	
-	
-	
 }

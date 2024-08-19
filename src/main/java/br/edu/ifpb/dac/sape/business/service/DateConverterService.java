@@ -1,14 +1,13 @@
 package br.edu.ifpb.dac.sape.business.service;
 
+import br.edu.ifpb.dac.sape.presentation.exception.TimeParseException;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import org.springframework.stereotype.Service;
-
-import br.edu.ifpb.dac.sape.presentation.exception.TimeParseException;
 
 @Service
 public class DateConverterService {

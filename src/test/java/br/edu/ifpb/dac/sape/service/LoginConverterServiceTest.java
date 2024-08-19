@@ -12,14 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.edu.ifpb.dac.sape.business.service.LoginConverterService;
-
-import br.edu.ifpb.dac.sape.business.service.RoleService;
-import br.edu.ifpb.dac.sape.business.service.RoleService.AVALIABLE_ROLES;
-
-import br.edu.ifpb.dac.sape.model.entity.Role;
-import br.edu.ifpb.dac.sape.model.entity.User;
-
 public class LoginConverterServiceTest {
 	// By Igor
 	@Mock

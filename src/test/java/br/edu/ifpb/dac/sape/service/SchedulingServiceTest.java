@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.print.attribute.SetOfIntegerSyntax;
-
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,19 +28,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.test.util.ReflectionTestUtils;
-import br.edu.ifpb.dac.sape.business.service.SchedulingService;
-import br.edu.ifpb.dac.sape.business.service.UserService;
-import br.edu.ifpb.dac.sape.model.entity.Place;
-import br.edu.ifpb.dac.sape.model.entity.Scheduling;
-import br.edu.ifpb.dac.sape.model.entity.User;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
-import br.edu.ifpb.dac.sape.model.repository.UserRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
-import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 
 
 public class SchedulingServiceTest {

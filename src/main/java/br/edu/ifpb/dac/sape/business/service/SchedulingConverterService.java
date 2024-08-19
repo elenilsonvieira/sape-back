@@ -1,15 +1,14 @@
 package br.edu.ifpb.dac.sape.business.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SchedulingConverterService {
@@ -36,7 +35,7 @@ public class SchedulingConverterService {
 			entity.setScheduledFinishTime(dateConverter.stringToTime(dto.getScheduledFinishTime()));
 			entity.setPlace(placeService.findById(dto.getPlaceId()));
 			entity.setSport(sportService.findById(dto.getSportId()));
-			entity.setCreator(userService.findByRegistration(dto.getCreator()).orElse(null));
+			entity.setCreator(userService.findByRegistration(dto.getCreator()));
 			
 			if(entity.getPlace().isPublic() == true) {
 				entity.setStatus(StatusScheduling.CONFIRMED);
