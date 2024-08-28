@@ -11,57 +11,57 @@ import java.time.format.DateTimeParseException;
 
 @Service
 public class DateConverterService {
-	
-	public LocalDate stringToDate(String dateString) throws Exception {
-		LocalDate dateTime;
-		
-		try {
-			dateTime = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		} catch (DateTimeParseException e) {
-			throw new TimeParseException("Não foi possível converter " + dateString);
-		}
-		
-		return dateTime;
-	}
-	
-	public String dateToString(LocalDate date) {
-		return date.toString();
-	}
-	
-	public LocalTime stringToTime(String timeString) throws Exception {
-		LocalTime time;
-		
-		try {
-			time = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm"));
-		} catch (DateTimeParseException e) {
-			throw new TimeParseException("Não foi possível converter " + timeString);
-		}
-		
-		return time;
-	}
-	
-	public String timeToString (LocalTime time) {
-		return time.toString();
-	}
-	
-	public LocalDateTime stringToDateTime(String dateTimeString) throws TimeParseException {
-		LocalDateTime dateTime;
-		
-		try {
-			dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-		} catch (DateTimeParseException e) {
-			throw new TimeParseException("Não foi possível converter " + dateTimeString);
-		}
-		
-		return dateTime;
-	}
-	
-	public String dateTimeToString (LocalDateTime dateTime) {
-		return dateTime.toString();
-	}
-	
-	public LocalDateTime dateTimeNow() {
-		return LocalDateTime.now();
-	}
-	
+
+    public LocalDate stringToDate(String dateString) {
+        LocalDate dateTime;
+
+        try {
+            dateTime = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+            throw new TimeParseException("Não foi possível converter " + dateString);
+        }
+
+        return dateTime;
+    }
+
+    public String dateToString(LocalDate date) {
+        return date.toString();
+    }
+
+    public LocalTime stringToTime(String timeString) {
+        LocalTime time;
+
+        try {
+            time = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm"));
+        } catch (DateTimeParseException e) {
+            throw new TimeParseException("Não foi possível converter " + timeString);
+        }
+
+        return time;
+    }
+
+    public String timeToString(LocalTime time) {
+        return time.toString();
+    }
+
+    public LocalDateTime stringToDateTime(String dateTimeString) {
+        LocalDateTime dateTime;
+
+        try {
+            dateTime = LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        } catch (DateTimeParseException e) {
+            throw new TimeParseException("Não foi possível converter " + dateTimeString);
+        }
+
+        return dateTime;
+    }
+
+    public String dateTimeToString(LocalDateTime dateTime) {
+        return dateTime.toString();
+    }
+
+    public LocalDateTime dateTimeNow() {
+        return LocalDateTime.now();
+    }
+
 }

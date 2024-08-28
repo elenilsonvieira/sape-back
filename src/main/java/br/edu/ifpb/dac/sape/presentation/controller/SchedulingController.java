@@ -99,197 +99,133 @@ public class SchedulingController {
     @PostMapping
     @Transactional
     public ResponseEntity save(@RequestBody @Valid SchedulingDTO dto) {
+        validatorService.validateSchedulingDTO(dto);
+        Scheduling entity = converterService.dtoToScheduling(dto);
 
-        try {
-            validatorService.validateSchedulingDTO(dto);
-            Scheduling entity = converterService.dtoToScheduling(dto);
+        validatorService.validateScheduling(entity);
+        entity = schedulingService.save(entity);
 
-            validatorService.validateScheduling(entity);
-            entity = schedulingService.save(entity);
+        dto = converterService.schedulingToDto(entity);
 
-            dto = converterService.schedulingToDto(entity);
-
-            return new ResponseEntity(dto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return new ResponseEntity(dto, HttpStatus.CREATED);
     }
 
     @GetMapping("/confirmedByPlace/{id}")
-    public ResponseEntity getAllSchedulingConfirmedByPlace(@PathVariable Integer id) {  // v.2
-        try {
-            validatorService.validPlaceId(id);
-            List<Scheduling> entityList = schedulingService.findAllByPlaceId(id);
-            List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
+    public ResponseEntity getAllSchedulingConfirmedByPlace(@PathVariable Integer id) {
+        validatorService.validPlaceId(id);
+        List<Scheduling> entityList = schedulingService.findAllByPlaceId(id);
+        List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
 
-            return ResponseEntity.ok().body(dtoList);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(dtoList);
     }
 
     @GetMapping("/ResponsiblePlace/{userRegistration}")
     public ResponseEntity getAllSchedulingPendingByPlaceResponsible(@PathVariable Long userRegistration) {
-        try {
-            User user = userService.findByRegistration(userRegistration);
+        User user = userService.findByRegistration(userRegistration);
 
-            List<Scheduling> entityList = schedulingService.getAllSchedulingPendingByPlaceResponsible(user);
-            List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
+        List<Scheduling> entityList = schedulingService.getAllSchedulingPendingByPlaceResponsible(user);
+        List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
 
-            return ResponseEntity.ok().body(dtoList);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(dtoList);
     }
 
     @GetMapping("/confirmedBySport/{id}")
-    public ResponseEntity getAllSchedulingConfirmedBySport(@PathVariable Integer id) { // v.2
-        try {
-            validatorService.validSportId(id);
-            List<Scheduling> entityList = schedulingService.findAllBySportId(id);
+    public ResponseEntity getAllSchedulingConfirmedBySport(@PathVariable Integer id) {
+        validatorService.validSportId(id);
+        List<Scheduling> entityList = schedulingService.findAllBySportId(id);
 
-            List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
+        List<SchedulingDTO> dtoList = converterService.schedulingToDtos(entityList);
 
-            return ResponseEntity.ok().body(dtoList);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(dtoList);
     }
 
 
     @GetMapping("/user/{userRegistration}")
     public ResponseEntity getSchedulingsByUserRegistration(@PathVariable Long userRegistration) {
-        try {
-            List<Scheduling> schedulings = schedulingService.getSchedulingsByUserRegistration(userRegistration);
+        List<Scheduling> schedulings = schedulingService.getSchedulingsByUserRegistration(userRegistration);
 
-            List<SchedulingDTO> schedulingDTOs = converterService.schedulingToDtos(schedulings);
+        List<SchedulingDTO> schedulingDTOs = converterService.schedulingToDtos(schedulings);
 
-            return ResponseEntity.ok(schedulingDTOs);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok(schedulingDTOs);
     }
 
     @GetMapping("/participation/{id}")
     public ResponseEntity getSchedulingParticipants(@PathVariable Integer id) {
-        try {
-            List<User> participantList = new ArrayList<>();
+        List<User> participantList = new ArrayList<>();
 
+        participantList.addAll(schedulingService.getSchedulingParticipants(id));
 
-            participantList.addAll(schedulingService.getSchedulingParticipants(id));
+        List<UserDTO> participantListDTO = userConverterService.usersToDtos(participantList);
 
-            List<UserDTO> participantListDTO = userConverterService.usersToDtos(participantList);
-
-            return ResponseEntity.ok().body(participantListDTO);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(participantListDTO);
     }
 
     @PatchMapping("/{schedulingId}/addIsPresent/{userRegistration}")
-    public ResponseEntity addIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
-        try {
-            User user = userService.findByRegistration(userRegistration);
-
-
-            if (user != null) {
-                schedulingService.addSchedulingParticipant(schedulingId, user);
-            }
-
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Void> addIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
+        User user = userService.findByRegistration(userRegistration);
+        schedulingService.addSchedulingParticipant(schedulingId, user);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{schedulingId}/removeIsPresent/{userRegistration}")
-    public ResponseEntity removeIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
-        try {
-            User user = userService.findByRegistration(userRegistration);
+    public ResponseEntity<Void> removeIsPresent(@PathVariable Integer schedulingId, @PathVariable Long userRegistration) {
+        User user = userService.findByRegistration(userRegistration);
+        schedulingService.removeSchedulingParticipant(schedulingId, user);
 
-
-            if (user != null) {
-                schedulingService.removeSchedulingParticipant(schedulingId, user);
-            }
-
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/participation/add/{id}")
     public ResponseEntity addParticipant(@PathVariable Integer id, @RequestBody Long matricula) {
-        try {
-            User user = userService.findByRegistration(matricula);
+        User user = userService.findByRegistration(matricula);
 
-            if (user != null) {
-                schedulingService.addSchedulingParticipant(id, user);
-            }
-
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        if (user != null) {
+            schedulingService.addSchedulingParticipant(id, user);
         }
+
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/participation/remove/{id}")
     public ResponseEntity removeParticipant(@PathVariable Integer id, @RequestBody Long userRegistration) {
-        try {
-            User user = userService.findByRegistration(userRegistration);
+        User user = userService.findByRegistration(userRegistration);
 
-            if (user != null) {
-                schedulingService.removeSchedulingParticipant(id, user);
-            }
-
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        if (user != null) {
+            schedulingService.removeSchedulingParticipant(id, user);
         }
+
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/approvedScheduling/{schedulingId}")
     public ResponseEntity approveScheduling(@PathVariable Integer schedulingId) {
-        try {
-            Scheduling scheduling = schedulingService.findById(schedulingId);
+        Scheduling scheduling = schedulingService.findById(schedulingId);
 
-            if (scheduling != null) {
-                schedulingService.approvePrivatePlaceScheduling(scheduling);
-            }
-
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        if (scheduling != null) {
+            schedulingService.approvePrivatePlaceScheduling(scheduling);
         }
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable Integer id, @RequestBody @Valid SchedulingDTO dto) {
-        try {
-            validatorService.validateSchedulingDTO(dto);
-            Scheduling entity = converterService.dtoToScheduling(dto);
+        validatorService.validateSchedulingDTO(dto);
+        Scheduling entity = converterService.dtoToScheduling(dto);
 
-            validatorService.validateScheduling(entity);
-            entity = schedulingService.update(id, entity);
+        validatorService.validateScheduling(entity);
+        entity = schedulingService.update(id, entity);
 
-            dto = converterService.schedulingToDto(entity);
+        dto = converterService.schedulingToDto(entity);
 
-            return new ResponseEntity(dto, HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
-        try {
-            schedulingService.deleteById(id);
+        schedulingService.deleteById(id);
 
-            return ResponseEntity.noContent().build();
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.noContent().build();
     }
 
 }

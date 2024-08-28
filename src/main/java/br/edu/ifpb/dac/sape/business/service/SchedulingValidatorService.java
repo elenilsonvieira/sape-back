@@ -40,7 +40,7 @@ public class SchedulingValidatorService {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    public boolean validateSchedulingDTO(SchedulingDTO dto) throws Exception {
+    public boolean validateSchedulingDTO(SchedulingDTO dto) {
         Set<ConstraintViolation<SchedulingDTO>> violations = validator.validate(dto);
 
         if (violations.size() != 0) {
@@ -60,7 +60,7 @@ public class SchedulingValidatorService {
         return true;
     }
 
-    public boolean validateScheduling(Scheduling entity) throws Exception {
+    public boolean validateScheduling(Scheduling entity) {
         Set<ConstraintViolation<Scheduling>> violations = validator.validate(entity);
 
         if (violations.size() != 0) {
@@ -77,7 +77,7 @@ public class SchedulingValidatorService {
         return true;
     }
 
-    public boolean validPlaceId(Integer id) throws Exception {
+    public boolean validPlaceId(Integer id) {
         if (!placeService.existsById(id)) {
             throw new ObjectNotFoundException("local", "id", id);
         }
@@ -85,7 +85,7 @@ public class SchedulingValidatorService {
         return true;
     }
 
-    public boolean validSportId(Integer id) throws Exception {
+    public boolean validSportId(Integer id) {
         if (!sportService.existsById(id)) {
             throw new ObjectNotFoundException("esporte", "id", id);
         }
@@ -93,7 +93,7 @@ public class SchedulingValidatorService {
         return true;
     }
 
-    public boolean validateScheduledTime(LocalTime scheduledStartTime, LocalTime scheduledFinishTime) throws Exception {
+    public boolean validateScheduledTime(LocalTime scheduledStartTime, LocalTime scheduledFinishTime) {
         LocalTime openingTime = dateConverter.stringToTime(Constants.INSTITUTION_OPENING_TIME);
         LocalTime closingTime = dateConverter.stringToTime(Constants.INSTITUTION_CLOSING_TIME);
 
@@ -105,7 +105,7 @@ public class SchedulingValidatorService {
         return true;
     }
 
-    public boolean validateDurationOfPractice(LocalTime scheduledStartTime, LocalTime scheduledFinishTime) throws Exception {
+    public boolean validateDurationOfPractice(LocalTime scheduledStartTime, LocalTime scheduledFinishTime) {
         Duration durationOfPractice = Duration.between(scheduledStartTime, scheduledFinishTime);
 
         if (durationOfPractice.toMinutes() <= 0) {
@@ -117,7 +117,7 @@ public class SchedulingValidatorService {
         return true;
     }
 
-    public boolean validateScheduledDate(Scheduling entity) throws Exception {
+    public boolean validateScheduledDate(Scheduling entity) {
         List<Scheduling> entitiesWithSamePlaceAndDate = schedulingService.findAllByPlaceIdAndScheduledDate(entity.getPlace().getId(), entity.getScheduledDate());
 
         if (!entitiesWithSamePlaceAndDate.isEmpty()) {
@@ -142,7 +142,7 @@ public class SchedulingValidatorService {
         return true;
     }
 
-    public boolean validateScheduledDateAndTime(LocalDate scheduledDate, LocalTime scheduledStartTime) throws Exception {
+    public boolean validateScheduledDateAndTime(LocalDate scheduledDate, LocalTime scheduledStartTime) {
         String scheduledDateTimeString = scheduledDate.toString() + " " + scheduledStartTime.toString();
         LocalDateTime scheduledDateTime = dateConverter.stringToDateTime(scheduledDateTimeString);
 

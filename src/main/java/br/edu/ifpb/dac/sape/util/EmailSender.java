@@ -31,22 +31,22 @@ public class EmailSender {
     }
 
     @Async
-    public void notifyCreator(Set<User> users, Scheduling scheduling) throws Exception {
+    public void notifyCreator(Set<User> users, Scheduling scheduling) {
         emailService.notifyCreator(users, scheduling);
     }
 
     @Async
-    public void notifyFavoriteSportScheduling(Set<User> users, Scheduling scheduling) throws Exception {
+    public void notifyFavoriteSportScheduling(Set<User> users, Scheduling scheduling) {
         emailService.notifyFavoriteSportScheduling(users, scheduling);
     }
 
     @Async
-    public void notifySchedulingParticipants(Set<User> users, Scheduling scheduling) throws Exception {
+    public void notifySchedulingParticipants(Set<User> users, Scheduling scheduling) {
         emailService.notifySchedulingParticipants(users, scheduling);
     }
 
     @Async
-    public void notifyPlaceResponsibles(Integer placeId, Set<User> users, Scheduling scheduling) throws Exception {
+    public void notifyPlaceResponsibles(Integer placeId, Set<User> users, Scheduling scheduling) {
         emailService.notifyPlaceResponsibles(placeId, users, scheduling);
     }
 }

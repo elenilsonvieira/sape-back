@@ -32,111 +32,67 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findById(@PathVariable Integer id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
+        User entity = userService.findById(id);
 
-        try {
-            User entity = userService.findById(id);
+        UserDTO dto = converterService.userToDto(entity);
 
-            UserDTO dto = converterService.userToDto(entity);
-
-            return ResponseEntity.ok().body(dto);
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(dto);
     }
 
     @GetMapping("/registration/{registration}")
     public ResponseEntity findByRegistration(@PathVariable Long registration) {
+        User entity = userService.findByRegistration(registration);
 
-        try {
-            User entity = userService.findByRegistration(registration);
+        UserDTO dto = converterService.userToDto(entity);
 
-            UserDTO dto = converterService.userToDto(entity);
-
-            return ResponseEntity.ok().body(dto);
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
     public ResponseEntity save(@Valid @RequestBody UserDTO dto) {
+        User entity = converterService.dtoToUser(dto);
+        entity = userService.save(entity);
+        dto = converterService.userToDto(entity);
 
-        try {
-            User entity = converterService.dtoToUser(dto);
-            entity = userService.save(entity);
-            dto = converterService.userToDto(entity);
-
-            return new ResponseEntity(dto, HttpStatus.CREATED);
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return new ResponseEntity(dto, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable Integer id, @Valid @RequestBody UserDTO dto) {
+        dto.setId(id);
+        User entity = converterService.dtoToUser(dto);
+        entity = userService.update(entity);
+        dto = converterService.userToDto(entity);
 
-        try {
-            dto.setId(id);
-            User entity = converterService.dtoToUser(dto);
-            entity = userService.update(entity);
-            dto = converterService.userToDto(entity);
-
-            return ResponseEntity.ok().body(dto);
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
+        userService.deleteById(id);
 
-        try {
-            userService.deleteById(id);
-
-            return ResponseEntity.noContent().build();
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{userId}/sportsFavorite/{sportId}")
-    public ResponseEntity addSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) throws Exception {
-        try {
-            userService.addSportsFavorite(userId, sportId);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Void> addSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) {
+        userService.addSportsFavorite(userId, sportId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("/{userId}/removeSportsFavorite/{sportId}")
-    public ResponseEntity removeSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) {
-        try {
-            userService.removeSportsFavorite(userId, sportId);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Void> removeSportsFavorite(@PathVariable Integer userId, @PathVariable Integer sportId) {
+        userService.removeSportsFavorite(userId, sportId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/sportsFavorite/{id}")
     public ResponseEntity findSportsFavorite(@PathVariable Integer id) {
+        User entity = userService.findById(id);
 
-        try {
-            User entity = userService.findById(id);
+        UserDTO dto = converterService.userToDto(entity);
 
-            UserDTO dto = converterService.userToDto(entity);
-
-            return ResponseEntity.ok().body(dto.getSportsFavorite());
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(dto.getSportsFavorite());
     }
 }
