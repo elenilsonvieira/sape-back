@@ -38,6 +38,9 @@ public class Place implements Serializable {
     )
     private Set<User> responsibles;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_PLACE")
+    private Set<Scheduling> setScheduling;
 
     public Place() {
 
@@ -54,6 +57,13 @@ public class Place implements Serializable {
 
     public Integer getId() {
         return id;
+    }
+
+    @PreRemove
+    private void checkParentAssociation() {
+        if (this.setScheduling.size() > 0) {
+            throw new RuntimeException("Este local ainda está associado a um agendamento");
+        }
     }
 
     public void setId(Integer id) {

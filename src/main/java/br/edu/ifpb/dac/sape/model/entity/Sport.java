@@ -12,62 +12,68 @@ import java.util.Set;
 @Entity
 public class Sport implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "SPORT_ID")
-	private Integer id;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "SPORT_NAME", nullable = false)
-	private String name;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "ID_SPORT")
-	private Set<Scheduling> setScheduling;
-	
-	public Sport() {
-		
-	}
-	
-	public Sport(Integer id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SPORT_ID")
+    private Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(name = "SPORT_NAME", nullable = false)
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_SPORT")
+    private Set<Scheduling> setScheduling;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Sport() {
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, name);
-	}
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Sport other = (Sport) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
-	}
+    public Sport(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-	
-	
+    @PreRemove
+    private void checkParentAssociation() {
+        if (this.setScheduling.size() > 0) {
+            throw new RuntimeException("Este esporte ainda está associado a um agendamento");
+        }
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Sport other = (Sport) obj;
+        return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+    }
+
+
 }
