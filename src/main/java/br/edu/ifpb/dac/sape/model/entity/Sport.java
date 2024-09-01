@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
 
 @Table(name = "SPORTS_PRACTICE", uniqueConstraints = {@UniqueConstraint(columnNames = {"SPORT_NAME"})})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -22,9 +21,6 @@ public class Sport implements Serializable {
     @Column(name = "SPORT_NAME", nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_SPORT")
-    private Set<Scheduling> setScheduling;
 
     public Sport() {
 
@@ -35,12 +31,6 @@ public class Sport implements Serializable {
         this.name = name;
     }
 
-    @PreRemove
-    private void checkParentAssociation() {
-        if (this.setScheduling.size() > 0) {
-            throw new RuntimeException("Este esporte ainda está associado a um agendamento");
-        }
-    }
 
     public Integer getId() {
         return id;

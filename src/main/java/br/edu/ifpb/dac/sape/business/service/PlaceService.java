@@ -7,6 +7,7 @@ import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -103,8 +104,18 @@ public class PlaceService {
         } else if (!existsById(id)) {
             throw new ObjectNotFoundException("local", "id", id);
         }
+        try {
+            placeRepository.deleteById(id);
 
-        placeRepository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            if (ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                org.hibernate.exception.ConstraintViolationException constraintViolationException =
+                        (org.hibernate.exception.ConstraintViolationException) ex.getCause();
+                if (constraintViolationException.getConstraintName().startsWith("FK")) {
+                    throw new RuntimeException("Este local ainda está associado a um agendamento");
+                }
+            }
+        }
     }
 
     public List<User> getResponsibles(Integer id) {

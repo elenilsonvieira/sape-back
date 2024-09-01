@@ -6,6 +6,7 @@ import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectAlreadyExistsException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -94,8 +95,17 @@ public class SportService {
         } else if (!existsById(id)) {
             throw new ObjectNotFoundException("esporte", "id", id);
         }
-
-        sportRepository.deleteById(id);
+        try {
+            sportRepository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            if (ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                org.hibernate.exception.ConstraintViolationException constraintViolationException =
+                        (org.hibernate.exception.ConstraintViolationException) ex.getCause();
+                if (constraintViolationException.getConstraintName().startsWith("FK")) {
+                    throw new RuntimeException("Este esporte ainda está associado a um agendamento");
+                }
+            }
+        }
     }
 
 //	public Object addSportsFavorite(Sport sport, Integer user_Id) throws Exception {
