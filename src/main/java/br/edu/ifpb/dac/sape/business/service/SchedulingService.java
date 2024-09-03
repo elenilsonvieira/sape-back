@@ -126,14 +126,6 @@ public class SchedulingService {
         return schedulingRepository.save(scheduling);
     }
 
-    public void delete(Scheduling scheduling) {
-        if (!existsById(scheduling.getId())) {
-            throw new ObjectNotFoundException("agendamento", "id", scheduling.getId());
-        }
-
-        schedulingRepository.delete(scheduling);
-    }
-
     public void deleteById(Integer id, String userRegistration) {
         if (id == null) {
             throw new MissingFieldException("id", "delete");
