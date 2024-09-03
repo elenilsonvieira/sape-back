@@ -2,12 +2,12 @@ package br.edu.ifpb.dac.sape.business.service;
 
 import br.edu.ifpb.dac.sape.model.entity.Scheduling;
 import br.edu.ifpb.dac.sape.model.entity.User;
-import br.edu.ifpb.dac.sape.model.enums.IsPresent;
 import br.edu.ifpb.dac.sape.model.enums.StatusScheduling;
 import br.edu.ifpb.dac.sape.model.repository.SchedulingRepository;
 import br.edu.ifpb.dac.sape.presentation.exception.MaximumParticipantCapacityExceededException;
 import br.edu.ifpb.dac.sape.presentation.exception.MissingFieldException;
 import br.edu.ifpb.dac.sape.presentation.exception.ObjectNotFoundException;
+import br.edu.ifpb.dac.sape.presentation.exception.RuleViolationException;
 import br.edu.ifpb.dac.sape.util.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -134,20 +134,18 @@ public class SchedulingService {
         schedulingRepository.delete(scheduling);
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id, String userRegistration) {
         if (id == null) {
             throw new MissingFieldException("id", "delete");
         }
 
         Scheduling scheduling = findById(id);
+        Long creatorRegistration = scheduling.getCreator().getRegistration();
+        if (!userRegistration.equals(creatorRegistration.toString())) {
+            throw new RuleViolationException("Apenas quem criou pode excluir o agendamento!");
+        }
 
         schedulingRepository.delete(scheduling);
-    }
-
-    public int getSchedulingQuantityOfParticipants(Integer id) {
-        Scheduling scheduling = findById(id);
-
-        return scheduling.getParticipants().size();
     }
 
     public Set<User> getSchedulingParticipants(Integer id) {
@@ -174,11 +172,6 @@ public class SchedulingService {
 
         return schedulingsPending;
     }
-
-    public List<Scheduling> getSchedulingByParticipant(User participant) {
-        return schedulingRepository.findAllByParticipantsContaining(participant);
-    }
-
 
     public void addSchedulingParticipant(Integer schedulingId, User user) {
         Scheduling scheduling = findById(schedulingId);
@@ -209,36 +202,6 @@ public class SchedulingService {
 
         setUser.remove(user);
         scheduling.setParticipants(setUser);
-        save(scheduling);
-        return true;
-    }
-
-    public boolean removeIsPresent(Integer schedulingId, User user) {
-        Scheduling scheduling = findById(schedulingId);
-
-        if (scheduling.getWillBePresent().hashCode() <= 0) {
-            return false;
-        }
-
-        Set<User> setUser = new HashSet<>(scheduling.getWillBePresent().hashCode());
-        scheduling.setWillBePresent(IsPresent.NO);
-        setUser.remove(user);
-
-        save(scheduling);
-        return true;
-    }
-
-    public boolean addIsPresent(Integer schedulingId, User user) {
-        Scheduling scheduling = findById(schedulingId);
-
-        if (scheduling.getWillBePresent().hashCode() < 1) {
-            return false;
-        }
-
-        Set<User> setUser = new HashSet<>(scheduling.getWillBePresent().hashCode());
-        setUser.add(user);
-        scheduling.setParticipants(setUser);
-        scheduling.setWillBePresent(IsPresent.YES);
         save(scheduling);
         return true;
     }

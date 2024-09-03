@@ -15,163 +15,163 @@ import java.util.Set;
 @Entity
 public class Scheduling implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "SCHEDULED_PRACTICE_ID")
-	private Integer id;
-	
-	@Column(name = "SCHEDULED_DATE", nullable = false)
-	private LocalDate scheduledDate;
-	
-	@Column(name = "SCHEDULED_START_TIME", nullable = false)
-	private LocalTime scheduledStartTime;
-	
-	@Column(name = "SCHEDULED_FINISH_TIME", nullable = false)
-	private LocalTime scheduledFinishTime;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_PLACE")
-	private Place place;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ID_SPORT")
-	private Sport sport;
-	
-	@Column(name = "USER_CREATOR")
-	private User creator;
-	
-	@Enumerated(EnumType.STRING)
-	private StatusScheduling status;
-	
-	@Enumerated(EnumType.STRING)
-	private IsPresent willBePresent;
-	
-	@ManyToMany
-	@JoinTable(
-			name = "PRACTICE_PARTICIPANTS",
-			joinColumns = @JoinColumn(name = "SCHEDULED_PRACTICE_ID"),
-			inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-	private Set<User> participants;
-	
-	public Scheduling() {
+    private static final long serialVersionUID = 1L;
 
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SCHEDULED_PRACTICE_ID")
+    private Integer id;
 
-	public Scheduling(LocalDate scheduledDate, LocalTime scheduledStartTime, LocalTime scheduledFinishTime, Place place, Sport sport, StatusScheduling status, IsPresent isPresent) {
-		this.scheduledDate = scheduledDate;
-		this.scheduledStartTime = scheduledStartTime;
-		this.scheduledFinishTime = scheduledFinishTime;
-		this.place = place;
-		this.sport = sport;
-		this.status = status;
-		this.willBePresent = isPresent;
-	}
+    @Column(name = "SCHEDULED_DATE", nullable = false)
+    private LocalDate scheduledDate;
 
-	public Integer getId() {
-		return id;
-	}
+    @Column(name = "SCHEDULED_START_TIME", nullable = false)
+    private LocalTime scheduledStartTime;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Column(name = "SCHEDULED_FINISH_TIME", nullable = false)
+    private LocalTime scheduledFinishTime;
 
-	public LocalDate getScheduledDate() {
-		return scheduledDate;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_PLACE")
+    private Place place;
 
-	public void setScheduledDate(LocalDate scheduledDate) {
-		this.scheduledDate = scheduledDate;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_SPORT")
+    private Sport sport;
 
-	public LocalTime getScheduledStartTime() {
-		return scheduledStartTime;
-	}
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_CREATOR")
+    private User creator;
 
-	public void setScheduledStartTime(LocalTime scheduledStartTime) {
-		this.scheduledStartTime = scheduledStartTime;
-	}
+    @Enumerated(EnumType.STRING)
+    private StatusScheduling status;
 
-	public LocalTime getScheduledFinishTime() {
-		return scheduledFinishTime;
-	}
+    @Enumerated(EnumType.STRING)
+    private IsPresent willBePresent;
 
-	public void setScheduledFinishTime(LocalTime scheduledFinishTime) {
-		this.scheduledFinishTime = scheduledFinishTime;
-	}
+    @ManyToMany
+    @JoinTable(
+            name = "PRACTICE_PARTICIPANTS",
+            joinColumns = @JoinColumn(name = "SCHEDULED_PRACTICE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    private Set<User> participants;
 
-	public Place getPlace() {
-		return place;
-	}
+    public Scheduling() {
 
-	public void setPlace(Place place) {
-		this.place = place;
-	}
+    }
 
-	public Sport getSport() {
-		return sport;
-	}
+    public Scheduling(LocalDate scheduledDate, LocalTime scheduledStartTime, LocalTime scheduledFinishTime, Place place, Sport sport, StatusScheduling status, IsPresent isPresent) {
+        this.scheduledDate = scheduledDate;
+        this.scheduledStartTime = scheduledStartTime;
+        this.scheduledFinishTime = scheduledFinishTime;
+        this.place = place;
+        this.sport = sport;
+        this.status = status;
+        this.willBePresent = isPresent;
+    }
 
-	public void setSport(Sport sport) {
-		this.sport = sport;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public User getCreator() {
-		return creator;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setCreator(User creator) {
-		this.creator = creator;
-	}
+    public LocalDate getScheduledDate() {
+        return scheduledDate;
+    }
 
-	public Set<User> getParticipants() {
-		 
-		return participants;
-	}
+    public void setScheduledDate(LocalDate scheduledDate) {
+        this.scheduledDate = scheduledDate;
+    }
 
-	public void setParticipants(Set<User> participants) {
-		this.participants = participants;
-	}
+    public LocalTime getScheduledStartTime() {
+        return scheduledStartTime;
+    }
 
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    public void setScheduledStartTime(LocalTime scheduledStartTime) {
+        this.scheduledStartTime = scheduledStartTime;
+    }
 
-	public StatusScheduling getStatus() {
-		return status;
-	}
+    public LocalTime getScheduledFinishTime() {
+        return scheduledFinishTime;
+    }
 
-	public void setStatus(StatusScheduling status) {
-		this.status = status;
-	}
+    public void setScheduledFinishTime(LocalTime scheduledFinishTime) {
+        this.scheduledFinishTime = scheduledFinishTime;
+    }
 
-	public IsPresent getWillBePresent() {
-		return willBePresent;
-	}
+    public Place getPlace() {
+        return place;
+    }
 
-	public void setWillBePresent(IsPresent willBePresent) {
-		this.willBePresent = willBePresent;
-	}
+    public void setPlace(Place place) {
+        this.place = place;
+    }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Scheduling other = (Scheduling) obj;
-		return Objects.equals(id, other.id);
-	}
+    public Sport getSport() {
+        return sport;
+    }
 
-	@Override
-	public String toString() {
-		return "Scheduling [id=" + id + ", scheduledDate=" + scheduledDate + ", scheduledStartTime="
-				+ scheduledStartTime + ", scheduledFinishTime=" + scheduledFinishTime + ", place=" + place + ", sport="
-				+ sport + ", creator=" + creator + "]";
-	}
-	
-	
-	
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public Set<User> getParticipants() {
+
+        return participants;
+    }
+
+    public void setParticipants(Set<User> participants) {
+        this.participants = participants;
+    }
+
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public StatusScheduling getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusScheduling status) {
+        this.status = status;
+    }
+
+    public IsPresent getWillBePresent() {
+        return willBePresent;
+    }
+
+    public void setWillBePresent(IsPresent willBePresent) {
+        this.willBePresent = willBePresent;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Scheduling other = (Scheduling) obj;
+        return Objects.equals(id, other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Scheduling [id=" + id + ", scheduledDate=" + scheduledDate + ", scheduledStartTime="
+                + scheduledStartTime + ", scheduledFinishTime=" + scheduledFinishTime + ", place=" + place + ", sport="
+                + sport + ", creator=" + creator + "]";
+    }
+
+
 }

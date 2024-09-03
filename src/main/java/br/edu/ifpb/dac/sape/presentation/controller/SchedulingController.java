@@ -7,7 +7,7 @@ import br.edu.ifpb.dac.sape.presentation.dto.SchedulingDTO;
 import br.edu.ifpb.dac.sape.presentation.dto.UserDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,24 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/scheduling")
-
+@RequiredArgsConstructor
 public class SchedulingController {
 
-    @Autowired
-    private SchedulingService schedulingService;
-
-    @Autowired
-    private SchedulingConverterService converterService;
-
-    @Autowired
-    private SchedulingValidatorService validatorService;
-
-    @Autowired
-    private UserService userService;
-
-
-    @Autowired
-    private UserConverterService userConverterService;
+    private final SchedulingService schedulingService;
+    private final SchedulingConverterService converterService;
+    private final SchedulingValidatorService validatorService;
+    private final UserService userService;
+    private final UserConverterService userConverterService;
 
     @GetMapping
     public ResponseEntity getAll() {
@@ -222,8 +212,8 @@ public class SchedulingController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
-        schedulingService.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable Integer id, @RequestHeader("userRegistration") String userRegistration) {
+        schedulingService.deleteById(id, userRegistration);
 
         return ResponseEntity.noContent().build();
     }
