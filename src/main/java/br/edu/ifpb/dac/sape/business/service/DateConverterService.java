@@ -25,7 +25,9 @@ public class DateConverterService {
     }
 
     public String dateToString(LocalDate date) {
-        return date.toString();
+        DateTimeFormatter formatoBrasileiro = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFormatada = date.format(formatoBrasileiro);
+        return dataFormatada;
     }
 
     public LocalTime stringToTime(String timeString) {
